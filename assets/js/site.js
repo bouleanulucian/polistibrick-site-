@@ -43,6 +43,7 @@
             <a class="nav-dropdown-item" href="${BASE}pentru/arhitecti/">Pentru arhitecți<span class="nav-dropdown-item-sub">Detalii constructive, BIM, fișe</span></a>
             <a class="nav-dropdown-item" href="${BASE}pentru/constructori/">Pentru constructori<span class="nav-dropdown-item-sub">Montaj, certificare, parteneriat</span></a>
             <a class="nav-dropdown-item" href="${BASE}pentru/investitori/">Pentru investitori<span class="nav-dropdown-item-sub">ROI, viteză execuție, ansambluri</span></a>
+            <a class="nav-dropdown-item" href="${BASE}devino-partener/" style="color:var(--red);font-weight:600;">→ Devino partener<span class="nav-dropdown-item-sub" style="color:rgba(200,16,46,0.7);">Aplicație constructori certificați</span></a>
           </div>
         </div>
         <div class="nav-item">

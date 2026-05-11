@@ -91,8 +91,8 @@
         </div>
       </nav>
       <div class="nav-cta">
-        <a href="#" data-action="country-picker" class="btn btn-ghost">Contact</a>
-        <a href="#" data-action="country-picker" class="btn btn-primary btn-arrow">Cere ofertă</a>
+        <a href="${BASE}contact/" class="btn btn-ghost">Contact</a>
+        <a href="${BASE}oferta/" class="btn btn-primary btn-arrow">Cere ofertă</a>
       </div>
     </div>
   `;
@@ -140,7 +140,7 @@
             <li><a href="${BASE}despre/patent/">Patent</a></li>
             <li><a href="${BASE}despre/certificari/">Certificări</a></li>
             <li><a href="${BASE}despre/fabrici/">Fabrici</a></li>
-            <li><a href="#" data-action="country-picker">Contact</a></li>
+            <li><a href="${BASE}contact/">Contact</a></li>
           </ul>
         </div>
       </div>
@@ -391,22 +391,12 @@
   }
 
   function wireCountryPickerButtons() {
-    // Any element with [data-action="country-picker"] opens the picker
+    // Only trigger on explicit data-action="country-picker" buttons (optional, not used by default)
     document.body.addEventListener('click', (e) => {
       const trigger = e.target.closest('[data-action="country-picker"]');
       if (trigger) {
         e.preventDefault();
         openCountryPicker();
-        return;
-      }
-      // Also intercept links to old /oferta/, /contact/, /devino-partener/ paths
-      const link = e.target.closest('a[href]');
-      if (link) {
-        const href = link.getAttribute('href');
-        if (href && /(\/oferta\/|\/contact\/|\/devino-partener\/)/.test(href)) {
-          e.preventDefault();
-          openCountryPicker();
-        }
       }
     });
     document.addEventListener('keydown', (e) => {

@@ -99,11 +99,31 @@ Fiecare subpagină are pe `<body>` un atribut `data-base="../"` sau `data-base="
 
 #### 1.1 Conectare formulare la backend real
 Există 3 formulare care acum doar afișează un `alert()` JS:
-- `/oferta/index.html` — formular detaliat ofertă (cele mai multe câmpuri)
-- `/contact/index.html` — formular contact simplu
-- `/calculator/`, `/economii/` — nu au formular dar pot fi modificate
+- `/oferta/index.html` — formular detaliat ofertă (cele mai multe câmpuri, include upload PDF/DWG/etc.)
+- `/contact/index.html` — formular contact cu selector țară + upload PDF/DWG/etc.
+- `/devino-partener/index.html` — formular aplicație parteneriat
 
-**Recomandare:** Integrează **Netlify Forms** (gratis, dacă deployezi pe Netlify) sau **Formspree** ($10/mo) sau **un endpoint custom** care primește POST → trimite email + salvează în CRM/Google Sheets.
+**Recomandare:** Integrează **Netlify Forms** (gratis), **Formspree** ($10/mo), **Web3Forms** (gratis nelimitat) sau **endpoint custom** care primește POST cu `enctype="multipart/form-data"` (pentru atașamente).
+
+#### 1.1.a — ROUTING EMAIL după țară
+
+Pagina `/contact/` are un câmp ascuns `country` cu codul țării alese de utilizator (RO/ES/FR/etc.). Pe baza acelui câmp, backend-ul trebuie să routeze emailul către echipa corectă:
+
+| `country` | Email destinație |
+|---|---|
+| `RO` | contact@polistibrick.ro |
+| `ES` | info@polistibrick.es |
+| `FR` | contact@polistibrick.fr |
+| `BE` | contact@polistibrick.com |
+| `IT` | contact@polistibrick.com |
+| `AT` | contact@polistibrick.com |
+| `GB` | contact@polistibrick.com |
+| `IE` | contact@polistibrick.com |
+| `ME` | contact@polistibrick.com |
+
+**Regulă:** unde nu există email dedicat per țară, lead-urile merg la **contact@polistibrick.com** (email central pentru piețe fără reprezentant local sau email propriu).
+
+Pentru `/oferta/` și `/devino-partener/` nu există câmp `country` momentan — recomandare: rutează la `contact@polistibrick.com` cu CC la `info@polistibrick.eu` pentru tracking central. Sau adăugați un selector de țară similar dacă vreți routing per țară.
 
 #### 1.2 Înlocuire placeholder imagini
 Caută `[Imagine:` și `[Foto:` și `[Fotografie` în repo — vei găsi ~80 de locuri cu placeholder-uri. Locații prioritare:

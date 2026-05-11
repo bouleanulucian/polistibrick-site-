@@ -187,6 +187,77 @@
       padding: 13px 24px;
       font-size: 13.5px;
     }
+
+    /* File upload */
+    .form-file-drop {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      background: var(--cream);
+      border: 1.5px dashed var(--border-strong);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .form-file-drop:hover, .form-file-drop.is-drag {
+      border-color: var(--red);
+      background: var(--red-soft);
+    }
+    .form-file-icon { font-size: 22px; line-height: 1; flex-shrink: 0; }
+    .form-file-text { flex: 1; min-width: 0; }
+    .form-file-text strong {
+      display: block;
+      font-size: 12.5px;
+      color: var(--ink);
+      font-weight: 600;
+    }
+    .form-file-text span {
+      display: block;
+      font-size: 11px;
+      color: var(--gray);
+      margin-top: 2px;
+    }
+    .form-file-list {
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-file-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 12px;
+      color: var(--ink-soft);
+      gap: 10px;
+    }
+    .form-file-item-name {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .form-file-item-name small {
+      color: var(--gray);
+      font-size: 10.5px;
+      margin-left: 4px;
+    }
+    .form-file-item-remove {
+      background: none;
+      border: none;
+      color: var(--red);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 0 4px;
+      line-height: 1;
+    }
+    .form-file-item-remove:hover { color: var(--red-dark); }
     @media (max-width: 1100px) {
       .wm-content { grid-template-columns: 1fr; gap: 32px; }
       .wm-stage { padding: 36px; min-height: auto; }
@@ -343,7 +414,21 @@
               <!-- MESSAGE -->
               <div class="form-row">
                 <label class="form-label" for="message">Detalii suplimentare</label>
-                <textarea class="form-textarea" id="message" name="message" placeholder="Orice ne ajută — link plan, schiță, întrebări..."></textarea>
+                <textarea class="form-textarea" id="message" name="message" placeholder="Orice ne ajută — întrebări, cerințe speciale, observații..."></textarea>
+              </div>
+
+              <!-- ATTACHMENTS (plans, sketches, documents) -->
+              <div class="form-row">
+                <label class="form-label">Atașamente (plan, schițe, documente)</label>
+                <label class="form-file-drop" for="ofiles" id="fileDropZone">
+                  <span class="form-file-icon">📎</span>
+                  <div class="form-file-text">
+                    <strong>Atașează planuri, schițe sau documente</strong>
+                    <span>PDF · DWG · DXF · JPG · PNG · ZIP — max 10 MB / fișier</span>
+                  </div>
+                  <input type="file" id="ofiles" name="files" accept=".pdf,.dwg,.dxf,.jpg,.jpeg,.png,.zip" multiple style="display:none;">
+                </label>
+                <div class="form-file-list" id="filesList"></div>
               </div>
 
               <hr style="border:0;border-top:1px solid var(--border);margin:24px 0;">
@@ -423,5 +508,71 @@
 
 <footer class="site-footer" data-include="footer"></footer>
 <script src="../assets/js/site.js"></script>
+<script>
+  // === File upload handling ===
+  const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
+  const filesInput = document.getElementById('ofiles');
+  const filesList = document.getElementById('filesList');
+  const fileDropZone = document.getElementById('fileDropZone');
+  let selectedFiles = [];
+
+  function renderFilesList() {
+    filesList.innerHTML = '';
+    selectedFiles.forEach((file, idx) => {
+      const sizeMB = (file.size / 1024 / 1024).toFixed(2);
+      const item = document.createElement('div');
+      item.className = 'form-file-item';
+      item.innerHTML = `
+        <span class="form-file-item-name">📄 ${file.name} <small>${sizeMB} MB</small></span>
+        <button type="button" class="form-file-item-remove" data-idx="${idx}" aria-label="Șterge">×</button>
+      `;
+      filesList.appendChild(item);
+    });
+    const dt = new DataTransfer();
+    selectedFiles.forEach(f => dt.items.add(f));
+    filesInput.files = dt.files;
+  }
+
+  function addFiles(newFiles) {
+    Array.from(newFiles).forEach(file => {
+      if (file.size > MAX_FILE_SIZE) {
+        alert(`Fișierul "${file.name}" este prea mare (${(file.size/1024/1024).toFixed(1)} MB). Maxim 10 MB per fișier.`);
+        return;
+      }
+      if (!selectedFiles.some(f => f.name === file.name && f.size === file.size)) {
+        selectedFiles.push(file);
+      }
+    });
+    renderFilesList();
+  }
+
+  filesInput.addEventListener('change', (e) => addFiles(e.target.files));
+  filesList.addEventListener('click', (e) => {
+    if (e.target.classList.contains('form-file-item-remove')) {
+      const idx = parseInt(e.target.dataset.idx, 10);
+      selectedFiles.splice(idx, 1);
+      renderFilesList();
+    }
+  });
+
+  // Drag & drop
+  ['dragenter', 'dragover'].forEach(evt => {
+    fileDropZone.addEventListener(evt, (e) => {
+      e.preventDefault(); e.stopPropagation();
+      fileDropZone.classList.add('is-drag');
+    });
+  });
+  ['dragleave', 'drop'].forEach(evt => {
+    fileDropZone.addEventListener(evt, (e) => {
+      e.preventDefault(); e.stopPropagation();
+      fileDropZone.classList.remove('is-drag');
+    });
+  });
+  fileDropZone.addEventListener('drop', (e) => {
+    if (e.dataTransfer && e.dataTransfer.files.length) {
+      addFiles(e.dataTransfer.files);
+    }
+  });
+</script>
 </body>
 </html>

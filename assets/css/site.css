@@ -334,8 +334,8 @@ p { line-height: 1.65; color: var(--gray); }
   color: var(--gray);
 }
 .spec-table-cell {
-  padding: 18px 22px;
-  font-size: 14.5px;
+  padding: 10px 20px;
+  font-size: 13.5px;
   color: var(--ink-soft);
 }
 .spec-table-cell--label {
@@ -344,7 +344,7 @@ p { line-height: 1.65; color: var(--gray); }
 }
 .spec-table-cell--value {
   font-family: var(--serif);
-  font-size: 17px;
+  font-size: 15.5px;
   font-weight: 500;
   color: var(--ink);
 }

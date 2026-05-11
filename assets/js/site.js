@@ -73,7 +73,6 @@
           <div class="nav-dropdown">
             <a class="nav-dropdown-item" href="${BASE}resurse/blog/">Blog<span class="nav-dropdown-item-sub">Articole despre Casa Pasivă, ICF</span></a>
             <a class="nav-dropdown-item" href="${BASE}resurse/faq/">Întrebări frecvente<span class="nav-dropdown-item-sub">Răspunsuri la cele mai comune întrebări</span></a>
-            <a class="nav-dropdown-item" href="${BASE}resurse/">Descărcări<span class="nav-dropdown-item-sub">Fișe tehnice, BIM, certificate</span></a>
           </div>
         </div>
         <div class="nav-item">
@@ -130,7 +129,7 @@
             <li><a href="${BASE}proiecte/">Proiecte realizate</a></li>
             <li><a href="${BASE}resurse/blog/">Blog</a></li>
             <li><a href="${BASE}resurse/faq/">Întrebări frecvente</a></li>
-            <li><a href="${BASE}resurse/">Descărcări</a></li>
+            <li><a href="${BASE}calculator/">Calculator cost</a></li>
           </ul>
         </div>
         <div class="footer-col">

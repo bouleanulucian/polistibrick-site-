@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact · Polistibrick</title>
+  <meta name="description" content="Vorbește cu un specialist Polistibrick — adrese fabrici Valencia și Craiova, telefoane, email, formular de contact.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body data-base="../">
+
+<header class="nav" data-include="nav"></header>
+
+<section class="subhero">
+  <div class="subhero-inner">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../">Acasă</a><span class="breadcrumb-sep">/</span>
+      <span>Contact</span>
+    </nav>
+    <span class="eyebrow">Contact</span>
+    <h1>Hai să <em>vorbim.</em></h1>
+    <p class="lead">Specialiștii noștri răspund întrebărilor tehnice, pregătesc oferte personalizate și oferă consultanță gratuită pentru orice proiect. În română, engleză, franceză sau spaniolă.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="grid grid-3 reveal">
+
+      <div class="card">
+        <span class="card-tag">Vânzări România</span>
+        <h3 style="margin-bottom:14px;">Craiova (sediu RO)</h3>
+        <p style="font-size:14.5px;margin-bottom:6px;color:var(--ink);"><strong>Adresă:</strong></p>
+        <p style="font-size:14px;margin-bottom:18px;">[Adresă fabrică Craiova]<br>Craiova, jud. Dolj, România</p>
+        <p style="font-size:14.5px;margin-bottom:6px;color:var(--ink);"><strong>Telefon:</strong></p>
+        <p style="font-size:14px;margin-bottom:18px;"><a href="tel:+40700000000" style="color:var(--red);">+40 7XX XXX XXX</a></p>
+        <p style="font-size:14.5px;margin-bottom:6px;color:var(--ink);"><strong>Email:</strong></p>
+        <p style="font-size:14px;"><a href="mailto:romania@polistibrick.eu" style="color:var(--red);">romania@polistibrick.eu</a></p>
+      </div>
+
+      <div class="card">
+        <span class="card-tag">Vânzări internațional</span>
+        <h3 style="margin-bottom:14px;">Valencia (sediu ES)</h3>
+        <p style="font-size:14.5px;margin-bottom:6px;color:var(--ink);"><strong>Adresă:</strong></p>
+        <p style="font-size:14px;margin-bottom:18px;">[Adresă fabrică Valencia]<br>Valencia, Spania</p>
+        <p style="font-size:14.5px;margin-bottom:6px;color:var(--ink);"><strong>Telefon:</strong></p>
+        <p style="font-size:14px;margin-bottom:18px;"><a href="tel:+34642777216" style="color:var(--red);">+34 642 777 216</a></p>
+        <p style="font-size:14.5px;margin-bottom:6px;color:var(--ink);"><strong>Email:</strong></p>
+        <p style="font-size:14px;"><a href="mailto:lucian@polistibrick.es" style="color:var(--red);">lucian@polistibrick.es</a></p>
+      </div>
+
+      <div class="card">
+        <span class="card-tag">Parteneriate</span>
+        <h3 style="margin-bottom:14px;">Vrei să devii partener?</h3>
+        <p style="font-size:14.5px;margin-bottom:18px;color:var(--gray);">Suntem în expansiune în toată Europa. Caut parteneri locali pentru distribuție, reseller și constructori certificați.</p>
+        <p style="font-size:14.5px;margin-bottom:6px;color:var(--ink);"><strong>Email:</strong></p>
+        <p style="font-size:14px;margin-bottom:18px;"><a href="mailto:partners@polistibrick.eu" style="color:var(--red);">partners@polistibrick.eu</a></p>
+        <a href="../pentru/constructori/" class="btn btn-ghost" style="font-size:12.5px;">Despre parteneriat</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="section section--cream">
+  <div class="container container--narrow">
+    <div class="reveal card" style="padding:48px;">
+      <h2 style="margin-bottom:8px;">Scrie-ne direct.</h2>
+      <p style="margin-bottom:32px;font-size:14.5px;color:var(--gray);">Pentru întrebări generale, suport tehnic sau informații. Pentru oferte, folosește <a href="../oferta/" style="color:var(--red);">formularul de ofertă</a>.</p>
+
+      <form onsubmit="alert('Formularul este în demo. Va fi conectat la sistem.'); return false;">
+        <div class="form-row form-row--split">
+          <div>
+            <label class="form-label" for="cname">Nume *</label>
+            <input class="form-input" type="text" id="cname" name="name" required>
+          </div>
+          <div>
+            <label class="form-label" for="cemail">Email *</label>
+            <input class="form-input" type="email" id="cemail" name="email" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <label class="form-label" for="csubject">Subiect</label>
+          <select class="form-select" id="csubject" name="subject">
+            <option>Întrebare tehnică</option>
+            <option>Suport produs</option>
+            <option>Devino partener</option>
+            <option>Presă / Media</option>
+            <option>Altceva</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label class="form-label" for="cmsg">Mesaj *</label>
+          <textarea class="form-textarea" id="cmsg" name="message" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-large btn-arrow" style="width:100%;justify-content:center;">Trimite mesajul</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer" data-include="footer"></footer>
+<script src="../assets/js/site.js"></script>
+</body>
+</html>

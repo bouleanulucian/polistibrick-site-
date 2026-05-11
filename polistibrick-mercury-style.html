@@ -212,6 +212,64 @@
     gap: 10px;
     align-items: center;
   }
+
+  /* === MENU (added in nav between logo and CTA) === */
+  .nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin-left: 36px;
+    flex: 1;
+  }
+  .nav-menu-item { position: relative; }
+  .nav-menu-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    text-decoration: none;
+    letter-spacing: 0.01em;
+    border-radius: 100px;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .nav-menu-link:hover { background: rgba(15, 15, 15, 0.05); color: var(--ink); }
+  .nav-menu-caret { font-size: 10px; opacity: 0.6; }
+  .nav-menu-dropdown {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    min-width: 220px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: 0 24px 50px rgba(0,0,0,0.10);
+    padding: 8px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4px);
+    transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+  }
+  .nav-menu-dropdown a {
+    display: block;
+    padding: 9px 14px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    text-decoration: none;
+    transition: background 0.15s ease;
+  }
+  .nav-menu-dropdown a:hover { background: var(--cream); color: var(--ink); }
+  .nav-menu-item:hover .nav-menu-dropdown,
+  .nav-menu-item:focus-within .nav-menu-dropdown {
+    opacity: 1; visibility: visible; transform: translateY(0);
+  }
+  @media (max-width: 1100px) {
+    .nav-menu { display: none; }
+  }
   .btn {
     display: inline-flex;
     align-items: center;
@@ -1596,9 +1654,33 @@
     line-height: 1.05;
   }
   .compare-side-text .section-sub {
-    font-size: 14px;
-    line-height: 1.6;
+    font-size: 13.5px;
+    line-height: 1.55;
     color: var(--gray);
+    margin-bottom: 10px;
+  }
+  .compare-side-text .section-sub strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .compare-side-text .compare-punch-inline {
+    font-family: var(--serif);
+    font-size: 16px;
+    color: var(--ink);
+    line-height: 1.35;
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+  .compare-side-text .compare-punch-inline strong {
+    color: var(--red);
+    font-weight: 500;
+  }
+  .compare-side-text .compare-mission {
+    font-style: italic;
+    color: var(--ink);
+    font-size: 13px;
+    margin-top: 6px;
   }
   @media (max-width: 1100px) {
     .compare-inner-grid { grid-template-columns: 1fr; gap: 24px; }
@@ -2360,10 +2442,48 @@
     <a href="#" class="logo" aria-label="Polistibrick">
       <img src="images/logo.png" alt="Polistibrick" class="logo-img">
     </a>
-    <!-- (Section navigation moved to floating pulse indicator on right edge) -->
+    <div class="nav-menu" aria-label="Navigare site">
+      <div class="nav-menu-item">
+        <a href="produse/pereti-mbk/" class="nav-menu-link">Produse <span class="nav-menu-caret">▾</span></a>
+        <div class="nav-menu-dropdown">
+          <a href="produse/pereti-mbk/">Pereți MBK</a>
+          <a href="produse/planseu-pbk/">Planșee PBK</a>
+          <a href="produse/acoperis-tbk/">Acoperiș TBK</a>
+          <a href="produse/accesorii/">Accesorii</a>
+        </div>
+      </div>
+      <div class="nav-menu-item">
+        <a href="pentru/proprietari/" class="nav-menu-link">Soluții <span class="nav-menu-caret">▾</span></a>
+        <div class="nav-menu-dropdown">
+          <a href="pentru/proprietari/">Pentru proprietari</a>
+          <a href="pentru/arhitecti/">Pentru arhitecți</a>
+          <a href="pentru/constructori/">Pentru constructori</a>
+          <a href="pentru/investitori/">Pentru investitori</a>
+        </div>
+      </div>
+      <a href="proiecte/" class="nav-menu-link">Proiecte</a>
+      <div class="nav-menu-item">
+        <a href="resurse/" class="nav-menu-link">Resurse <span class="nav-menu-caret">▾</span></a>
+        <div class="nav-menu-dropdown">
+          <a href="resurse/blog/">Blog</a>
+          <a href="resurse/faq/">Întrebări frecvente</a>
+          <a href="resurse/">Descărcări</a>
+        </div>
+      </div>
+      <div class="nav-menu-item">
+        <a href="despre/" class="nav-menu-link">Despre <span class="nav-menu-caret">▾</span></a>
+        <div class="nav-menu-dropdown">
+          <a href="despre/">Compania</a>
+          <a href="despre/patent/">Patent</a>
+          <a href="despre/certificari/">Certificări</a>
+          <a href="despre/fabrici/">Fabrici</a>
+          <a href="despre/echipa/">Echipa</a>
+        </div>
+      </div>
+    </div>
     <div class="nav-cta">
-      <a href="#" class="btn btn-ghost">Login</a>
-      <a href="#contact" class="btn btn-primary">Cere o ofertă →</a>
+      <a href="contact/" class="btn btn-ghost">Contact</a>
+      <a href="oferta/" class="btn btn-primary">Cere o ofertă →</a>
     </div>
   </div>
 </nav>
@@ -2614,7 +2734,7 @@
           <span class="bubble-tag">Pereți · MBK</span>
           <h3>Perete finit <em>5 în 1.</em></h3>
           <p><strong>3 modele predefinite</strong> — de la premium la pasiv A+++ — plus posibilitatea de a crea la comandă produsul potrivit construcției dorite, <strong>fără costuri suplimentare</strong>. MBK este singurul sistem ICF care se adaptează nevoilor tale personalizate.</p>
-          <a href="#contact" class="product-cta">Vezi detalii</a>
+          <a href="produse/pereti-mbk/" class="product-cta">Vezi detalii MBK</a>
         </div>
       </div>
     </div>
@@ -2634,7 +2754,7 @@
           <span class="bubble-tag">Planșee · PBK</span>
           <h3>Deschideri de până la <em>9 m fără grinzi.</em></h3>
           <p>PBK este un sistem prefabricat pentru planșee, ușor și ultra-rezistent. Combină polistirenul, fibrocementul și betonul armat pentru o izolație termică și fonică superioară, cu defazaj de până la 10,8 ore. Suportă deschideri de până la 9 metri.</p>
-          <a href="#contact" class="product-cta">Vezi detalii</a>
+          <a href="produse/planseu-pbk/" class="product-cta">Vezi detalii PBK</a>
         </div>
       </div>
     </div>
@@ -2654,7 +2774,7 @@
           <span class="bubble-tag">Acoperiș · TBK</span>
           <h3>Passivhaus <em>direct din fabrică.</em></h3>
           <p>TBK este un sistem complet pentru acoperișuri cu deschideri standard de până la 9 metri. Performanță Passivhaus din fabrică (U=0,13 W/m²K), grosime 25 cm, doar 22 kg/m². Izolat și rezistent — fără izolație adițională.</p>
-          <a href="#contact" class="product-cta">Vezi detalii</a>
+          <a href="produse/acoperis-tbk/" class="product-cta">Vezi detalii TBK</a>
         </div>
       </div>
     </div>
@@ -2676,7 +2796,11 @@
           <div class="compare-side-text">
       <span class="section-eyebrow">Dacă vrei o casă pasivă</span>
       <h2 class="section-title">Polistibrick. <em>Perfecțiunea fără facturi.</em></h2>
-      <p class="section-sub">Cărămida clasică nu mai e o casă — e o factură pe viață. Comparăm Polistibrick cu cealaltă cale reală spre casa pasivă (A+++), nu cu standardul nonconform de azi.</p>
+      <p class="section-sub">Polistibrick este un sistem <strong>premium pentru case pasive</strong> — locuințe care nu consumă energie pentru încălzire sau răcire.</p>
+      <p class="section-sub">Cărămida clasică nu poate fi comparată cu Polistibrick. E o casă care funcționează pe facturi, așa cum mașina funcționează pe benzină. Polistibrick este locuința modernă — <strong>fără facturi lunare</strong>.</p>
+      <p class="section-sub">Plus avantaje fără egal: izolație fonică premium, etanșeitate la aer, rezistență la foc <strong>A1</strong>, hidrofugare. Polistibrick se compară doar cu sistemele de construcție premium.</p>
+      <p class="section-sub compare-punch-inline"><strong>Doar +5%</strong> peste prețul casei clasice. <strong>100% mai premium.</strong></p>
+      <p class="section-sub compare-mission">Misiunea noastră: casa pasivă și premium, la prețul casei clasice.</p>
     </div>
 
           <!-- 3 columns: reference (left, muted) | 2 passive options (right) -->

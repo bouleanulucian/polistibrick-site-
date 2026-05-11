@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cere ofertă personalizată · Polistibrick</title>
+  <meta name="description" content="Trimite detaliile proiectului tău și primești o ofertă personalizată Polistibrick în 48 de ore — cu deviz transparent pe materiale, livrare și montaj.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body data-base="../">
+
+<header class="nav" data-include="nav"></header>
+
+<section class="subhero">
+  <div class="subhero-inner">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../">Acasă</a><span class="breadcrumb-sep">/</span>
+      <span>Cere ofertă</span>
+    </nav>
+    <span class="eyebrow">Ofertă personalizată</span>
+    <h1>Casa ta, <em>cu deviz în 48 ore.</em></h1>
+    <p class="lead">Spune-ne despre proiectul tău și un specialist Polistibrick îți pregătește o ofertă completă — cantități, materiale, livrare, opțional montaj. Fără obligație, fără costuri ascunse.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container container--narrow">
+    <div class="reveal">
+      <form class="card" style="padding:48px;" onsubmit="alert('Formularul este momentan în demo. Va fi conectat la sistemul de procesare al ofertelor.'); return false;">
+
+        <h2 style="margin-bottom:8px;">Spune-ne despre proiect.</h2>
+        <p style="margin-bottom:32px;font-size:14.5px;color:var(--gray);">Toate câmpurile sunt confidențiale. Le folosim doar pentru a-ți pregăti oferta.</p>
+
+        <!-- TYPE -->
+        <div class="form-row">
+          <label class="form-label">Tipul proiectului</label>
+          <div class="form-radio-group">
+            <div class="form-radio">
+              <input type="radio" name="type" id="type-casa" value="casa" checked>
+              <label for="type-casa">Casă unifamilială</label>
+            </div>
+            <div class="form-radio">
+              <input type="radio" name="type" id="type-duplex" value="duplex">
+              <label for="type-duplex">Duplex / Bifamilial</label>
+            </div>
+            <div class="form-radio">
+              <input type="radio" name="type" id="type-bloc" value="bloc">
+              <label for="type-bloc">Bloc / Ansamblu</label>
+            </div>
+            <div class="form-radio">
+              <input type="radio" name="type" id="type-comercial" value="comercial">
+              <label for="type-comercial">Spațiu comercial</label>
+            </div>
+            <div class="form-radio">
+              <input type="radio" name="type" id="type-renovare" value="renovare">
+              <label for="type-renovare">Renovare</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- COMPONENTS -->
+        <div class="form-row">
+          <label class="form-label">Ce te interesează</label>
+          <div class="form-radio-group">
+            <div class="form-radio">
+              <input type="checkbox" name="components" id="cmp-mbk" value="mbk" checked>
+              <label for="cmp-mbk">Pereți MBK</label>
+            </div>
+            <div class="form-radio">
+              <input type="checkbox" name="components" id="cmp-pbk" value="pbk">
+              <label for="cmp-pbk">Planșee PBK</label>
+            </div>
+            <div class="form-radio">
+              <input type="checkbox" name="components" id="cmp-tbk" value="tbk">
+              <label for="cmp-tbk">Acoperiș TBK</label>
+            </div>
+            <div class="form-radio">
+              <input type="checkbox" name="components" id="cmp-all" value="all">
+              <label for="cmp-all">Sistem complet</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- SIZE + LOCATION -->
+        <div class="form-row form-row--split">
+          <div>
+            <label class="form-label" for="surface">Suprafață construită (m²)</label>
+            <input class="form-input" type="number" id="surface" name="surface" placeholder="ex. 180" min="20" max="5000">
+          </div>
+          <div>
+            <label class="form-label" for="location">Localitate / Județ</label>
+            <input class="form-input" type="text" id="location" name="location" placeholder="ex. Cluj-Napoca, CJ">
+          </div>
+        </div>
+
+        <!-- BUDGET + TIMING -->
+        <div class="form-row form-row--split">
+          <div>
+            <label class="form-label" for="budget">Buget orientativ (€)</label>
+            <select class="form-select" id="budget" name="budget">
+              <option value="">Selectează</option>
+              <option value="under-100k">Sub 100.000 €</option>
+              <option value="100-200k">100.000 – 200.000 €</option>
+              <option value="200-400k">200.000 – 400.000 €</option>
+              <option value="400k-plus">Peste 400.000 €</option>
+              <option value="unknown">Încă nu știu</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label" for="timeline">Când vrei să începi</label>
+            <select class="form-select" id="timeline" name="timeline">
+              <option value="">Selectează</option>
+              <option value="asap">Cât mai curând</option>
+              <option value="3m">În 3 luni</option>
+              <option value="6m">În 6 luni</option>
+              <option value="12m">În 6-12 luni</option>
+              <option value="exploring">Doar mă informez</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- STAGE -->
+        <div class="form-row">
+          <label class="form-label">Stadiu proiect</label>
+          <div class="form-radio-group">
+            <div class="form-radio">
+              <input type="radio" name="stage" id="stage-idea" value="idea" checked>
+              <label for="stage-idea">Doar ideea</label>
+            </div>
+            <div class="form-radio">
+              <input type="radio" name="stage" id="stage-plan" value="plan">
+              <label for="stage-plan">Am plan de arhitect</label>
+            </div>
+            <div class="form-radio">
+              <input type="radio" name="stage" id="stage-auth" value="auth">
+              <label for="stage-auth">Am autorizație</label>
+            </div>
+            <div class="form-radio">
+              <input type="radio" name="stage" id="stage-building" value="building">
+              <label for="stage-building">Construiesc deja</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- MESSAGE -->
+        <div class="form-row">
+          <label class="form-label" for="message">Detalii suplimentare (opțional)</label>
+          <textarea class="form-textarea" id="message" name="message" placeholder="Orice ne ajută să-ți pregătim o ofertă mai exactă — link la plan, schiță, întrebări specifice, cerințe speciale..."></textarea>
+        </div>
+
+        <hr style="border:0;border-top:1px solid var(--border);margin:32px 0;">
+
+        <h3 style="margin-bottom:18px;">Datele tale de contact.</h3>
+
+        <div class="form-row form-row--split">
+          <div>
+            <label class="form-label" for="name">Nume complet *</label>
+            <input class="form-input" type="text" id="name" name="name" required placeholder="Numele tău">
+          </div>
+          <div>
+            <label class="form-label" for="role">Sunt</label>
+            <select class="form-select" id="role" name="role">
+              <option value="owner">Proprietar / Beneficiar</option>
+              <option value="architect">Arhitect / Proiectant</option>
+              <option value="builder">Constructor / Antreprenor</option>
+              <option value="developer">Dezvoltator / Investitor</option>
+              <option value="other">Altceva</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row form-row--split">
+          <div>
+            <label class="form-label" for="email">Email *</label>
+            <input class="form-input" type="email" id="email" name="email" required placeholder="email@exemplu.ro">
+          </div>
+          <div>
+            <label class="form-label" for="phone">Telefon</label>
+            <input class="form-input" type="tel" id="phone" name="phone" placeholder="+40 7XX XXX XXX">
+          </div>
+        </div>
+
+        <div class="form-row" style="margin-top:32px;">
+          <button type="submit" class="btn btn-primary btn-large btn-arrow" style="width:100%;justify-content:center;">Trimite cererea de ofertă</button>
+        </div>
+
+        <p style="font-size:12.5px;color:var(--gray);text-align:center;margin-top:18px;">Răspundem în maxim 48 de ore în zile lucrătoare.<br>Datele tale sunt confidențiale și nu sunt transmise terților. <a href="../legal/confidentialitate/" style="color:var(--red);">Politică de confidențialitate</a>.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="section section--cream">
+  <div class="container">
+    <div class="reveal" style="text-align:center;max-width:720px;margin:0 auto 50px;">
+      <span class="eyebrow">Ce urmează</span>
+      <h2>Procesul, <em>pas cu pas.</em></h2>
+    </div>
+    <div class="grid grid-4 reveal" style="gap:32px;">
+      <div>
+        <div style="font-family:var(--serif);font-size:48px;color:var(--red);line-height:1;margin-bottom:14px;">01</div>
+        <h4 style="margin-bottom:8px;">Trimiți cererea</h4>
+        <p style="font-size:14px;">Completezi formularul de mai sus — toate detaliile sunt confidențiale.</p>
+      </div>
+      <div>
+        <div style="font-family:var(--serif);font-size:48px;color:var(--red);line-height:1;margin-bottom:14px;">02</div>
+        <h4 style="margin-bottom:8px;">Te contactăm</h4>
+        <p style="font-size:14px;">În 24-48 ore te sună un specialist Polistibrick să clarifice detaliile.</p>
+      </div>
+      <div>
+        <div style="font-family:var(--serif);font-size:48px;color:var(--red);line-height:1;margin-bottom:14px;">03</div>
+        <h4 style="margin-bottom:8px;">Primești oferta</h4>
+        <p style="font-size:14px;">Calculăm exact cantitățile MBK/PBK/TBK necesare + livrare + montaj opțional.</p>
+      </div>
+      <div>
+        <div style="font-family:var(--serif);font-size:48px;color:var(--red);line-height:1;margin-bottom:14px;">04</div>
+        <h4 style="margin-bottom:8px;">Construim</h4>
+        <p style="font-size:14px;">Comanda intră în producție. O casă întreagă livrabilă în 2-3 săptămâni.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer" data-include="footer"></footer>
+<script src="../assets/js/site.js"></script>
+</body>
+</html>

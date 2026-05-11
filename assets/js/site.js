@@ -45,7 +45,26 @@
             <a class="nav-dropdown-item" href="${BASE}pentru/investitori/">Pentru investitori<span class="nav-dropdown-item-sub">ROI, viteză execuție, ansambluri</span></a>
           </div>
         </div>
-        <a class="nav-link" href="${BASE}proiecte/">Proiecte</a>
+        <div class="nav-item">
+          <button class="nav-link" aria-haspopup="true" aria-expanded="false">
+            Proiecte
+            <svg class="nav-link-caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 5l3 3 3-3"/></svg>
+          </button>
+          <div class="nav-dropdown">
+            <a class="nav-dropdown-item" href="${BASE}proiecte/">Case construite<span class="nav-dropdown-item-sub">Galerie + hartă cu proiecte</span></a>
+            <a class="nav-dropdown-item" href="${BASE}testimoniale/">Testimoniale (video)<span class="nav-dropdown-item-sub">Proprietarii vorbesc, cu cifre reale</span></a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <button class="nav-link" aria-haspopup="true" aria-expanded="false">
+            Calculator
+            <svg class="nav-link-caret" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 5l3 3 3-3"/></svg>
+          </button>
+          <div class="nav-dropdown">
+            <a class="nav-dropdown-item" href="${BASE}calculator/">Calculator cost<span class="nav-dropdown-item-sub">Estimează prețul panourilor casei tale</span></a>
+            <a class="nav-dropdown-item" href="${BASE}economii/">Calculator economii<span class="nav-dropdown-item-sub">Polistibrick vs cărămidă pe 25 de ani</span></a>
+          </div>
+        </div>
         <div class="nav-item">
           <button class="nav-link" aria-haspopup="true" aria-expanded="false">
             Resurse

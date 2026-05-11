@@ -52,6 +52,79 @@
   }
   /* Trust-bar is too short to be its own page — let it flow with the previous one */
   .trust-bar { scroll-snap-align: none; }
+
+  /* === SUPERPOWERS — 3 trust badges right under hero (non-snap) === */
+  .superpowers {
+    scroll-snap-align: none;
+    min-height: 0;
+    display: block;
+    padding: 32px 0;
+    background: linear-gradient(180deg, var(--cream-light) 0%, var(--cream) 100%);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .superpowers-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .superpower {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 24px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    color: var(--ink);
+    text-decoration: none;
+    transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .superpower:hover {
+    border-color: var(--red);
+    transform: translateY(-3px);
+    box-shadow: 0 14px 32px rgba(200, 16, 46, 0.10);
+  }
+  .superpower-icon {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--red-soft);
+    color: var(--red);
+    border-radius: 12px;
+  }
+  .superpower-icon svg { width: 22px; height: 22px; }
+  .superpower-text { flex: 1; min-width: 0; }
+  .superpower-text strong {
+    display: block;
+    font-family: var(--serif);
+    font-size: 19px;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    margin-bottom: 4px;
+  }
+  .superpower-text span {
+    display: block;
+    font-size: 12.5px;
+    color: var(--gray);
+    line-height: 1.4;
+  }
+  .superpower-arrow {
+    flex-shrink: 0;
+    color: var(--red);
+    font-size: 18px;
+    opacity: 0;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  .superpower:hover .superpower-arrow { opacity: 1; transform: translateX(3px); }
+  @media (max-width: 968px) {
+    .superpowers-grid { grid-template-columns: 1fr; }
+  }
   /* Footer can be shorter than a full page */
   footer { min-height: auto; padding: 80px 0 40px; }
   /* On small viewports, drop snap (it interferes with mobile scroll) */
@@ -2451,7 +2524,20 @@
           <a href="pentru/investitori/">Pentru investitori</a>
         </div>
       </div>
-      <a href="proiecte/" class="nav-menu-link">Proiecte</a>
+      <div class="nav-menu-item">
+        <a href="proiecte/" class="nav-menu-link">Proiecte <span class="nav-menu-caret">▾</span></a>
+        <div class="nav-menu-dropdown">
+          <a href="proiecte/">Case construite</a>
+          <a href="testimoniale/">Testimoniale (video)</a>
+        </div>
+      </div>
+      <div class="nav-menu-item">
+        <a href="calculator/" class="nav-menu-link">Calculator <span class="nav-menu-caret">▾</span></a>
+        <div class="nav-menu-dropdown">
+          <a href="calculator/">Calculator cost</a>
+          <a href="economii/">Calculator economii (vs cărămidă)</a>
+        </div>
+      </div>
       <div class="nav-menu-item">
         <a href="resurse/" class="nav-menu-link">Resurse <span class="nav-menu-caret">▾</span></a>
         <div class="nav-menu-dropdown">
@@ -2492,6 +2578,44 @@
     </div>
 
     <!-- Floating product is rendered at body level so it stays visible across sections -->
+  </div>
+</section>
+
+<!-- SUPERPOWERS — 3 trust badges right under hero (non-snap thin band) -->
+<section class="superpowers" aria-label="De ce Polistibrick">
+  <div class="container">
+    <div class="superpowers-grid">
+      <a href="despre/patent/" class="superpower">
+        <div class="superpower-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+        </div>
+        <div class="superpower-text">
+          <strong>Patent European</strong>
+          <span>Sistem unic, brevetat și protejat</span>
+        </div>
+        <span class="superpower-arrow">→</span>
+      </a>
+      <a href="despre/fabrici/" class="superpower">
+        <div class="superpower-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+        </div>
+        <div class="superpower-text">
+          <strong>Prezență în 9 țări</strong>
+          <span>Nu suntem un startup — suntem un business european</span>
+        </div>
+        <span class="superpower-arrow">→</span>
+      </a>
+      <a href="produse/pereti-mbk/" class="superpower">
+        <div class="superpower-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        </div>
+        <div class="superpower-text">
+          <strong>Personalizare gratuită</strong>
+          <span>Singurul ICF cu producție custom fără cost suplimentar</span>
+        </div>
+        <span class="superpower-arrow">→</span>
+      </a>
+    </div>
   </div>
 </section>
 

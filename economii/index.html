@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculator economii · Cât economisești cu Polistibrick — 25 ani</title>
+  <meta name="description" content="Calculator dinamic care arată cât economisești cu Polistibrick vs cărămidă clasică pe 25 de ani. Introdu m², climă, preț energie și vezi diferența reală.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <style>
+    .comp-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 40px; align-items: start; }
+    @media (max-width: 968px) { .comp-grid { grid-template-columns: 1fr; } }
+    .comp-result { position: sticky; top: 100px; }
+    .comp-savings {
+      background: linear-gradient(135deg, #2A2520 0%, #393229 100%);
+      color: var(--cream);
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .comp-savings-big {
+      font-family: var(--serif);
+      font-size: clamp(64px, 9vw, 110px);
+      font-weight: 500;
+      color: var(--red);
+      line-height: 1;
+      letter-spacing: -0.04em;
+      margin: 12px 0 6px;
+    }
+    .comp-savings-big small { font-size: 0.35em; color: rgba(255,255,255,0.55); margin-left: 4px; font-weight: 400; }
+    .comp-row {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 1fr;
+      gap: 12px;
+      padding: 16px 20px;
+      border-radius: 10px;
+      align-items: center;
+      font-size: 14px;
+    }
+    .comp-row.is-header {
+      background: var(--cream);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray);
+    }
+    .comp-row.is-total {
+      background: rgba(200,16,46,0.08);
+      font-family: var(--serif);
+      font-size: 17px;
+      font-weight: 500;
+    }
+    .comp-row .num {
+      text-align: right;
+      font-family: var(--serif);
+      font-size: 17px;
+      font-weight: 500;
+      color: var(--ink);
+    }
+    .comp-row .num-good { color: var(--red); }
+    .comp-bar-container {
+      margin-top: 20px;
+      padding: 24px;
+      background: white;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+    }
+    .comp-bar-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    .comp-bar-label strong { font-family: var(--serif); font-size: 18px; color: var(--ink); font-weight: 500; }
+    .comp-bar {
+      height: 16px;
+      background: var(--cream);
+      border-radius: 100px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .comp-bar-fill {
+      height: 100%;
+      background: var(--red);
+      border-radius: 100px;
+      transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .comp-bar-fill--good { background: #1a7d3a; }
+  </style>
+</head>
+<body data-base="../">
+
+<header class="nav" data-include="nav"></header>
+
+<section class="subhero">
+  <div class="subhero-inner">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../">Acasă</a><span class="breadcrumb-sep">/</span>
+      <span>Calculator economii</span>
+    </nav>
+    <span class="eyebrow">Cât economisești în 25 ani</span>
+    <h1>Polistibrick vs cărămidă: <em>cifrele tale.</em></h1>
+    <p class="lead">Calculator dinamic care îți arată EXACT cât economisești pe energie, mentenanță și costuri totale pe 25 de ani, pentru casa pe care vrei să o construiești. Introdu cifrele tale, vezi rezultatul în timp real.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="comp-grid">
+
+      <!-- FORM -->
+      <form id="compForm" class="card" style="padding:36px;">
+        <h2 style="margin-bottom:24px;font-size:24px;">Datele casei tale.</h2>
+
+        <div class="form-row">
+          <label class="form-label" for="cSurface">Suprafață casă (m²)</label>
+          <input class="form-input" type="number" id="cSurface" value="150" min="50" max="1000" step="10">
+        </div>
+
+        <div class="form-row">
+          <label class="form-label" for="cYears">Ani de locuit luați în calcul</label>
+          <select class="form-select" id="cYears">
+            <option value="10">10 ani</option>
+            <option value="15">15 ani</option>
+            <option value="20">20 ani</option>
+            <option value="25" selected>25 ani (recomandat)</option>
+            <option value="30">30 ani</option>
+            <option value="40">40 ani</option>
+            <option value="50">50 ani</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label" for="cClimate">Climă</label>
+          <select class="form-select" id="cClimate">
+            <option value="cold" data-brick-energy="180" data-poli-energy="45">Rece (zone montane, nord — &lt; 8°C medie)</option>
+            <option value="temperate" data-brick-energy="130" data-poli-energy="35" selected>Temperat (Europa centrală — 8-14°C medie)</option>
+            <option value="warm" data-brick-energy="100" data-poli-energy="25">Cald (sud, mediteranean — &gt; 14°C medie)</option>
+          </select>
+          <p style="font-size:11.5px;color:var(--gray);margin-top:8px;">Calculul include atât încălzirea (iarna) cât și răcirea (vara).</p>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label" for="cEnergyPrice">Preț energie mediu (€/kWh)</label>
+          <input class="form-input" type="number" id="cEnergyPrice" value="0.22" min="0.05" max="0.60" step="0.01">
+          <p style="font-size:11.5px;color:var(--gray);margin-top:8px;">Folosește media pentru tara ta (RO ~0.18, FR ~0.25, DE ~0.32, ES ~0.20).</p>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label" for="cEnergyInflation">Creștere anuală preț energie (%)</label>
+          <select class="form-select" id="cEnergyInflation">
+            <option value="0">0% — preț constant (optimist)</option>
+            <option value="2">2% — inflație stabilă</option>
+            <option value="4" selected>4% — realist (media UE 2010-2024)</option>
+            <option value="6">6% — pesimist (criză energetică)</option>
+          </select>
+        </div>
+
+        <hr style="border:0;border-top:1px solid var(--border);margin:24px 0;">
+
+        <p style="font-size:13px;color:var(--gray);margin-bottom:14px;">💡 Calculul include:</p>
+        <ul style="display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--ink-soft);padding-left:6px;">
+          <li>✓ Cost construcție (panouri + manoperă, fără finisaje)</li>
+          <li>✓ Cost energie pe anii selectați</li>
+          <li>✓ Cost mentenanță estimată</li>
+          <li>✓ Toate proiectate la inflația aleasă</li>
+        </ul>
+      </form>
+
+      <!-- RESULT -->
+      <div class="comp-result">
+
+        <div class="comp-savings">
+          <span class="eyebrow" style="color:rgba(247,244,237,0.55);">Economie totală cu Polistibrick</span>
+          <div class="comp-savings-big" id="totalSavings">— <small>€</small></div>
+          <p style="font-size:14px;color:rgba(247,244,237,0.75);">pe <span id="yearsLabel">25</span> de ani, pentru o casă de <span id="surfaceLabel">150</span> m²</p>
+        </div>
+
+        <div class="comp-bar-container">
+          <div class="comp-bar-label">
+            <span>Cărămidă clasică</span>
+            <strong id="brickTotalLabel">— €</strong>
+          </div>
+          <div class="comp-bar"><div class="comp-bar-fill" id="brickBar" style="width:100%;"></div></div>
+
+          <div class="comp-bar-label" style="margin-top:14px;">
+            <span>Polistibrick</span>
+            <strong id="poliTotalLabel">— €</strong>
+          </div>
+          <div class="comp-bar"><div class="comp-bar-fill comp-bar-fill--good" id="poliBar" style="width:50%;"></div></div>
+        </div>
+
+        <div class="card" style="margin-top:20px;padding:0;overflow:hidden;">
+          <div class="comp-row is-header">
+            <span>Cost</span>
+            <span class="num">Cărămidă</span>
+            <span class="num">Polistibrick</span>
+          </div>
+          <div class="comp-row">
+            <span>Construcție inițială</span>
+            <span class="num" id="brickBuild">— €</span>
+            <span class="num" id="poliBuild">— €</span>
+          </div>
+          <div class="comp-row">
+            <span>Energie (cumulat)</span>
+            <span class="num" id="brickEnergy">— €</span>
+            <span class="num num-good" id="poliEnergy">— €</span>
+          </div>
+          <div class="comp-row">
+            <span>Mentenanță</span>
+            <span class="num" id="brickMaint">— €</span>
+            <span class="num num-good" id="poliMaint">— €</span>
+          </div>
+          <div class="comp-row is-total">
+            <span>TOTAL</span>
+            <span class="num" id="brickTotal">— €</span>
+            <span class="num num-good" id="poliTotal">— €</span>
+          </div>
+        </div>
+
+        <a href="../oferta/" class="btn btn-primary btn-large btn-arrow" style="width:100%;justify-content:center;margin-top:20px;">Cere ofertă personalizată</a>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="section section--cream">
+  <div class="container">
+    <div class="reveal" style="text-align:center;max-width:720px;margin:0 auto 40px;">
+      <span class="eyebrow">Cum funcționează calculul</span>
+      <h2>Metodologie <em>transparentă.</em></h2>
+    </div>
+    <div class="grid grid-2 reveal" style="max-width:980px;margin:0 auto;">
+      <div class="card">
+        <h4 style="margin-bottom:12px;">Cost construcție</h4>
+        <p style="font-size:14px;line-height:1.6;">Cărămidă: ~1.000 €/m² standard nonconform. Polistibrick: ~1.050 €/m² (+5%) pentru casă pasivă A+++. Include materiale și manoperă, fără finisaje interioare sau exterioare.</p>
+      </div>
+      <div class="card">
+        <h4 style="margin-bottom:12px;">Cost energie</h4>
+        <p style="font-size:14px;line-height:1.6;">Bazat pe consumul tipic per climă: cărămidă consumă în medie 100-180 kWh/m²/an pentru încălzire + răcire. Polistibrick (pasivă) consumă 25-45 kWh/m²/an. Reducere medie de 70%.</p>
+      </div>
+      <div class="card">
+        <h4 style="margin-bottom:12px;">Mentenanță 25 ani</h4>
+        <p style="font-size:14px;line-height:1.6;">Cărămidă: refresh termo la 15 ani (~5.000€), reparații umiditate, refresh fațadă. Polistibrick: niciuna din astea — EPS-ul nu absorbe apă, nu se degradează, structura monolit nu fisurează.</p>
+      </div>
+      <div class="card">
+        <h4 style="margin-bottom:12px;">Inflație energie</h4>
+        <p style="font-size:14px;line-height:1.6;">În ultimii 14 ani prețul energiei electrice în UE a crescut cu ~4% pe an. Calculul nostru include compoundarea anuală — economia reală pe 25 ani e mai mare decât diferența de azi × 25.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="cta-band reveal">
+    <h2>Convins de <em>cifrele tale?</em></h2>
+    <p>Cere o ofertă personalizată Polistibrick — calcul exact pentru proiectul tău, fără obligație, fără costuri ascunse.</p>
+    <div class="cta-band-actions">
+      <a href="../oferta/" class="btn btn-on-dark btn-large btn-arrow">Cere ofertă personalizată</a>
+      <a href="../contact/" class="btn btn-on-dark-ghost btn-large">Vorbește cu un specialist</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer" data-include="footer"></footer>
+<script src="../assets/js/site.js"></script>
+<script>
+  (function() {
+    const form = document.getElementById('compForm');
+    if (!form) return;
+
+    const f = {
+      surface: document.getElementById('cSurface'),
+      years: document.getElementById('cYears'),
+      climate: document.getElementById('cClimate'),
+      energyPrice: document.getElementById('cEnergyPrice'),
+      energyInflation: document.getElementById('cEnergyInflation'),
+    };
+
+    const fmt = (n) => {
+      if (!isFinite(n) || n <= 0) return '— €';
+      return new Intl.NumberFormat('ro-RO', { maximumFractionDigits: 0 }).format(Math.round(n)) + ' €';
+    };
+
+    function recalc() {
+      const surface = parseFloat(f.surface.value) || 0;
+      const years = parseInt(f.years.value) || 25;
+      const climOpt = f.climate.options[f.climate.selectedIndex];
+      const brickEnergyKwh = parseFloat(climOpt.dataset.brickEnergy);   // kWh/m²/an cărămidă
+      const poliEnergyKwh = parseFloat(climOpt.dataset.poliEnergy);     // kWh/m²/an Polistibrick
+      const energyPrice = parseFloat(f.energyPrice.value) || 0.20;
+      const inflation = parseFloat(f.energyInflation.value) / 100 || 0;
+
+      // Construction costs (€/m²)
+      const brickBuildPerSqm = 1000;
+      const poliBuildPerSqm = 1050;
+
+      const brickBuild = surface * brickBuildPerSqm;
+      const poliBuild = surface * poliBuildPerSqm;
+
+      // Energy cost cumulated over years with inflation
+      function cumEnergy(kwhPerSqmYear) {
+        const baseYear = surface * kwhPerSqmYear * energyPrice;
+        if (inflation === 0) return baseYear * years;
+        // Sum of geometric series: baseYear * ((1+i)^years - 1) / i
+        return baseYear * (Math.pow(1 + inflation, years) - 1) / inflation;
+      }
+
+      const brickEnergy = cumEnergy(brickEnergyKwh);
+      const poliEnergy = cumEnergy(poliEnergyKwh);
+
+      // Maintenance over years (very rough)
+      // Brick: refresh termo at year 15 + minor stuff each year
+      const brickMaint = Math.min(years, 15) * (surface * 12) + Math.max(0, years - 15) * (surface * 18);
+      // Polistibrick: minimal
+      const poliMaint = years * (surface * 4);
+
+      const brickTotal = brickBuild + brickEnergy + brickMaint;
+      const poliTotal = poliBuild + poliEnergy + poliMaint;
+      const savings = brickTotal - poliTotal;
+
+      // Update DOM
+      document.getElementById('totalSavings').innerHTML = (savings > 0 ? fmt(savings).replace(' €', '') + ' <small>€</small>' : '— <small>€</small>');
+      document.getElementById('yearsLabel').textContent = years;
+      document.getElementById('surfaceLabel').textContent = surface;
+
+      document.getElementById('brickBuild').textContent = fmt(brickBuild);
+      document.getElementById('poliBuild').textContent = fmt(poliBuild);
+      document.getElementById('brickEnergy').textContent = fmt(brickEnergy);
+      document.getElementById('poliEnergy').textContent = fmt(poliEnergy);
+      document.getElementById('brickMaint').textContent = fmt(brickMaint);
+      document.getElementById('poliMaint').textContent = fmt(poliMaint);
+      document.getElementById('brickTotal').textContent = fmt(brickTotal);
+      document.getElementById('poliTotal').textContent = fmt(poliTotal);
+
+      document.getElementById('brickTotalLabel').textContent = fmt(brickTotal);
+      document.getElementById('poliTotalLabel').textContent = fmt(poliTotal);
+
+      // Bars: brick = 100%, Polistibrick = poliTotal/brickTotal * 100%
+      if (brickTotal > 0) {
+        const ratio = (poliTotal / brickTotal) * 100;
+        document.getElementById('poliBar').style.width = Math.max(20, ratio) + '%';
+      }
+    }
+
+    form.addEventListener('input', recalc);
+    form.addEventListener('change', recalc);
+    recalc();
+  })();
+</script>
+</body>
+</html>

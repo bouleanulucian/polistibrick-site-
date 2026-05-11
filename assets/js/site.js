@@ -91,8 +91,8 @@
         </div>
       </nav>
       <div class="nav-cta">
-        <a href="${BASE}contact/" class="btn btn-ghost">Contact</a>
-        <a href="${BASE}oferta/" class="btn btn-primary btn-arrow">Cere ofertă</a>
+        <a href="#" data-action="country-picker" class="btn btn-ghost">Contact</a>
+        <a href="#" data-action="country-picker" class="btn btn-primary btn-arrow">Cere ofertă</a>
       </div>
     </div>
   `;
@@ -140,7 +140,7 @@
             <li><a href="${BASE}despre/patent/">Patent</a></li>
             <li><a href="${BASE}despre/certificari/">Certificări</a></li>
             <li><a href="${BASE}despre/fabrici/">Fabrici</a></li>
-            <li><a href="${BASE}contact/">Contact</a></li>
+            <li><a href="#" data-action="country-picker">Contact</a></li>
           </ul>
         </div>
       </div>
@@ -297,10 +297,130 @@
     });
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
+  // ========================================================================
+  // COUNTRY PICKER — redirects users to their country site
+  // ========================================================================
+  const POLISTIBRICK_COUNTRIES = {
+    RO: { name: 'România', flag: '🇷🇴', url: 'https://polistibrick.ro' },
+    ES: { name: 'Spania', flag: '🇪🇸', url: 'https://polistibrick.es' },
+    FR: { name: 'Franța', flag: '🇫🇷', url: 'https://polistibrick.fr' },
+    BE: { name: 'Belgia', flag: '🇧🇪', url: 'https://polistibrick.be' },
+    IT: { name: 'Italia', flag: '🇮🇹', url: 'https://polistibrick.it' },
+    AT: { name: 'Austria', flag: '🇦🇹', url: 'https://polistibrick.at' },
+    GB: { name: 'United Kingdom', flag: '🇬🇧', url: 'https://polistibrick.uk' },
+    IE: { name: 'Irlanda', flag: '🇮🇪', url: 'https://polistibrick.ie' },
+    ME: { name: 'Muntenegru', flag: '🇲🇪', url: 'https://polistibrick.me' },
+  };
+  // Map non-Polistibrick European codes to nearest country (e.g., DE → AT, NL → BE)
+  const FALLBACK_COUNTRY = {
+    'DE': 'AT', 'NL': 'BE', 'LU': 'BE', 'CH': 'AT', 'PT': 'ES',
+    'HU': 'RO', 'BG': 'RO', 'MD': 'RO', 'PL': 'RO',
+    'GR': 'IT', 'HR': 'IT', 'SI': 'IT', 'SK': 'AT', 'CZ': 'AT',
+    'RS': 'ME', 'BA': 'ME', 'MK': 'ME', 'AL': 'ME',
+    'GB': 'GB', 'UK': 'GB',
+  };
+
+  let detectedCountry = null;
+
+  async function detectUserCountry() {
+    const cached = localStorage.getItem('pb_country');
+    if (cached && POLISTIBRICK_COUNTRIES[cached]) return cached;
+    try {
+      const resp = await fetch('https://ipapi.co/json/', { signal: AbortSignal.timeout(3000) });
+      const data = await resp.json();
+      let code = (data.country_code || '').toUpperCase();
+      // Direct hit?
+      if (POLISTIBRICK_COUNTRIES[code]) {
+        localStorage.setItem('pb_country', code);
+        return code;
+      }
+      // Try fallback (nearest Polistibrick country)
+      if (FALLBACK_COUNTRY[code] && POLISTIBRICK_COUNTRIES[FALLBACK_COUNTRY[code]]) {
+        return FALLBACK_COUNTRY[code];
+      }
+    } catch (e) {
+      // API timeout or fail — silently ignore
+    }
+    return null;
+  }
+
+  function buildCountryPickerModal() {
+    const modal = document.createElement('div');
+    modal.className = 'country-picker';
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Alege țara');
+    modal.innerHTML = `
+      <div class="country-picker-backdrop"></div>
+      <div class="country-picker-panel">
+        <button class="country-picker-close" aria-label="Închide">×</button>
+        <div class="country-picker-header">
+          <span class="country-picker-eyebrow">🌍 Alege țara ta</span>
+          <h2 class="country-picker-title">În ce țară <em>construiești?</em></h2>
+          <p class="country-picker-sub">Te redirecționăm la site-ul țării tale cu echipă locală, contact direct și ofertă în limba ta.</p>
+        </div>
+        <div class="country-picker-grid">
+          ${Object.entries(POLISTIBRICK_COUNTRIES).map(([code, c]) => `
+            <a href="${c.url}" class="country-picker-item ${code === detectedCountry ? 'is-detected' : ''}" data-country="${code}" target="_blank" rel="noopener">
+              <span class="country-picker-flag">${c.flag}</span>
+              <span class="country-picker-name">${c.name}</span>
+              ${code === detectedCountry ? '<span class="country-picker-tag">★ Țara ta</span>' : ''}
+            </a>
+          `).join('')}
+        </div>
+        <p class="country-picker-foot">Țara ta nu e listată? Scrie-ne la <a href="mailto:info@polistibrick.eu">info@polistibrick.eu</a></p>
+      </div>
+    `;
+    document.body.appendChild(modal);
+    modal.querySelector('.country-picker-close').addEventListener('click', closeCountryPicker);
+    modal.querySelector('.country-picker-backdrop').addEventListener('click', closeCountryPicker);
+    return modal;
+  }
+
+  function openCountryPicker() {
+    let modal = document.querySelector('.country-picker');
+    if (!modal) modal = buildCountryPickerModal();
+    requestAnimationFrame(() => modal.classList.add('is-open'));
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeCountryPicker() {
+    const modal = document.querySelector('.country-picker');
+    if (modal) modal.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+
+  function wireCountryPickerButtons() {
+    // Any element with [data-action="country-picker"] opens the picker
+    document.body.addEventListener('click', (e) => {
+      const trigger = e.target.closest('[data-action="country-picker"]');
+      if (trigger) {
+        e.preventDefault();
+        openCountryPicker();
+        return;
+      }
+      // Also intercept links to old /oferta/, /contact/, /devino-partener/ paths
+      const link = e.target.closest('a[href]');
+      if (link) {
+        const href = link.getAttribute('href');
+        if (href && /(\/oferta\/|\/contact\/|\/devino-partener\/)/.test(href)) {
+          e.preventDefault();
+          openCountryPicker();
+        }
+      }
+    });
+    document.addEventListener('keydown', (e) => {
+      const modal = document.querySelector('.country-picker');
+      if (e.key === 'Escape' && modal && modal.classList.contains('is-open')) closeCountryPicker();
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', async () => {
     inject();
     navShadow();
     reveal();
     gallery();
+    wireCountryPickerButtons();
+    detectedCountry = await detectUserCountry();
   });
 })();

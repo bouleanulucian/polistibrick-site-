@@ -227,27 +227,142 @@
   </div>
 </section>
 
-<!-- GALLERY -->
+<!-- GALLERY (with tabs + lightbox) -->
 <section class="section">
   <div class="container">
     <div class="reveal" style="text-align:center;margin-bottom:30px;">
       <span class="eyebrow">Galerie foto</span>
       <h2>Cum a fost <em>pas cu pas.</em></h2>
+      <p class="lead" style="margin-top:14px;max-width:620px;margin-left:auto;margin-right:auto;">Apasă orice imagine pentru a o vedea la dimensiune mare. Filtrează după etapă.</p>
     </div>
-    <div class="cs-gallery reveal">
-      
-        <div class="img-placeholder">[Foto: șantier la început]</div>
-        <div class="img-placeholder">[Foto: pereți MBK montați]</div>
-        <div class="img-placeholder">[Foto: piscină + casa]</div>
-        <div class="img-placeholder">[Foto: living interior]</div>
-        <div class="img-placeholder">[Foto: fațadă mediteraneană]</div>
-        <div class="img-placeholder">[Foto: panouri solare pe TBK]</div>
-        <div class="img-placeholder">[Foto: terasă cu vedere]</div>
-        <div class="img-placeholder">[Foto: factură electric vara]</div>
-        <div class="img-placeholder">[Foto: familia la mutare]</div>
+
+    <div class="reveal" data-gallery>
+      <div class="gallery-tabs">
+        <button class="gallery-tab is-active" data-filter="all">Toate <span class="gallery-tab-count"></span></button>
+        <button class="gallery-tab" data-filter="construction">În construcție <span class="gallery-tab-count"></span></button>
+        <button class="gallery-tab" data-filter="final">Finalizat <span class="gallery-tab-count"></span></button>
+      </div>
+
+      <div class="gallery-grid">
+        <a href="#" class="gallery-item" data-category="construction" data-caption="Teren mediteranean înainte de construcție.">
+          <div class="gallery-item-placeholder">[Foto: Înainte — teren]</div>
+          <span class="gallery-item-tag">Construcție</span>
+          <div class="gallery-item-caption">Teren mediteranean înainte de construcție.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="construction" data-caption="Excavare și fundație tip placă.">
+          <div class="gallery-item-placeholder">[Foto: Săpt. 1 — Fundație]</div>
+          <span class="gallery-item-tag">Construcție</span>
+          <div class="gallery-item-caption">Excavare și fundație tip placă.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="construction" data-caption="Pereți MBK 210 (optimizați climă caldă).">
+          <div class="gallery-item-placeholder">[Foto: Săpt. 2 — Pereți parter]</div>
+          <span class="gallery-item-tag">Construcție</span>
+          <div class="gallery-item-caption">Pereți MBK 210 (optimizați climă caldă).</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="construction" data-caption="Detaliu sistem îmbinare brevetat — eliminate punți termice.">
+          <div class="gallery-item-placeholder">[Foto: Săpt. 2 — Detalii]</div>
+          <span class="gallery-item-tag">Construcție</span>
+          <div class="gallery-item-caption">Detaliu sistem îmbinare brevetat — eliminate punți termice.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="construction" data-caption="Acoperiș TBK 250 montat — un singur strat, performanță Passivhaus.">
+          <div class="gallery-item-placeholder">[Foto: Săpt. 3 — Acoperiș]</div>
+          <span class="gallery-item-tag">Construcție</span>
+          <div class="gallery-item-caption">Acoperiș TBK 250 montat — un singur strat, performanță Passivhaus.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="construction" data-caption="Pregătire pentru turnare beton (cantitatea optimă pre-calculată).">
+          <div class="gallery-item-placeholder">[Foto: Săpt. 3 — Pregătire]</div>
+          <span class="gallery-item-tag">Construcție</span>
+          <div class="gallery-item-caption">Pregătire pentru turnare beton (cantitatea optimă pre-calculată).</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="construction" data-caption="Turnare beton într-o singură etapă pentru toți pereții.">
+          <div class="gallery-item-placeholder">[Foto: Săpt. 4 — Turnare]</div>
+          <span class="gallery-item-tag">Construcție</span>
+          <div class="gallery-item-caption">Turnare beton într-o singură etapă pentru toți pereții.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="construction" data-caption="Tâmplărie cu sticlă low-e pentru filtrare solară.">
+          <div class="gallery-item-placeholder">[Foto: Săpt. 4-5 — Tâmplărie]</div>
+          <span class="gallery-item-tag">Construcție</span>
+          <div class="gallery-item-caption">Tâmplărie cu sticlă low-e pentru filtrare solară.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="construction" data-caption="Panouri solare instalate pe TBK.">
+          <div class="gallery-item-placeholder">[Foto: Săpt. 5 — Solar]</div>
+          <span class="gallery-item-tag">Construcție</span>
+          <div class="gallery-item-caption">Panouri solare instalate pe TBK.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="construction" data-caption="Construcție piscină exterioară integrată.">
+          <div class="gallery-item-placeholder">[Foto: Săpt. 6 — Piscină]</div>
+          <span class="gallery-item-tag">Construcție</span>
+          <div class="gallery-item-caption">Construcție piscină exterioară integrată.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="construction" data-caption="Tencuieli exterioare reflectorizante.">
+          <div class="gallery-item-placeholder">[Foto: Săpt. 6-7 — Fațadă]</div>
+          <span class="gallery-item-tag">Construcție</span>
+          <div class="gallery-item-caption">Tencuieli exterioare reflectorizante.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="construction" data-caption="Finisaje interioare — gresie naturală.">
+          <div class="gallery-item-placeholder">[Foto: Săpt. 7 — Interior]</div>
+          <span class="gallery-item-tag">Construcție</span>
+          <div class="gallery-item-caption">Finisaje interioare — gresie naturală.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="final" data-caption="Vedere exterior cu piscină.">
+          <div class="gallery-item-placeholder">[Foto: Exterior + piscină]</div>
+          <span class="gallery-item-tag">Finalizat</span>
+          <div class="gallery-item-caption">Vedere exterior cu piscină.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="final" data-caption="Fațadă mediteraneană cu balcon.">
+          <div class="gallery-item-placeholder">[Foto: Fațadă]</div>
+          <span class="gallery-item-tag">Finalizat</span>
+          <div class="gallery-item-caption">Fațadă mediteraneană cu balcon.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="final" data-caption="Living open-space cu vedere mare.">
+          <div class="gallery-item-placeholder">[Foto: Living]</div>
+          <span class="gallery-item-tag">Finalizat</span>
+          <div class="gallery-item-caption">Living open-space cu vedere mare.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="final" data-caption="Bucătărie integrată mediteraneană.">
+          <div class="gallery-item-placeholder">[Foto: Bucătărie]</div>
+          <span class="gallery-item-tag">Finalizat</span>
+          <div class="gallery-item-caption">Bucătărie integrată mediteraneană.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="final" data-caption="Dormitor matrimonial cu balcon.">
+          <div class="gallery-item-placeholder">[Foto: Dormitor]</div>
+          <span class="gallery-item-tag">Finalizat</span>
+          <div class="gallery-item-caption">Dormitor matrimonial cu balcon.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="final" data-caption="Baie cu finisaje naturale.">
+          <div class="gallery-item-placeholder">[Foto: Baie]</div>
+          <span class="gallery-item-tag">Finalizat</span>
+          <div class="gallery-item-caption">Baie cu finisaje naturale.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="final" data-caption="Terasă superioară pentru cină.">
+          <div class="gallery-item-placeholder">[Foto: Terasă]</div>
+          <span class="gallery-item-tag">Finalizat</span>
+          <div class="gallery-item-caption">Terasă superioară pentru cină.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="final" data-caption="Casa vara — fără AC niciodată pornit.">
+          <div class="gallery-item-placeholder">[Foto: Vara fără AC]</div>
+          <span class="gallery-item-tag">Finalizat</span>
+          <div class="gallery-item-caption">Casa vara — fără AC niciodată pornit.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="final" data-caption="Factura electrică vara 2024: 58 €/lună.">
+          <div class="gallery-item-placeholder">[Foto: Factură vară]</div>
+          <span class="gallery-item-tag">Finalizat</span>
+          <div class="gallery-item-caption">Factura electrică vara 2024: 58 €/lună.</div>
+        </a>
+      </div>
     </div>
   </div>
 </section>
+
+<!-- LIGHTBOX (at body level, click any gallery item to open) -->
+<div class="lightbox" role="dialog" aria-modal="true" aria-label="Galerie foto">
+  <span class="lightbox-counter">1 / 1</span>
+  <button class="lightbox-close" aria-label="Închide">×</button>
+  <button class="lightbox-prev" aria-label="Imaginea anterioară">‹</button>
+  <button class="lightbox-next" aria-label="Imaginea următoare">›</button>
+  <img class="lightbox-img" src="" alt="">
+  <div class="lightbox-caption"></div>
+</div>
 
 <!-- CTA -->
 <section class="section section--tight">

@@ -228,27 +228,147 @@
   </div>
 </section>
 
-<!-- GALLERY -->
+<!-- GALLERY (with tabs + lightbox) -->
 <section class="section">
   <div class="container">
     <div class="reveal" style="text-align:center;margin-bottom:30px;">
       <span class="eyebrow">Galerie foto</span>
       <h2>Cum a fost <em>pas cu pas.</em></h2>
+      <p class="lead" style="margin-top:14px;max-width:620px;margin-left:auto;margin-right:auto;">Apasă orice imagine pentru a o vedea la dimensiune mare. Filtrează după etapă.</p>
     </div>
-    <div class="cs-gallery reveal">
-      
-        <div class="img-placeholder">[Foto: rendering arhitect]</div>
-        <div class="img-placeholder">[Foto: șantier - ridicare module 1]</div>
-        <div class="img-placeholder">[Foto: montaj coordonat]</div>
-        <div class="img-placeholder">[Foto: vedere ansamblu]</div>
-        <div class="img-placeholder">[Foto: o unitate finalizată]</div>
-        <div class="img-placeholder">[Foto: spațiu comun verde]</div>
-        <div class="img-placeholder">[Foto: certificat Passivhaus]</div>
-        <div class="img-placeholder">[Foto: receptie cu autorități]</div>
-        <div class="img-placeholder">[Foto: locatari mutați]</div>
+
+    <div class="reveal" data-gallery>
+      <div class="gallery-tabs">
+        <button class="gallery-tab is-active" data-filter="all">Toate <span class="gallery-tab-count"></span></button>
+        <button class="gallery-tab" data-filter="construction">În construcție <span class="gallery-tab-count"></span></button>
+        <button class="gallery-tab" data-filter="final">Finalizat <span class="gallery-tab-count"></span></button>
+      </div>
+
+      <div class="gallery-grid">
+        <a href="#" class="gallery-item" data-category="construction" data-caption="Rendering arhitect al ansamblului final.">
+          <div class="gallery-item-placeholder">[Foto: Rendering proiect]</div>
+          <span class="gallery-item-tag">Construcție</span>
+          <div class="gallery-item-caption">Rendering arhitect al ansamblului final.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="construction" data-caption="Lucrări de terasament pentru toate 24 unități.">
+          <div class="gallery-item-placeholder">[Foto: Luna 1 — Terasament]</div>
+          <span class="gallery-item-tag">Construcție</span>
+          <div class="gallery-item-caption">Lucrări de terasament pentru toate 24 unități.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="construction" data-caption="Fundații continue pentru module 1+2.">
+          <div class="gallery-item-placeholder">[Foto: Luna 1 — Fundații module 1+2]</div>
+          <span class="gallery-item-tag">Construcție</span>
+          <div class="gallery-item-caption">Fundații continue pentru module 1+2.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="construction" data-caption="Montaj coordonat pe 2 unități simultan.">
+          <div class="gallery-item-placeholder">[Foto: Luna 2 — Module 1+2]</div>
+          <span class="gallery-item-tag">Construcție</span>
+          <div class="gallery-item-caption">Montaj coordonat pe 2 unități simultan.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="construction" data-caption="Pereți MBK 270 ridicați pe mai multe case.">
+          <div class="gallery-item-placeholder">[Foto: Luna 2 — Pereți]</div>
+          <span class="gallery-item-tag">Construcție</span>
+          <div class="gallery-item-caption">Pereți MBK 270 ridicați pe mai multe case.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="construction" data-caption="Module 3+4 încep în paralel cu finisaje pe primele.">
+          <div class="gallery-item-placeholder">[Foto: Luna 3 — Module 3+4]</div>
+          <span class="gallery-item-tag">Construcție</span>
+          <div class="gallery-item-caption">Module 3+4 încep în paralel cu finisaje pe primele.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="construction" data-caption="Acoperișuri TBK pentru toate 24 unități.">
+          <div class="gallery-item-placeholder">[Foto: Luna 3 — Acoperișuri]</div>
+          <span class="gallery-item-tag">Construcție</span>
+          <div class="gallery-item-caption">Acoperișuri TBK pentru toate 24 unități.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="construction" data-caption="Vedere drone de șantier la mijloc execuție.">
+          <div class="gallery-item-placeholder">[Foto: Luna 4 — Vedere drone]</div>
+          <span class="gallery-item-tag">Construcție</span>
+          <div class="gallery-item-caption">Vedere drone de șantier la mijloc execuție.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="construction" data-caption="Tâmplărie certificată Passivhaus pe ultimele case.">
+          <div class="gallery-item-placeholder">[Foto: Luna 4 — Tâmplărie]</div>
+          <span class="gallery-item-tag">Construcție</span>
+          <div class="gallery-item-caption">Tâmplărie certificată Passivhaus pe ultimele case.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="construction" data-caption="Instalații VMC pentru toate unitățile.">
+          <div class="gallery-item-placeholder">[Foto: Luna 5 — Instalații]</div>
+          <span class="gallery-item-tag">Construcție</span>
+          <div class="gallery-item-caption">Instalații VMC pentru toate unitățile.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="construction" data-caption="Verificare Blower Door pe primul module.">
+          <div class="gallery-item-placeholder">[Foto: Luna 5 — Test]</div>
+          <span class="gallery-item-tag">Construcție</span>
+          <div class="gallery-item-caption">Verificare Blower Door pe primul module.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="construction" data-caption="Recepție tehnică cu autorități locale.">
+          <div class="gallery-item-placeholder">[Foto: Luna 6 — Recepție]</div>
+          <span class="gallery-item-tag">Construcție</span>
+          <div class="gallery-item-caption">Recepție tehnică cu autorități locale.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="final" data-caption="Vedere finală ansamblu — 24 case.">
+          <div class="gallery-item-placeholder">[Foto: Ansamblu finalizat]</div>
+          <span class="gallery-item-tag">Finalizat</span>
+          <div class="gallery-item-caption">Vedere finală ansamblu — 24 case.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="final" data-caption="Unitate individuală — fațadă finisată.">
+          <div class="gallery-item-placeholder">[Foto: Unitate model]</div>
+          <span class="gallery-item-tag">Finalizat</span>
+          <div class="gallery-item-caption">Unitate individuală — fațadă finisată.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="final" data-caption="Spațiu comun verde între unități.">
+          <div class="gallery-item-placeholder">[Foto: Spațiu comun]</div>
+          <span class="gallery-item-tag">Finalizat</span>
+          <div class="gallery-item-caption">Spațiu comun verde între unități.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="final" data-caption="Strada principală a ansamblului.">
+          <div class="gallery-item-placeholder">[Foto: Stradă internă]</div>
+          <span class="gallery-item-tag">Finalizat</span>
+          <div class="gallery-item-caption">Strada principală a ansamblului.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="final" data-caption="Detaliu fațadă cu balcoane.">
+          <div class="gallery-item-placeholder">[Foto: Detaliu fațadă]</div>
+          <span class="gallery-item-tag">Finalizat</span>
+          <div class="gallery-item-caption">Detaliu fațadă cu balcoane.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="final" data-caption="Interior model — living open-space.">
+          <div class="gallery-item-placeholder">[Foto: Interior 1]</div>
+          <span class="gallery-item-tag">Finalizat</span>
+          <div class="gallery-item-caption">Interior model — living open-space.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="final" data-caption="Bucătărie model — finisaje moderne.">
+          <div class="gallery-item-placeholder">[Foto: Bucătărie model]</div>
+          <span class="gallery-item-tag">Finalizat</span>
+          <div class="gallery-item-caption">Bucătărie model — finisaje moderne.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="final" data-caption="Certificat Passivhaus pentru toate 24 unități.">
+          <div class="gallery-item-placeholder">[Foto: Certificat oficial]</div>
+          <span class="gallery-item-tag">Finalizat</span>
+          <div class="gallery-item-caption">Certificat Passivhaus pentru toate 24 unități.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="final" data-caption="Predare cheilor către primii locatari.">
+          <div class="gallery-item-placeholder">[Foto: Predare chei]</div>
+          <span class="gallery-item-tag">Finalizat</span>
+          <div class="gallery-item-caption">Predare cheilor către primii locatari.</div>
+        </a>
+        <a href="#" class="gallery-item" data-category="final" data-caption="Locatari mutați după 6 luni.">
+          <div class="gallery-item-placeholder">[Foto: Locuit]</div>
+          <span class="gallery-item-tag">Finalizat</span>
+          <div class="gallery-item-caption">Locatari mutați după 6 luni.</div>
+        </a>
+      </div>
     </div>
   </div>
 </section>
+
+<!-- LIGHTBOX (at body level, click any gallery item to open) -->
+<div class="lightbox" role="dialog" aria-modal="true" aria-label="Galerie foto">
+  <span class="lightbox-counter">1 / 1</span>
+  <button class="lightbox-close" aria-label="Închide">×</button>
+  <button class="lightbox-prev" aria-label="Imaginea anterioară">‹</button>
+  <button class="lightbox-next" aria-label="Imaginea următoare">›</button>
+  <img class="lightbox-img" src="" alt="">
+  <div class="lightbox-caption"></div>
+</div>
 
 <!-- CTA -->
 <section class="section section--tight">

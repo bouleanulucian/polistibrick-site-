@@ -2437,26 +2437,28 @@
     opacity: 0;
     pointer-events: none;
   }
-  /* Mobile: keep floating-product visible but small + fixed bottom-right.
-     Inline-style transform set by JS is overriden via !important so the image
-     stays put. The crossfade between products (mbk → pbk → tbk → robot etc.)
-     still works because that toggles .is-active on the <img>, not transform. */
+  /* Mobile: hide the floating-product entirely. Per-section inline images take over. */
   @media (max-width: 768px) {
-    .floating-product {
-      width: 140px !important;
-      top: auto !important;
-      bottom: 16px !important;
-      right: 16px !important;
-      left: auto !important;
-      transform: none !important;
-      opacity: 0.92 !important;
-      z-index: 40;
+    .floating-product { display: none; }
+  }
+
+  /* Mobile-only inline product image — appears INSIDE each section, contextual to content. */
+  .mobile-product {
+    display: none;
+  }
+  @media (max-width: 768px) {
+    .mobile-product {
+      display: block;
+      width: 100%;
+      max-width: 340px;
+      aspect-ratio: 1;
+      margin: 28px auto 8px;
+      object-fit: contain;
+      filter: drop-shadow(0 18px 30px rgba(0,0,0,0.18));
     }
-    .floating-product .product-img-stack { animation: none !important; }
-    .floating-product .pi { filter: drop-shadow(0 12px 20px rgba(0,0,0,0.18)); }
   }
   @media (max-width: 480px) {
-    .floating-product { width: 110px !important; bottom: 12px !important; right: 12px !important; }
+    .mobile-product { max-width: 260px; margin: 20px auto 0; }
   }
 
   /* === HONEYCOMB FIELD — visible above all content === */
@@ -2601,6 +2603,8 @@
       <a href="oferta/" class="btn btn-red btn-large">Cere o ofertă →</a>
       <a href="#produse" class="btn btn-ghost btn-large">Cum funcționează</a>
     </div>
+
+    <img class="mobile-product reveal" src="images/robot.png" alt="Polistibrick — Construcție inteligentă" loading="lazy">
 
     <!-- Floating product is rendered at body level so it stays visible across sections -->
   </div>
@@ -2866,6 +2870,7 @@
           <span class="bubble-tag">Pereți · MBK</span>
           <h3>Perete finit <em>5 în 1.</em></h3>
           <p><strong>3 modele predefinite</strong> — de la premium la pasiv A+++ — plus posibilitatea de a crea la comandă produsul potrivit construcției dorite, <strong>fără costuri suplimentare</strong>. MBK este singurul sistem ICF care se adaptează nevoilor tale personalizate.</p>
+          <img class="mobile-product" src="images/mbk-wall.png" alt="Polistibrick MBK — perete" loading="lazy">
           <a href="produse/pereti-mbk/" class="product-cta">Vezi detalii MBK</a>
         </div>
       </div>
@@ -2886,6 +2891,7 @@
           <span class="bubble-tag">Planșee · PBK</span>
           <h3>Deschideri de până la <em>9 m fără grinzi.</em></h3>
           <p>PBK este un sistem prefabricat pentru planșee, ușor și ultra-rezistent. Combină polistirenul, fibrocementul și betonul armat pentru o izolație termică și fonică superioară, cu defazaj de până la 10,8 ore. Suportă deschideri de până la 9 metri.</p>
+          <img class="mobile-product" src="images/pbk-floor.png" alt="Polistibrick PBK — planșeu" loading="lazy">
           <a href="produse/planseu-pbk/" class="product-cta">Vezi detalii PBK</a>
         </div>
       </div>
@@ -2906,6 +2912,7 @@
           <span class="bubble-tag">Acoperiș · TBK</span>
           <h3>Passivhaus <em>direct din fabrică.</em></h3>
           <p>TBK este un sistem complet pentru acoperișuri cu deschideri standard de până la 9 metri. Performanță Passivhaus din fabrică (U=0,13 W/m²K), grosime 25 cm, doar 22 kg/m². Izolat și rezistent — fără izolație adițională.</p>
+          <img class="mobile-product" src="images/tbk-roof.png" alt="Polistibrick TBK — acoperiș" loading="lazy">
           <a href="produse/acoperis-tbk/" class="product-cta">Vezi detalii TBK</a>
         </div>
       </div>
@@ -3304,6 +3311,7 @@
       <div class="cta-box-eyebrow">CONSTRUIEȘTE CU NOI</div>
       <h2>Hai să construim<br><em>casa ta din viitor.</em></h2>
       <p>Spune-ne despre proiectul tău. Îți pregătim o ofertă personalizată în 48 de ore — fără obligații.</p>
+      <img class="mobile-product" src="images/robot.png" alt="Polistibrick — Construcție inteligentă" loading="lazy">
       <div class="cta-actions">
         <a href="oferta/" class="btn btn-on-dark btn-large">Cere o ofertă →</a>
         <a href="tel:+34642777216" class="btn btn-on-dark-ghost btn-large">+34 642 777 216</a>

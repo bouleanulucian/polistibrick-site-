@@ -352,6 +352,108 @@
   @media (max-width: 1100px) {
     .nav-menu { display: none; }
   }
+
+  /* === HAMBURGER + MOBILE DRAWER (≤1100px) === */
+  .nav-burger {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 44px; height: 44px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 10px;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+  .nav-burger:hover { background: var(--cream); border-color: var(--ink-soft); }
+  .nav-burger span {
+    display: block;
+    width: 18px; height: 2px;
+    background: var(--ink);
+    border-radius: 2px;
+    position: relative;
+    transition: transform 0.25s ease, opacity 0.25s ease, top 0.25s ease;
+  }
+  .nav-burger span:nth-child(1) { top: -5px; }
+  .nav-burger span:nth-child(2) { top: -3px; }
+  .nav-burger span:nth-child(3) { top: -1px; }
+  .nav-burger.open span:nth-child(1) { top: 1px; transform: rotate(45deg); }
+  .nav-burger.open span:nth-child(2) { opacity: 0; }
+  .nav-burger.open span:nth-child(3) { top: -3px; transform: rotate(-45deg); }
+
+  .nav-drawer {
+    position: fixed;
+    top: 0; right: 0;
+    width: min(360px, 86vw);
+    height: 100vh;
+    background: var(--cream-light);
+    border-left: 1px solid var(--border);
+    box-shadow: -20px 0 60px rgba(0,0,0,0.15);
+    z-index: 1000;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    overflow-y: auto;
+    padding: 80px 28px 32px;
+    visibility: hidden;
+  }
+  .nav-drawer.open { transform: translateX(0); visibility: visible; }
+  .nav-drawer-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15,15,15,0.4);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+  .nav-drawer-overlay.open { opacity: 1; visibility: visible; }
+  .nav-drawer-group { margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+  .nav-drawer-group:last-child { border-bottom: none; }
+  .nav-drawer-group > .nav-drawer-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-bottom: 8px;
+  }
+  .nav-drawer a {
+    display: block;
+    padding: 9px 4px;
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    transition: color 0.15s ease, padding-left 0.2s ease;
+  }
+  .nav-drawer a:hover, .nav-drawer a:focus {
+    color: var(--red);
+    padding-left: 8px;
+  }
+  .nav-drawer a.partner-link { color: var(--red); font-weight: 600; }
+  .nav-drawer-cta {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .nav-drawer-cta .btn {
+    width: 100%;
+    justify-content: center;
+    padding: 14px 20px;
+    font-size: 14px;
+  }
+  body.nav-open { overflow: hidden; }
+
+  @media (max-width: 1100px) {
+    .nav-burger { display: inline-flex; }
+  }
+  @media (max-width: 640px) {
+    /* Ascunde butonul Contact din nav-cta — ramane doar Cere oferta + hamburger */
+    .nav-cta .btn-ghost { display: none; }
+  }
   .btn {
     display: inline-flex;
     align-items: center;
@@ -2686,9 +2788,67 @@
     <div class="nav-cta">
       <a href="contact/" class="btn btn-ghost">Contact</a>
       <a href="oferta/" class="btn btn-primary">Cere o ofertă →</a>
+      <button class="nav-burger" id="navBurger" aria-label="Deschide meniul" aria-expanded="false" aria-controls="navDrawer">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </div>
 </nav>
+
+<!-- MOBILE DRAWER + OVERLAY -->
+<div class="nav-drawer-overlay" id="navDrawerOverlay" aria-hidden="true"></div>
+<aside class="nav-drawer" id="navDrawer" aria-label="Meniu mobil" aria-hidden="true">
+
+  <div class="nav-drawer-group">
+    <div class="nav-drawer-title">Produse</div>
+    <a href="produse/pereti-mbk/">Pereți MBK</a>
+    <a href="produse/planseu-pbk/">Planșee PBK</a>
+    <a href="produse/acoperis-tbk/">Acoperiș TBK</a>
+    <a href="produse/accesorii/">Accesorii</a>
+  </div>
+
+  <div class="nav-drawer-group">
+    <div class="nav-drawer-title">Soluții</div>
+    <a href="pentru/proprietari/">Pentru proprietari</a>
+    <a href="pentru/arhitecti/">Pentru arhitecți</a>
+    <a href="pentru/constructori/">Pentru constructori</a>
+    <a href="pentru/investitori/">Pentru investitori</a>
+    <a href="devino-partener/" class="partner-link">→ Devino partener</a>
+  </div>
+
+  <div class="nav-drawer-group">
+    <div class="nav-drawer-title">Proiecte</div>
+    <a href="proiecte/">Case construite</a>
+    <a href="testimoniale/">Testimoniale video</a>
+  </div>
+
+  <div class="nav-drawer-group">
+    <div class="nav-drawer-title">Calculator</div>
+    <a href="calculator/">Calculator cost</a>
+    <a href="economii/">Calculator economii</a>
+  </div>
+
+  <div class="nav-drawer-group">
+    <div class="nav-drawer-title">Resurse</div>
+    <a href="resurse/blog/">Blog</a>
+    <a href="resurse/faq/">Întrebări frecvente</a>
+  </div>
+
+  <div class="nav-drawer-group">
+    <div class="nav-drawer-title">Despre</div>
+    <a href="despre/">Compania</a>
+    <a href="despre/patent/">Patent</a>
+    <a href="despre/certificari/">Certificări</a>
+    <a href="despre/fabrici/">Fabrici</a>
+    <a href="despre/echipa/">Echipa</a>
+  </div>
+
+  <div class="nav-drawer-cta">
+    <a href="contact/" class="btn btn-ghost">Contact</a>
+    <a href="oferta/" class="btn btn-primary">Cere o ofertă →</a>
+  </div>
+
+</aside>
 
 <!-- HERO -->
 <section class="hero">
@@ -3480,6 +3640,39 @@
 <script>
   // === Nav scroll effect ===
   const nav = document.getElementById('nav');
+
+  // === Mobile drawer toggle ===
+  (function() {
+    const burger = document.getElementById('navBurger');
+    const drawer = document.getElementById('navDrawer');
+    const overlay = document.getElementById('navDrawerOverlay');
+    if (!burger || !drawer || !overlay) return;
+
+    function open() {
+      burger.classList.add('open');
+      drawer.classList.add('open');
+      overlay.classList.add('open');
+      document.body.classList.add('nav-open');
+      burger.setAttribute('aria-expanded', 'true');
+      drawer.setAttribute('aria-hidden', 'false');
+      overlay.setAttribute('aria-hidden', 'false');
+    }
+    function close() {
+      burger.classList.remove('open');
+      drawer.classList.remove('open');
+      overlay.classList.remove('open');
+      document.body.classList.remove('nav-open');
+      burger.setAttribute('aria-expanded', 'false');
+      drawer.setAttribute('aria-hidden', 'true');
+      overlay.setAttribute('aria-hidden', 'true');
+    }
+    burger.addEventListener('click', () => {
+      drawer.classList.contains('open') ? close() : open();
+    });
+    overlay.addEventListener('click', close);
+    drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+  })();
 
   // === Reveal animations (Intersection Observer) ===
   // Mobile: trigger MUCH earlier (200px before element enters viewport) + threshold 0

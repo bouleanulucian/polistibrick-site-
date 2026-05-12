@@ -130,13 +130,19 @@
   }
   /* Footer can be shorter than a full page */
   footer { min-height: auto; padding: 80px 0 40px; }
-  /* On small viewports, drop snap (it interferes with mobile scroll) */
+  /* On small viewports, drop snap completely + free-flow like a newspaper */
   @media (max-width: 768px) {
-    html { scroll-snap-type: none; }
+    html {
+      scroll-snap-type: none;
+      scroll-padding-top: 0;
+      scroll-behavior: auto;
+    }
     .hero, .stats-section, .system-section, .reach-section, .product-page,
     .montaj-section, .why-section, .comparison-section, .cta-section {
       min-height: auto;
       display: block;
+      scroll-snap-align: none;
+      scroll-snap-stop: normal;
     }
   }
 
@@ -2577,6 +2583,21 @@
 
     /* Inline mobile-product image — nu trebuie sa depaseasca latimea sectiunii */
     .mobile-product { max-width: 100%; }
+
+    /* Reveal animations: mai blande + mai rapide pe mobil (sa apara IN TIMP cu scroll-ul) */
+    .reveal {
+      transform: translateY(24px) scale(0.98);
+      transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    }
+    .reveal.visible { transform: translateY(0) scale(1); }
+
+    /* Section transforms (.fabrici-stage-wrap) sa fie identice cu .reveal pe mobil */
+    .fabrici-stage-wrap.reveal {
+      transform: translateY(24px) scale(0.98) translateX(0) !important;
+    }
+    .fabrici-stage-wrap.reveal.visible {
+      transform: translateY(0) scale(1) translateX(0) !important;
+    }
   }
 </style>
 </head>
@@ -3461,13 +3482,18 @@
   const nav = document.getElementById('nav');
 
   // === Reveal animations (Intersection Observer) ===
+  // Mobile: trigger MUCH earlier (200px before element enters viewport) + threshold 0
+  // Desktop: keep the dramatic reveal (12% intersection + -80px bottom margin)
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
       }
     });
-  }, { threshold: 0.12, rootMargin: '0px 0px -80px 0px' });
+  }, isMobile
+    ? { threshold: 0, rootMargin: '0px 0px 200px 0px' }
+    : { threshold: 0.12, rootMargin: '0px 0px -80px 0px' });
 
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 

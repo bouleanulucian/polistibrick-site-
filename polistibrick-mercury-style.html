@@ -32,6 +32,8 @@
     scroll-snap-type: y mandatory;
     /* Offset snap by the fixed nav height so content doesn't hide under it */
     scroll-padding-top: 88px;
+    /* Prevent horizontal scroll from any wide element (watermarks at 100vw, SVG map etc) */
+    overflow-x: hidden;
   }
   /* Each main section is one "page" */
   .hero,
@@ -2568,6 +2570,13 @@
     .produse-watermark, .fabrici-watermark, .compare-watermark, .montaj-watermark {
       font-size: clamp(56px, 16vw, 110px);
     }
+
+    /* SVG harta Europei sa fie clar constranjat in viewport */
+    .reach-map { max-width: 100%; overflow: hidden; }
+    .reach-svg { width: 100%; max-height: 320px; }
+
+    /* Inline mobile-product image — nu trebuie sa depaseasca latimea sectiunii */
+    .mobile-product { max-width: 100%; }
   }
 </style>
 </head>

@@ -2895,6 +2895,250 @@
   </div>
 </section>
 
+<!-- MONTAJ — 4 etape de construcție Polistibrick -->
+<style>
+  .montaj-section {
+    background: var(--cream);
+    padding: clamp(80px, 10vw, 140px) 0 clamp(60px, 8vw, 100px);
+  }
+  .montaj-stage-wrap {
+    position: relative;
+    margin: 70px auto 0;
+  }
+  .montaj-stage {
+    position: relative;
+    background: var(--cream-light);
+    border: 1px solid var(--border);
+    border-radius: 32px;
+    padding: 80px 64px 64px;
+    overflow: visible;
+  }
+  .montaj-watermark {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 100vw;
+    margin-left: -50vw;
+    pointer-events: none;
+    user-select: none;
+    transform: translateY(-50%);
+    height: 1em;
+    line-height: 1;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: var(--serif);
+    font-size: clamp(80px, 13vw, 220px);
+    font-weight: 500;
+    letter-spacing: -0.06em;
+    z-index: 2;
+  }
+  .montaj-watermark .wm-half {
+    position: absolute; inset: 0; width: 100%; display: block;
+  }
+  .montaj-watermark .wm-top {
+    color: transparent;
+    -webkit-text-stroke: 1.4px rgba(15,15,15,0.30);
+    clip-path: inset(0 0 50% 0);
+  }
+  .montaj-watermark .wm-bottom {
+    color: var(--cream-dark);
+    opacity: 0.65;
+    clip-path: inset(50% 0 0 0);
+  }
+  .montaj-intro {
+    max-width: 760px;
+    margin: 0 auto 56px;
+    text-align: center;
+  }
+  .montaj-intro .bubble-tag {
+    display: inline-block;
+    background: var(--red-soft);
+    color: var(--red);
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .montaj-intro h2 {
+    font-family: var(--serif);
+    font-size: clamp(30px, 3.4vw, 48px);
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    margin-bottom: 16px;
+  }
+  .montaj-intro h2 em { font-style: italic; color: var(--red); font-weight: 400; }
+  .montaj-intro p { font-size: 16px; color: var(--gray); line-height: 1.65; }
+
+  .montaj-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-bottom: 48px;
+  }
+  .montaj-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    overflow: hidden;
+    transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s ease;
+    position: relative;
+  }
+  .montaj-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+  }
+  .montaj-img {
+    aspect-ratio: 16/10;
+    overflow: hidden;
+    background: var(--cream);
+  }
+  .montaj-img img {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+    transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);
+  }
+  .montaj-card:hover .montaj-img img { transform: scale(1.04); }
+  .montaj-num {
+    position: absolute;
+    top: 14px; left: 14px;
+    background: var(--ink);
+    color: var(--cream);
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 16px;
+    z-index: 2;
+    letter-spacing: 0;
+  }
+  .montaj-card-body { padding: 22px 22px 24px; }
+  .montaj-card h3 {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+  .montaj-card p {
+    font-size: 13.5px;
+    color: var(--gray);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  .montaj-cta {
+    background: var(--ink);
+    color: var(--cream);
+    border-radius: 18px;
+    padding: 32px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    margin-top: 8px;
+  }
+  .montaj-cta p {
+    font-family: var(--serif);
+    font-size: clamp(18px, 1.6vw, 22px);
+    line-height: 1.4;
+    margin: 0;
+    flex: 1;
+  }
+  .montaj-cta p strong { color: var(--red); font-weight: 500; }
+
+  @media (max-width: 1100px) {
+    .montaj-grid { grid-template-columns: repeat(2, 1fr); }
+    .montaj-stage { padding: 60px 32px 40px; }
+  }
+  @media (max-width: 700px) {
+    .montaj-grid { grid-template-columns: 1fr; }
+    .montaj-stage { padding: 50px 20px 32px; }
+    .montaj-cta { flex-direction: column; align-items: stretch; text-align: center; padding: 28px; }
+  }
+</style>
+
+<section class="montaj-section">
+  <div class="container">
+    <div class="montaj-stage-wrap reveal">
+      <div class="montaj-watermark" aria-hidden="true">
+        <span class="wm-half wm-top">Montaj</span>
+        <span class="wm-half wm-bottom">Montaj</span>
+      </div>
+
+      <div class="montaj-stage">
+        <div class="montaj-intro">
+          <span class="bubble-tag">Etape de montaj</span>
+          <h2>O casă completă <em>în 4 etape.</em></h2>
+          <p>De la fundație la cofraj închis — gata de turnarea betonului. Tot procesul în câteva săptămâni cu doar 2-3 oameni pe șantier.</p>
+        </div>
+
+        <div class="montaj-grid">
+
+          <article class="montaj-card">
+            <div class="montaj-num">01</div>
+            <div class="montaj-img">
+              <img src="images/construction/stage1-cofraj.jpg" alt="Cofraj asamblat cu sprijin lateral">
+            </div>
+            <div class="montaj-card-body">
+              <h3>Cofraj</h3>
+              <p>Pereții EPS ridicați și fixați cu sprijin lateral de lemn pe fundație. Fără mortar, fără pierdere de izolație.</p>
+            </div>
+          </article>
+
+          <article class="montaj-card">
+            <div class="montaj-num">02</div>
+            <div class="montaj-img">
+              <img src="images/construction/stage3-planseu.jpg" alt="Planșeu PBK montat">
+            </div>
+            <div class="montaj-card-body">
+              <h3>Planșeu</h3>
+              <p>Panouri PBK 250 montate orizontal — straturi EPS-Grafit + fibrocement gata să primească armătura.</p>
+            </div>
+          </article>
+
+          <article class="montaj-card">
+            <div class="montaj-num">03</div>
+            <div class="montaj-img">
+              <img src="images/construction/stage2-fierbeton.jpg" alt="Armătură oțel-beton pe planșeu">
+            </div>
+            <div class="montaj-card-body">
+              <h3>Armătură</h3>
+              <p>Plasele de oțel-beton se așază între nervurile EPS-Grafit. Conexiune monolitică între pereți și planșeu.</p>
+            </div>
+          </article>
+
+          <article class="montaj-card">
+            <div class="montaj-num">04</div>
+            <div class="montaj-img">
+              <img src="images/construction/stage4-final.jpg" alt="Cofraj închis, gata pentru turnare beton">
+            </div>
+            <div class="montaj-card-body">
+              <h3>Închiderea cofrajului</h3>
+              <p>Toate elementele asamblate și verificate. <strong>Acum suntem gata de turnarea betonului.</strong></p>
+            </div>
+          </article>
+
+        </div>
+
+        <div class="montaj-cta">
+          <p>După turnarea betonului, structura devine <strong>monolitică în 24 ore</strong> — pereți, planșeu, acoperiș, izolate continuu, fără punți termice.</p>
+          <a href="oferta/" class="btn btn-primary btn-arrow">Cere ofertă personalizată</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- COMPARISON — Polistibrick = perfection vs the passive alternative -->
 <section class="comparison-section" id="compare">
   <div class="container">
@@ -3422,6 +3666,7 @@
       { sel: '#produse',             x:  22, y:  0, xmm: 30, ymm: 15, scale: 1.35, ry:   6, rz:  0, alpha: 1, product: 'mbk' },
       { sel: '#produse-planseu',     x:  22, y:  4, xmm: 30, scale: 1.30, ry:  -2, rz: -1, alpha: 1, product: 'pbk' },
       { sel: '#produse-acoperis',    x:  22, y:  6, xmm: 30, scale: 1.20, ry:   8, rz:  2, alpha: 1, product: 'tbk' },
+      { sel: '.montaj-section',      x:   0, y:  0, scale: 0.6,  ry:   0, rz:  0, alpha: 0, product: 'tbk' },
       { sel: '.comparison-section',  x:   0, y:  0, scale: 0.6,  ry:   0, rz:  0, alpha: 0, product: 'tbk' },
       { sel: '.cta-section',         x:  24, y:  8, scale: 1.05, ry: -10, rz: -3, alpha: 1, mode: 'build', product: 'mbk' },
       { sel: 'footer',               x:   0, y:  0, scale: 0,    ry:   0, rz:  0, alpha: 0, product: 'mbk' },

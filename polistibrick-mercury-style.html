@@ -2437,8 +2437,26 @@
     opacity: 0;
     pointer-events: none;
   }
+  /* Mobile: keep floating-product visible but small + fixed bottom-right.
+     Inline-style transform set by JS is overriden via !important so the image
+     stays put. The crossfade between products (mbk → pbk → tbk → robot etc.)
+     still works because that toggles .is-active on the <img>, not transform. */
   @media (max-width: 768px) {
-    .floating-product { display: none; }
+    .floating-product {
+      width: 140px !important;
+      top: auto !important;
+      bottom: 16px !important;
+      right: 16px !important;
+      left: auto !important;
+      transform: none !important;
+      opacity: 0.92 !important;
+      z-index: 40;
+    }
+    .floating-product .product-img-stack { animation: none !important; }
+    .floating-product .pi { filter: drop-shadow(0 12px 20px rgba(0,0,0,0.18)); }
+  }
+  @media (max-width: 480px) {
+    .floating-product { width: 110px !important; bottom: 12px !important; right: 12px !important; }
   }
 
   /* === HONEYCOMB FIELD — visible above all content === */

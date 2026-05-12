@@ -2500,6 +2500,69 @@
     .stat-floating { display: none; }
     .nav-cta .btn-ghost { display: none; }
   }
+
+  /* === MOBILE TEXT SCALE-DOWN (~30%) ===
+     Override per-element font sizes to fit content better on phones.
+     Only applies to ≤768px — desktop unaffected. */
+  @media (max-width: 768px) {
+    .hero h1 { font-size: clamp(28px, 7vw, 42px); line-height: 1.05; }
+    .hero-sub { font-size: 14px; line-height: 1.5; }
+    .hero-eyebrow { font-size: 10.5px; }
+    .hero-actions .btn { font-size: 13px; padding: 12px 18px; }
+
+    .section-title { font-size: clamp(24px, 5.5vw, 34px); line-height: 1.08; }
+    .section-eyebrow { font-size: 10px; letter-spacing: 0.12em; }
+    .section-sub { font-size: 13.5px; line-height: 1.5; }
+
+    .stat-num { font-size: 20px; }
+    .stat-num span { font-size: inherit; }
+    .stat-label { font-size: 11px; line-height: 1.4; }
+    .stat-icon { width: 42px; height: 42px; margin-bottom: 12px; }
+
+    .superpower-text strong { font-size: 13px; }
+    .superpower-text span { font-size: 11px; }
+
+    .passive-info h3 { font-size: 22px; line-height: 1.15; margin-bottom: 12px; }
+    .passive-info p { font-size: 13.5px; line-height: 1.55; margin-bottom: 16px; }
+    .passive-bullet { font-size: 12.5px; }
+    .passive-tag { font-size: 10px; padding: 5px 10px; }
+
+    .product-bubble h3, .produse-stage h3 { font-size: 22px; line-height: 1.1; }
+    .product-bubble p, .produse-stage p { font-size: 13px; line-height: 1.55; }
+    .bubble-tag { font-size: 10px; letter-spacing: 0.06em; }
+    .product-cta { font-size: 12.5px; padding: 10px 18px; }
+
+    .fabrici-text h3 { font-size: 22px; line-height: 1.1; }
+    .fabrici-text p { font-size: 13px; line-height: 1.5; }
+    .fabrici-stat { font-size: 12px; }
+    .fabrici-stat strong { font-size: 16px; }
+
+    .montaj-intro h2 { font-size: 22px; line-height: 1.1; }
+    .montaj-intro p { font-size: 13px; line-height: 1.5; }
+    .montaj-card h3 { font-size: 15px; }
+    .montaj-card p { font-size: 11.5px; line-height: 1.45; }
+    .montaj-cta p { font-size: 13px; line-height: 1.35; }
+    .montaj-num { width: 26px; height: 26px; font-size: 12px; top: 10px; left: 10px; }
+
+    .cta-box h2 { font-size: clamp(26px, 6.5vw, 38px); line-height: 1.08; }
+    .cta-box p { font-size: 14px; line-height: 1.5; }
+    .cta-box-eyebrow { font-size: 10px; }
+    .cta-actions .btn { font-size: 13px; padding: 12px 18px; }
+
+    .footer-certs-label { font-size: 10.5px; }
+    .footer-certs .trust-item { font-size: 10.5px; }
+
+    h2 { font-size: 22px; line-height: 1.15; }
+    h3 { font-size: 17px; }
+    h4 { font-size: 15px; }
+    p { font-size: 13.5px; line-height: 1.55; }
+    .btn, .btn-large { font-size: 13px; padding: 12px 18px; }
+
+    /* Watermark mai mic ca sa nu se rupa pe ecrane inguste */
+    .produse-watermark, .fabrici-watermark, .compare-watermark, .montaj-watermark {
+      font-size: clamp(56px, 16vw, 110px);
+    }
+  }
 </style>
 </head>
 <body>

@@ -683,16 +683,18 @@
     line-height: 1.5;
   }
   .stat-icon {
-    width: 44px; height: 44px;
-    background: var(--red-soft);
+    width: 56px; height: 56px;
+    background: transparent;
     color: var(--red);
-    border-radius: 10px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
+    overflow: hidden;
   }
   .stat-icon svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .stat-icon img { width: 100%; height: 100%; object-fit: contain; display: block; }
 
   /* === PASSIVE HOUSE SHOWCASE === */
   .passive-showcase {
@@ -2675,28 +2677,28 @@
     <div class="stats-grid reveal">
       <div class="stat-card">
         <div class="stat-icon">
-          <svg viewBox="0 0 24 24"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+          <img src="images/icons/feature-climate.png" alt="">
         </div>
         <div class="stat-num"><span>−70%</span></div>
         <div class="stat-label">Reducere consum energie<br>vs. construcție clasică</div>
       </div>
       <div class="stat-card">
         <div class="stat-icon">
-          <svg viewBox="0 0 24 24"><path d="M12 2v15M9 7l3-3 3 3M5 14a7 7 0 1014 0c0-2-1-3-2-4V5a3 3 0 10-6 0v5c-1 1-2 2-2 4z"/></svg>
+          <img src="images/icons/feature-fire.png" alt="">
         </div>
-        <div class="stat-num">10,26</div>
-        <div class="stat-label">Rezistență termică R<br>(m²·K)/W — model MBK 300</div>
+        <div class="stat-num">A1 · REI 240</div>
+        <div class="stat-label">Rezistență la foc<br>cea mai înaltă clasă UE</div>
       </div>
       <div class="stat-card">
         <div class="stat-icon">
-          <svg viewBox="0 0 24 24"><path d="M3 8h18v8H3zM7 8v3M11 8v5M15 8v3M19 8v5"/></svg>
+          <img src="images/icons/feature-seismic.png" alt="">
         </div>
-        <div class="stat-num">38–48<span style="font-size:32px"> cm</span></div>
-        <div class="stat-label">Grosime perete completă<br>structură + izolație</div>
+        <div class="stat-num">Antiseismic</div>
+        <div class="stat-label">Beton armat monolitic<br>fără punți slabe</div>
       </div>
       <div class="stat-card">
         <div class="stat-icon">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6M12 5V2"/></svg>
+          <img src="images/icons/feature-rapid.png" alt="">
         </div>
         <div class="stat-num">3×</div>
         <div class="stat-label">Mai rapid decât construcția<br>tradițională cu cărămidă</div>

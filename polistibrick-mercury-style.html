@@ -1258,6 +1258,11 @@
       gap: 32px;
     }
     .fabrici-text { max-width: 100%; }
+    /* Override the 20mm right shift — center the card on narrow screens */
+    .fabrici-stage-wrap.reveal,
+    .fabrici-stage-wrap.reveal.visible {
+      transform: translateY(0) scale(1) translateX(0) !important;
+    }
   }
 
   /* Real Europe country paths (default = inactive countries) */
@@ -1512,7 +1517,8 @@
       padding-left: 24px;
       padding-right: 24px;
     }
-    .produse-stage { padding: 50px 24px 36px; }
+    /* Override the -30mm left shift — center the card on narrow screens */
+    .produse-stage { padding: 50px 24px 36px; transform: none !important; }
     .product-bubble { max-width: 100%; }
   }
   .product-visual {

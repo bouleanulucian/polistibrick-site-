@@ -4064,11 +4064,13 @@
       });
     }
 
-    // SNAP-WITH-WINDOW model: image appears at (anchor - 50mm), stabilizes at anchor,
-    // disappears at (anchor + 50mm). Outside this 100mm window it's fully invisible.
-    // This prevents "stuck in the middle" between sections.
-    // ~50mm = 189px at 96dpi (1mm ≈ 3.78px). We use 200px as a generous default.
-    const FADE_WINDOW_PX = 200;
+    // SNAP-WITH-WINDOW model (trapezoidal alpha curve):
+    //   • PLATEAU: image fully visible (alpha=1) within ±25mm of section anchor
+    //   • FADE: alpha ramps from 1→0 between ±25mm and ±50mm
+    //   • HIDDEN: alpha=0 outside ±50mm
+    // 25mm ≈ 95px at 96dpi (1mm ≈ 3.78px), so plateau half-width = 95, fade end = 190.
+    const PLATEAU_PX = 95;   // image fully visible within ±25mm
+    const FADE_END_PX = 190; // image fully invisible beyond ±50mm
 
     function recomputeTarget() {
       const probe = window.scrollY;
@@ -4092,9 +4094,18 @@
       targetRy    = nearestSec.ry;
       targetRz    = nearestSec.rz;
 
-      // Alpha: 1 at anchor, 0 at +/- FADE_WINDOW_PX (linear ramp).
-      // Multiplied with the section's prescribed alpha (so alpha:0 sections stay hidden).
-      const alphaRamp = Math.max(0, 1 - nearestDist / FADE_WINDOW_PX);
+      // Trapezoidal alpha:
+      //   • |dist| ≤ PLATEAU_PX → alpha = 1
+      //   • PLATEAU_PX < |dist| < FADE_END_PX → alpha = (FADE_END_PX - |dist|) / (FADE_END_PX - PLATEAU_PX)
+      //   • |dist| ≥ FADE_END_PX → alpha = 0
+      let alphaRamp;
+      if (nearestDist <= PLATEAU_PX) {
+        alphaRamp = 1;
+      } else if (nearestDist >= FADE_END_PX) {
+        alphaRamp = 0;
+      } else {
+        alphaRamp = (FADE_END_PX - nearestDist) / (FADE_END_PX - PLATEAU_PX);
+      }
       targetAlpha = nearestSec.alpha * alphaRamp;
 
       // Build-mode

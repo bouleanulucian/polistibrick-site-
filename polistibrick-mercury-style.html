@@ -4965,58 +4965,42 @@
       });
     }
 
-    // SECTION-RANGE model:
-    //   • Image visible THROUGHOUT a section, plus ±50mm padding before/after
-    //   • Beyond that range → invisible
-    // 50mm ≈ 189px at 96dpi (1mm ≈ 3.78px).
-    const PAD_PX = 189; // 50mm padding before/after section bounds
+    // CENTER-WINDOW model:
+    //   • Image visible doar cand viewport center este in ±WINDOW_PX de ancora sectiunii
+    //   • Ancora = centrul sectiunii (offsetTop + height/2)
+    //   • Dincolo de ±WINDOW_PX → invizibila
+    //   • Fereastra fixa (50mm) — NU depinde de inaltimea sectiunii
+    // 50mm ≈ 189px at 96dpi. Pure step function (lerp in tick netezeste vizual).
+    const WINDOW_PX = 189; // 50mm radius around section center
 
     function recomputeTarget() {
       const probe = window.scrollY;
       const viewportMid = probe + window.innerHeight / 2;
 
-      // Active section = the one whose extended range [top-50mm, bottom+50mm]
-      // contains the viewport center. Pick the one whose center is closest.
-      let activeSec = null;
-      let bestDist = Infinity;
+      // Find nearest section by distance from viewport center to section's center.
+      let nearestSec = sections[0];
+      let nearestDist = Infinity;
       for (const s of sections) {
-        const top = s.el.offsetTop - PAD_PX;
-        const bottom = s.el.offsetTop + s.el.offsetHeight + PAD_PX;
-        if (viewportMid >= top && viewportMid <= bottom) {
-          const center = s.el.offsetTop + s.el.offsetHeight / 2;
-          const dist = Math.abs(viewportMid - center);
-          if (dist < bestDist) { bestDist = dist; activeSec = s; }
-        }
+        const center = s.el.offsetTop + s.el.offsetHeight / 2;
+        const dist = Math.abs(viewportMid - center);
+        if (dist < nearestDist) { nearestDist = dist; nearestSec = s; }
       }
 
-      // Fallback (rare) — closest section if no overlap
-      if (!activeSec) {
-        let nearestDist = Infinity;
-        for (const s of sections) {
-          const center = s.el.offsetTop + s.el.offsetHeight / 2;
-          const dist = Math.abs(viewportMid - center);
-          if (dist < nearestDist) { nearestDist = dist; activeSec = s; }
-        }
-      }
+      // Position & rotation = nearest section's prescribed values
+      targetX     = nearestSec.x;
+      targetY     = nearestSec.y;
+      targetXmm   = nearestSec.xmm || 0;
+      targetYmm   = nearestSec.ymm || 0;
+      targetScale = nearestSec.scale;
+      targetRy    = nearestSec.ry;
+      targetRz    = nearestSec.rz;
 
-      // Position & rotation = active section's prescribed values
-      targetX     = activeSec.x;
-      targetY     = activeSec.y;
-      targetXmm   = activeSec.xmm || 0;
-      targetYmm   = activeSec.ymm || 0;
-      targetScale = activeSec.scale;
-      targetRy    = activeSec.ry;
-      targetRz    = activeSec.rz;
-
-      // Alpha: visible THROUGHOUT extended section range (section bounds + ±50mm)
-      const top = activeSec.el.offsetTop - PAD_PX;
-      const bottom = activeSec.el.offsetTop + activeSec.el.offsetHeight + PAD_PX;
-      const inRange = viewportMid >= top && viewportMid <= bottom;
-      targetAlpha = activeSec.alpha * (inRange ? 1 : 0);
+      // Alpha: 1 only when viewport center within ±50mm of section center, else 0
+      targetAlpha = nearestSec.alpha * (nearestDist < WINDOW_PX ? 1 : 0);
 
       // Build-mode + active product image
-      buildOn = activeSec.mode === 'build';
-      if (activeSec.product) setActiveProduct(activeSec.product);
+      buildOn = nearestSec.mode === 'build';
+      if (nearestSec.product) setActiveProduct(nearestSec.product);
     }
 
     function tick() {

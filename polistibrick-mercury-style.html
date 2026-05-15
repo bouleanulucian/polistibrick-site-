@@ -857,17 +857,77 @@
   .passive-showcase {
     margin: 0 0 64px;
     display: grid;
-    grid-template-columns: 0.9fr 1fr;
-    gap: 64px;
-    align-items: center;
+    /* LEFT: photo carousel (1s alternate), RIGHT: scale + info */
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    align-items: stretch;
     background: linear-gradient(135deg, var(--cream-light) 0%, var(--cream) 100%);
     color: var(--ink);
     border: 1px solid var(--border);
     border-radius: 28px;
-    padding: 64px;
+    padding: 48px;
     position: relative;
     overflow: hidden;
     box-shadow: var(--shadow-md);
+  }
+  /* Photo container with auto-alternating images (construction ↔ finished) */
+  .passive-photo {
+    position: relative;
+    border-radius: 18px;
+    overflow: hidden;
+    aspect-ratio: 4/5;
+    background: var(--ink);
+    z-index: 1;
+  }
+  .passive-photo-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    animation: photoAlternate 2s infinite ease-in-out;
+  }
+  .passive-photo-img:nth-child(2) { animation-delay: 1s; }
+  @keyframes photoAlternate {
+    0%, 40% { opacity: 1; }
+    50%, 90% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  .passive-photo-label {
+    position: absolute;
+    bottom: 16px; left: 16px;
+    background: rgba(15,15,15,0.85);
+    color: var(--cream);
+    padding: 7px 14px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    backdrop-filter: blur(8px);
+    z-index: 2;
+    animation: labelSwap 2s infinite ease-in-out;
+  }
+  @keyframes labelSwap {
+    0%, 40% { content: 'În construcție'; }
+    50%, 90% { content: 'Finalizat'; }
+    100% { content: 'În construcție'; }
+  }
+  /* Content column (scale + info) — stacked vertically inside right col */
+  .passive-content-col {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    justify-content: center;
+  }
+  @media (max-width: 968px) {
+    .passive-showcase {
+      grid-template-columns: 1fr;
+      gap: 28px;
+      padding: 28px;
+    }
+    .passive-photo { aspect-ratio: 16/10; }
   }
   .passive-showcase::before {
     content: '';
@@ -2953,43 +3013,58 @@
 
     <!-- PASSIVE HOUSE SHOWCASE -->
     <div class="passive-showcase reveal">
-      <div class="energy-scale">
-        <div class="energy-bar active">
-          <span>A+++</span>
-          <span class="arrow">◀ Polistibrick</span>
-        </div>
-        <div class="energy-bar dim b">B</div>
-        <div class="energy-bar dim c">C</div>
-        <div class="energy-bar dim d">D</div>
-        <div class="energy-bar dim e">E</div>
-        <div class="energy-bar dim f">F</div>
-        <div class="energy-bar dim g">G</div>
+
+      <!-- LEFT: 2 photos alternating every 1 second (construction ↔ finished) -->
+      <div class="passive-photo">
+        <img class="passive-photo-img" src="images/casa-construit.jpg" alt="Casa Polistibrick — în construcție" loading="lazy"
+             onerror="this.src='images/construction/stage1-cofraj.jpg'">
+        <img class="passive-photo-img" src="images/casa-finalizata.jpg" alt="Casa Polistibrick — finalizată" loading="lazy"
+             onerror="this.src='images/construction/stage4-final.jpg'">
+        <span class="passive-photo-label">Aceeași casă · 2 etape</span>
       </div>
 
-      <div class="passive-info">
-        <span class="passive-tag">Casa Pasivă A+++</span>
-        <h3>Pereții <em>respiră.</em><br>Casa rămâne caldă.</h3>
-        <p>Pereții MBK, planșeele PBK și acoperișul TBK lucrează împreună ca un termos. Iarna căldura rămâne înăuntru, vara răcoarea. Liniștea — mereu.</p>
-        <div class="passive-bullets">
-          <div class="passive-bullet">
-            <div class="passive-bullet-icon">
-              <svg viewBox="0 0 24 24"><path d="M12 3v18M5 8c0 0 2-3 7-3s7 3 7 3M5 16c0 0 2 3 7 3s7-3 7-3"/></svg>
-            </div>
-            Iarna: căldura rămâne înăuntru, fără pierderi prin pereți
+      <!-- RIGHT: energy scale + info card stacked -->
+      <div class="passive-content-col">
+
+        <div class="energy-scale">
+          <div class="energy-bar active">
+            <span>A+++</span>
+            <span class="arrow">◀ Polistibrick</span>
           </div>
-          <div class="passive-bullet">
-            <div class="passive-bullet-icon">
-              <svg viewBox="0 0 24 24"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg>
+          <div class="energy-bar dim b">B</div>
+          <div class="energy-bar dim c">C</div>
+          <div class="energy-bar dim d">D</div>
+          <div class="energy-bar dim e">E</div>
+          <div class="energy-bar dim f">F</div>
+          <div class="energy-bar dim g">G</div>
+        </div>
+
+        <div class="passive-info">
+          <span class="passive-tag">Casa Pasivă A+++</span>
+          <h3>Pereții <em>respiră.</em><br>Casa rămâne caldă.</h3>
+          <p>Pereții MBK, planșeele PBK și acoperișul TBK lucrează împreună ca un termos. Iarna căldura rămâne înăuntru, vara răcoarea. Liniștea — mereu.</p>
+          <div class="passive-bullets">
+            <div class="passive-bullet">
+              <div class="passive-bullet-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 3v18M5 8c0 0 2-3 7-3s7 3 7 3M5 16c0 0 2 3 7 3s7-3 7-3"/></svg>
+              </div>
+              Iarna: căldura rămâne înăuntru, fără pierderi prin pereți
             </div>
-            Vara: răcoarea stă înăuntru, fără aer condiționat permanent
-          </div>
-          <div class="passive-bullet">
-            <div class="passive-bullet-icon">
-              <svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5zM19 12c0-2.5-1.5-4.5-3.5-5.5M22 12c0-4-2-7-5-9"/></svg>
+            <div class="passive-bullet">
+              <div class="passive-bullet-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg>
+              </div>
+              Vara: răcoarea stă înăuntru, fără aer condiționat permanent
             </div>
-            Fonic: 2 plăci fibrociment Eternit × 65 dB — izolare profesională, fără strat suplimentar
+            <div class="passive-bullet">
+              <div class="passive-bullet-icon">
+                <svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5zM19 12c0-2.5-1.5-4.5-3.5-5.5M22 12c0-4-2-7-5-9"/></svg>
+              </div>
+              Fonic: 2 plăci fibrociment Eternit × 65 dB — izolare profesională, fără strat suplimentar
+            </div>
           </div>
         </div>
+
       </div>
     </div>
 

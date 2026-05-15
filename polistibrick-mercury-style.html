@@ -854,14 +854,56 @@
   .stat-icon svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
   .stat-icon img { width: 100%; height: 100%; object-fit: contain; display: block; }
 
-  /* === PASSIVE HOUSE SHOWCASE === */
-  /* Wrapper: LEFT photo card + RIGHT original passive-showcase (unchanged inside) */
+  /* === STATS SECTION watermark wrapper (matches other pages) === */
+  .stats-stage-wrap {
+    position: relative;
+    margin: 70px auto 0;
+    max-width: 1480px;
+  }
+  .stats-watermark {
+    position: absolute; top: 0; left: 50%; width: 100vw; margin-left: -50vw;
+    pointer-events: none; user-select: none; transform: translateY(-50%);
+    height: 1em; line-height: 1; text-align: center; text-transform: uppercase;
+    font-family: var(--serif); font-size: clamp(64px, 11vw, 180px);
+    font-weight: 500; letter-spacing: -0.06em; z-index: 2;
+  }
+  .stats-watermark .wm-half { position: absolute; inset: 0; width: 100%; display: block; }
+  .stats-watermark .wm-top { color: transparent; -webkit-text-stroke: 1.4px rgba(15,15,15,0.30); clip-path: inset(0 0 50% 0); }
+  .stats-watermark .wm-bottom { color: var(--cream-dark); opacity: 0.65; clip-path: inset(50% 0 0 0); }
+  .stats-stage {
+    position: relative;
+    background: var(--cream-light);
+    border: 1px solid var(--border);
+    border-radius: 32px;
+    padding: 56px 48px 48px;
+  }
+  .stats-intro {
+    max-width: 760px; margin: 0 auto 40px; text-align: center;
+  }
+  .stats-intro .bubble-tag {
+    display: inline-block; background: var(--red-soft); color: var(--red);
+    padding: 4px 12px; border-radius: 4px; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 14px;
+  }
+  .stats-intro h2 {
+    font-family: var(--serif); font-size: clamp(28px, 3.2vw, 44px); font-weight: 500;
+    color: var(--ink); letter-spacing: -0.02em; line-height: 1.05; margin-bottom: 12px;
+  }
+  .stats-intro h2 em { font-style: italic; color: var(--red); font-weight: 400; }
+  .stats-intro p { font-size: 15px; color: var(--gray); line-height: 1.6; margin: 0; }
+
+  /* Two cards INSIDE stage: photo LEFT + showcase RIGHT, 50/50 */
   .passive-showcase-wrap {
-    margin: 0 0 64px;
     display: grid;
-    grid-template-columns: 0.8fr 1.2fr;
+    grid-template-columns: 1fr 1fr;
     gap: 24px;
     align-items: stretch;
+    margin-bottom: 32px;
+  }
+
+  @media (max-width: 1100px) {
+    .passive-showcase-wrap { grid-template-columns: 1fr; gap: 20px; }
+    .stats-stage { padding: 44px 28px 32px; }
   }
 
   /* LEFT: photo card with alternating images (construction ↔ finished, 1s each) */
@@ -3002,11 +3044,18 @@
 <!-- STATS -->
 <section class="stats-section">
   <div class="container">
-    <div class="reveal">
-      <span class="section-eyebrow">Standardul Casa Pasivă</span>
-      <h2 class="section-title">Construit pentru <em style="font-style:italic;color:var(--red)">eficiență maximă.</em></h2>
-      <p class="section-sub">Sistemul ICF Polistibrick atinge — și depășește — standardele europene Casa Pasivă direct din proiectare. Fără izolație suplimentară. Fără facturi mari.</p>
-    </div>
+    <div class="stats-stage-wrap reveal">
+      <div class="stats-watermark" aria-hidden="true">
+        <span class="wm-half wm-top">Pasiv</span>
+        <span class="wm-half wm-bottom">Pasiv</span>
+      </div>
+
+      <div class="stats-stage">
+        <div class="stats-intro">
+          <span class="bubble-tag">Standardul Casa Pasivă</span>
+          <h2>Construit pentru <em>eficiență maximă.</em></h2>
+          <p>Sistemul ICF Polistibrick atinge — și depășește — standardele europene Casa Pasivă direct din proiectare. Fără izolație suplimentară. Fără facturi mari.</p>
+        </div>
 
     <!-- PASSIVE HOUSE SHOWCASE — LEFT photo card + RIGHT original showcase -->
     <div class="passive-showcase-wrap reveal">
@@ -3095,6 +3144,8 @@
       </div>
     </div>
 
+      </div>
+    </div>
   </div>
 </section>
 

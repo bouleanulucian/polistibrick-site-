@@ -4064,37 +4064,44 @@
       });
     }
 
-    function recomputeTarget() {
-      // Probe = top of viewport. When the page is snapped to section A,
-      // probe == A.offsetTop and the lerp factor t = 0 ⇒ exactly at A's position.
-      // As the user scrolls toward section B, probe approaches B.offsetTop ⇒ t→1.
-      const probe = window.scrollY;
-      let i = 0;
-      for (let k = 0; k < sections.length; k++) {
-        if (probe >= sections[k].el.offsetTop) i = k;
-      }
-      const a = sections[i];
-      const b = sections[Math.min(i + 1, sections.length - 1)];
-      const aTop = a.el.offsetTop;
-      const bTop = (b === a) ? aTop + a.el.offsetHeight : b.el.offsetTop;
-      const range = Math.max(bTop - aTop, 1);
-      const t = clamp01((probe - aTop) / range);
-      const e = smoothstep(t);
+    // SNAP-WITH-WINDOW model: image appears at (anchor - 50mm), stabilizes at anchor,
+    // disappears at (anchor + 50mm). Outside this 100mm window it's fully invisible.
+    // This prevents "stuck in the middle" between sections.
+    // ~50mm = 189px at 96dpi (1mm ≈ 3.78px). We use 200px as a generous default.
+    const FADE_WINDOW_PX = 200;
 
-      targetX     = lerp(a.x,     b.x,     e);
-      targetY     = lerp(a.y,     b.y,     e);
-      targetXmm   = lerp(a.xmm || 0, b.xmm || 0, e);
-      targetYmm   = lerp(a.ymm || 0, b.ymm || 0, e);
-      targetScale = lerp(a.scale, b.scale, e);
-      targetRy    = lerp(a.ry,    b.ry,    e);
-      targetRz    = lerp(a.rz,    b.rz,    e);
-      targetAlpha = lerp(a.alpha, b.alpha, e);
-      // Build-mode is on when the dominant of the two stops uses it
-      const aBuild = a.mode === 'build', bBuild = b.mode === 'build';
-      buildOn = (aBuild && t < 0.5) || (bBuild && t >= 0.5) || (aBuild && bBuild);
-      // Switch active product image at midpoint between two sections
-      const dominantProduct = (t < 0.5 ? a.product : b.product) || a.product;
-      if (dominantProduct) setActiveProduct(dominantProduct);
+    function recomputeTarget() {
+      const probe = window.scrollY;
+      const viewportMid = probe + window.innerHeight / 2;
+
+      // Find nearest section by distance from viewport center to section's center.
+      let nearestSec = sections[0];
+      let nearestDist = Infinity;
+      for (const s of sections) {
+        const center = s.el.offsetTop + s.el.offsetHeight / 2;
+        const dist = Math.abs(viewportMid - center);
+        if (dist < nearestDist) { nearestDist = dist; nearestSec = s; }
+      }
+
+      // Position & rotation = nearest section's prescribed values (no lerp between sections)
+      targetX     = nearestSec.x;
+      targetY     = nearestSec.y;
+      targetXmm   = nearestSec.xmm || 0;
+      targetYmm   = nearestSec.ymm || 0;
+      targetScale = nearestSec.scale;
+      targetRy    = nearestSec.ry;
+      targetRz    = nearestSec.rz;
+
+      // Alpha: 1 at anchor, 0 at +/- FADE_WINDOW_PX (linear ramp).
+      // Multiplied with the section's prescribed alpha (so alpha:0 sections stay hidden).
+      const alphaRamp = Math.max(0, 1 - nearestDist / FADE_WINDOW_PX);
+      targetAlpha = nearestSec.alpha * alphaRamp;
+
+      // Build-mode
+      buildOn = nearestSec.mode === 'build';
+
+      // Active product image
+      if (nearestSec.product) setActiveProduct(nearestSec.product);
     }
 
     function tick() {

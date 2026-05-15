@@ -43,6 +43,7 @@
   .reach-section,
   .product-page,
   .montaj-section,
+  .testimonial-section,
   .why-section,
   .comparison-section,
   .cta-section,
@@ -141,8 +142,8 @@
       overflow-x: hidden;
     }
     .hero, .stats-section, .system-section, .bundle-section, .pentru-section,
-    .reach-section, .product-page, .montaj-section, .why-section,
-    .comparison-section, .cta-section {
+    .reach-section, .product-page, .montaj-section, .testimonial-section,
+    .why-section, .comparison-section, .cta-section {
       min-height: auto;
       display: block;
       scroll-snap-align: none;
@@ -3029,6 +3030,187 @@
   </div>
 </section>
 
+<!-- PENTRU CINE — 3 personas (proprietar, arhitect, dezvoltator) -->
+<style>
+  .pentru-section {
+    background: var(--cream);
+    padding: 80px 0;
+  }
+  .pentru-stage-wrap {
+    position: relative;
+    margin: 60px auto 0;
+    max-width: 1480px;
+  }
+  .pentru-stage {
+    position: relative;
+    background: var(--cream-light);
+    border: 1px solid var(--border);
+    border-radius: 32px;
+    padding: 64px 48px 56px;
+    overflow: visible;
+  }
+  .pentru-watermark {
+    position: absolute; top: 0; left: 50%; width: 100vw; margin-left: -50vw;
+    pointer-events: none; user-select: none; transform: translateY(-50%);
+    height: 1em; line-height: 1; text-align: center; text-transform: uppercase;
+    font-family: var(--serif); font-size: clamp(64px, 11vw, 180px);
+    font-weight: 500; letter-spacing: -0.06em; z-index: 2;
+  }
+  .pentru-watermark .wm-half { position: absolute; inset: 0; width: 100%; display: block; }
+  .pentru-watermark .wm-top { color: transparent; -webkit-text-stroke: 1.4px rgba(15,15,15,0.30); clip-path: inset(0 0 50% 0); }
+  .pentru-watermark .wm-bottom { color: var(--cream-dark); opacity: 0.65; clip-path: inset(50% 0 0 0); }
+  .pentru-intro {
+    max-width: 760px; margin: 0 auto 48px; text-align: center;
+  }
+  .pentru-intro .bubble-tag {
+    display: inline-block; background: var(--red-soft); color: var(--red);
+    padding: 4px 12px; border-radius: 4px; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 14px;
+  }
+  .pentru-intro h2 {
+    font-family: var(--serif); font-size: clamp(28px, 3.2vw, 44px); font-weight: 500;
+    color: var(--ink); letter-spacing: -0.02em; line-height: 1.05; margin-bottom: 14px;
+  }
+  .pentru-intro h2 em { font-style: italic; color: var(--red); font-weight: 400; }
+  .pentru-intro p { font-size: 15px; color: var(--gray); line-height: 1.6; margin: 0; }
+
+  .pentru-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .pentru-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 36px 32px;
+    transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease, border-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+  }
+  .pentru-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 50px rgba(0,0,0,0.08);
+    border-color: var(--red);
+  }
+  .pentru-icon {
+    width: 56px; height: 56px;
+    background: var(--red-soft);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+    margin-bottom: 22px;
+  }
+  .pentru-card h3 {
+    font-family: var(--serif); font-size: 22px; font-weight: 500;
+    color: var(--ink); margin-bottom: 8px; letter-spacing: -0.01em;
+    line-height: 1.15;
+  }
+  .pentru-card h3 em { font-style: italic; color: var(--red); font-weight: 400; }
+  .pentru-tag {
+    display: inline-block; background: var(--cream);
+    color: var(--gray); padding: 3px 10px; border-radius: 4px;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .pentru-card p {
+    font-size: 14px; color: var(--gray); line-height: 1.6; margin: 0 0 18px;
+    flex: 1;
+  }
+  .pentru-promises {
+    list-style: none; padding: 0; margin: 0 0 22px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .pentru-promises li {
+    font-size: 13px; color: var(--ink-soft); display: flex;
+    align-items: flex-start; gap: 8px; line-height: 1.4;
+  }
+  .pentru-promises li::before {
+    content: '✓'; color: var(--red); font-weight: 700;
+    flex-shrink: 0; margin-top: 1px;
+  }
+  .pentru-link {
+    font-size: 13px; font-weight: 600; color: var(--red);
+    text-transform: uppercase; letter-spacing: 0.06em;
+    transition: gap 0.2s ease; display: inline-flex; align-items: center; gap: 6px;
+  }
+  .pentru-card:hover .pentru-link { gap: 10px; }
+
+  @media (max-width: 968px) {
+    .pentru-grid { grid-template-columns: 1fr; gap: 18px; }
+    .pentru-stage { padding: 48px 24px 36px; }
+    .pentru-card { padding: 28px 24px; }
+  }
+</style>
+
+<section class="pentru-section">
+  <div class="container">
+    <div class="pentru-stage-wrap reveal">
+      <div class="pentru-watermark" aria-hidden="true">
+        <span class="wm-half wm-top">Pentru</span>
+        <span class="wm-half wm-bottom">Pentru</span>
+      </div>
+
+      <div class="pentru-stage">
+        <div class="pentru-intro">
+          <span class="bubble-tag">Pentru cine este Polistibrick</span>
+          <h2>Trei oameni diferiți, <em>aceeași casă perfectă.</em></h2>
+          <p>Polistibrick rezolvă probleme diferite pentru fiecare. Alege-ți rolul ca să vezi ce primești concret.</p>
+        </div>
+
+        <div class="pentru-grid">
+
+          <a href="pentru/proprietari/" class="pentru-card">
+            <div class="pentru-icon">🏠</div>
+            <span class="pentru-tag">Proprietar</span>
+            <h3>Casa premium <em>fără facturi.</em></h3>
+            <p>Vrei o casă pasivă care nu funcționează pe gaz, lemne sau curent. Vrei să te muți în săptămâni, nu în luni. Vrei liniștea unei case care durează generații.</p>
+            <ul class="pentru-promises">
+              <li>Facturi cu &minus;95% pe energie</li>
+              <li>Construcție în 4 săptămâni</li>
+              <li>Vara fără AC, iarna fără centrală</li>
+              <li>Rezistă cutremure, foc, apă</li>
+            </ul>
+            <span class="pentru-link">Vezi pentru proprietari →</span>
+          </a>
+
+          <a href="pentru/arhitecti/" class="pentru-card">
+            <div class="pentru-icon">📐</div>
+            <span class="pentru-tag">Arhitect · Inginer</span>
+            <h3>Sistem flexibil. <em>Suport complet.</em></h3>
+            <p>ICF brevetat cu certificări UE, BIM, calculații PHPP și suport tehnic dedicat pe fiecare proiect.</p>
+            <ul class="pentru-promises">
+              <li>Deschideri 9 m fără grinzi</li>
+              <li>Geometrii custom fără cost suplimentar</li>
+              <li>BIM + DWG + fișe tehnice gratuite</li>
+              <li>Trece Passivhaus la prima vizită</li>
+            </ul>
+            <span class="pentru-link">Vezi pentru arhitecți →</span>
+          </a>
+
+          <a href="pentru/investitori/" class="pentru-card">
+            <div class="pentru-icon">🏢</div>
+            <span class="pentru-tag">Dezvoltator</span>
+            <h3>ROI maxim. <em>Risc minim.</em></h3>
+            <p>Ansambluri rezidențiale Passivhaus livrate în jumătate de timp, vândute cu premium +18% peste piață.</p>
+            <ul class="pentru-promises">
+              <li>&minus;40% timp execuție pe ansamblu</li>
+              <li>+18% premium preț vânzare</li>
+              <li>Certificare Passivhaus garantată</li>
+              <li>Volume / discount-uri B2B</li>
+            </ul>
+            <span class="pentru-link">Vezi pentru dezvoltatori →</span>
+          </a>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- BUNDLE 5-IN-1 — the unique selling proposition -->
 <style>
   .bundle-section {
@@ -3365,187 +3547,6 @@
       </div>
 </section>
 
-<!-- PENTRU CINE — 3 personas (proprietar, arhitect, dezvoltator) -->
-<style>
-  .pentru-section {
-    background: var(--cream);
-    padding: 80px 0;
-  }
-  .pentru-stage-wrap {
-    position: relative;
-    margin: 60px auto 0;
-    max-width: 1480px;
-  }
-  .pentru-stage {
-    position: relative;
-    background: var(--cream-light);
-    border: 1px solid var(--border);
-    border-radius: 32px;
-    padding: 64px 48px 56px;
-    overflow: visible;
-  }
-  .pentru-watermark {
-    position: absolute; top: 0; left: 50%; width: 100vw; margin-left: -50vw;
-    pointer-events: none; user-select: none; transform: translateY(-50%);
-    height: 1em; line-height: 1; text-align: center; text-transform: uppercase;
-    font-family: var(--serif); font-size: clamp(64px, 11vw, 180px);
-    font-weight: 500; letter-spacing: -0.06em; z-index: 2;
-  }
-  .pentru-watermark .wm-half { position: absolute; inset: 0; width: 100%; display: block; }
-  .pentru-watermark .wm-top { color: transparent; -webkit-text-stroke: 1.4px rgba(15,15,15,0.30); clip-path: inset(0 0 50% 0); }
-  .pentru-watermark .wm-bottom { color: var(--cream-dark); opacity: 0.65; clip-path: inset(50% 0 0 0); }
-  .pentru-intro {
-    max-width: 760px; margin: 0 auto 48px; text-align: center;
-  }
-  .pentru-intro .bubble-tag {
-    display: inline-block; background: var(--red-soft); color: var(--red);
-    padding: 4px 12px; border-radius: 4px; font-size: 11px; font-weight: 600;
-    letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 14px;
-  }
-  .pentru-intro h2 {
-    font-family: var(--serif); font-size: clamp(28px, 3.2vw, 44px); font-weight: 500;
-    color: var(--ink); letter-spacing: -0.02em; line-height: 1.05; margin-bottom: 14px;
-  }
-  .pentru-intro h2 em { font-style: italic; color: var(--red); font-weight: 400; }
-  .pentru-intro p { font-size: 15px; color: var(--gray); line-height: 1.6; margin: 0; }
-
-  .pentru-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-  }
-  .pentru-card {
-    background: white;
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 36px 32px;
-    transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease, border-color 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    text-decoration: none;
-    color: inherit;
-  }
-  .pentru-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 24px 50px rgba(0,0,0,0.08);
-    border-color: var(--red);
-  }
-  .pentru-icon {
-    width: 56px; height: 56px;
-    background: var(--red-soft);
-    border-radius: 14px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 28px;
-    margin-bottom: 22px;
-  }
-  .pentru-card h3 {
-    font-family: var(--serif); font-size: 22px; font-weight: 500;
-    color: var(--ink); margin-bottom: 8px; letter-spacing: -0.01em;
-    line-height: 1.15;
-  }
-  .pentru-card h3 em { font-style: italic; color: var(--red); font-weight: 400; }
-  .pentru-tag {
-    display: inline-block; background: var(--cream);
-    color: var(--gray); padding: 3px 10px; border-radius: 4px;
-    font-size: 10px; font-weight: 600;
-    letter-spacing: 0.08em; text-transform: uppercase;
-    margin-bottom: 14px;
-  }
-  .pentru-card p {
-    font-size: 14px; color: var(--gray); line-height: 1.6; margin: 0 0 18px;
-    flex: 1;
-  }
-  .pentru-promises {
-    list-style: none; padding: 0; margin: 0 0 22px;
-    display: flex; flex-direction: column; gap: 8px;
-  }
-  .pentru-promises li {
-    font-size: 13px; color: var(--ink-soft); display: flex;
-    align-items: flex-start; gap: 8px; line-height: 1.4;
-  }
-  .pentru-promises li::before {
-    content: '✓'; color: var(--red); font-weight: 700;
-    flex-shrink: 0; margin-top: 1px;
-  }
-  .pentru-link {
-    font-size: 13px; font-weight: 600; color: var(--red);
-    text-transform: uppercase; letter-spacing: 0.06em;
-    transition: gap 0.2s ease; display: inline-flex; align-items: center; gap: 6px;
-  }
-  .pentru-card:hover .pentru-link { gap: 10px; }
-
-  @media (max-width: 968px) {
-    .pentru-grid { grid-template-columns: 1fr; gap: 18px; }
-    .pentru-stage { padding: 48px 24px 36px; }
-    .pentru-card { padding: 28px 24px; }
-  }
-</style>
-
-<section class="pentru-section">
-  <div class="container">
-    <div class="pentru-stage-wrap reveal">
-      <div class="pentru-watermark" aria-hidden="true">
-        <span class="wm-half wm-top">Pentru</span>
-        <span class="wm-half wm-bottom">Pentru</span>
-      </div>
-
-      <div class="pentru-stage">
-        <div class="pentru-intro">
-          <span class="bubble-tag">Pentru cine</span>
-          <h2>Trei oameni diferiți, <em>aceeași casă perfectă.</em></h2>
-          <p>Polistibrick rezolvă probleme diferite pentru fiecare. Alege-ți rolul ca să vezi ce primești concret.</p>
-        </div>
-
-        <div class="pentru-grid">
-
-          <a href="pentru/proprietari/" class="pentru-card">
-            <div class="pentru-icon">🏠</div>
-            <span class="pentru-tag">Proprietar</span>
-            <h3>Casă pe viață, <em>fără facturi mari.</em></h3>
-            <p>Visezi casă pasivă dar te sperie costul? Cu Polistibrick o ai la prețul casei clasice.</p>
-            <ul class="pentru-promises">
-              <li>Facturi cu &minus;95% pe energie</li>
-              <li>Construcție în 4 săptămâni</li>
-              <li>Vara fără AC, iarna fără centrală</li>
-              <li>Rezistă cutremure, foc, apă</li>
-            </ul>
-            <span class="pentru-link">Vezi pentru proprietari →</span>
-          </a>
-
-          <a href="pentru/arhitecti/" class="pentru-card">
-            <div class="pentru-icon">📐</div>
-            <span class="pentru-tag">Arhitect · Inginer</span>
-            <h3>Sistem flexibil. <em>Suport complet.</em></h3>
-            <p>ICF brevetat cu certificări UE, BIM, calculații PHPP și suport tehnic dedicat pe fiecare proiect.</p>
-            <ul class="pentru-promises">
-              <li>Deschideri 9 m fără grinzi</li>
-              <li>Geometrii custom fără cost suplimentar</li>
-              <li>BIM + DWG + fișe tehnice gratuite</li>
-              <li>Trece Passivhaus la prima vizită</li>
-            </ul>
-            <span class="pentru-link">Vezi pentru arhitecți →</span>
-          </a>
-
-          <a href="pentru/investitori/" class="pentru-card">
-            <div class="pentru-icon">🏢</div>
-            <span class="pentru-tag">Dezvoltator</span>
-            <h3>ROI maxim. <em>Risc minim.</em></h3>
-            <p>Ansambluri rezidențiale Passivhaus livrate în jumătate de timp, vândute cu premium +18% peste piață.</p>
-            <ul class="pentru-promises">
-              <li>&minus;40% timp execuție pe ansamblu</li>
-              <li>+18% premium preț vânzare</li>
-              <li>Certificare Passivhaus garantată</li>
-              <li>Volume / discount-uri B2B</li>
-            </ul>
-            <span class="pentru-link">Vezi pentru dezvoltatori →</span>
-          </a>
-
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- PRODUSE — Page 1: PEREȚI MBK -->
 <section class="product-page" id="produse" data-product="mbk">
   <div class="container">
@@ -3851,6 +3852,243 @@
           <a href="oferta/" class="btn btn-primary btn-arrow">Cere ofertă personalizată</a>
         </div>
 
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIAL — social proof from a real owner -->
+<style>
+  .testimonial-section {
+    background: var(--cream);
+    padding: 80px 0;
+  }
+  .testimonial-stage-wrap {
+    position: relative;
+    margin: 60px auto 0;
+    max-width: 1480px;
+  }
+  .testimonial-stage {
+    position: relative;
+    background: linear-gradient(135deg, #2A2520 0%, #393229 100%);
+    color: var(--cream);
+    border-radius: 32px;
+    padding: 64px 56px 56px;
+    overflow: hidden;
+  }
+  .testimonial-stage::before {
+    content: '';
+    position: absolute;
+    top: -30%; right: -10%;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(200,16,46,0.18) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .testimonial-watermark {
+    position: absolute; top: 0; left: 50%; width: 100vw; margin-left: -50vw;
+    pointer-events: none; user-select: none; transform: translateY(-50%);
+    height: 1em; line-height: 1; text-align: center; text-transform: uppercase;
+    font-family: var(--serif); font-size: clamp(64px, 11vw, 180px);
+    font-weight: 500; letter-spacing: -0.06em; z-index: 2;
+  }
+  .testimonial-watermark .wm-half { position: absolute; inset: 0; width: 100%; display: block; }
+  .testimonial-watermark .wm-top { color: transparent; -webkit-text-stroke: 1.4px rgba(15,15,15,0.30); clip-path: inset(0 0 50% 0); }
+  .testimonial-watermark .wm-bottom { color: var(--cream-dark); opacity: 0.65; clip-path: inset(50% 0 0 0); }
+
+  .testimonial-content {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 56px;
+    align-items: center;
+  }
+  .testimonial-quote-wrap { position: relative; }
+  .testimonial-quote-mark {
+    font-family: var(--serif);
+    font-size: 100px;
+    color: var(--red);
+    line-height: 1;
+    margin-bottom: -20px;
+    opacity: 0.6;
+  }
+  .testimonial-quote {
+    font-family: var(--serif);
+    font-size: clamp(22px, 2.4vw, 32px);
+    line-height: 1.3;
+    color: var(--cream);
+    letter-spacing: -0.01em;
+    font-weight: 400;
+    margin-bottom: 28px;
+  }
+  .testimonial-quote em {
+    font-style: italic;
+    color: var(--red);
+    font-weight: 400;
+  }
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.15);
+  }
+  .testimonial-author-avatar {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(247,244,237,0.5);
+    font-size: 11px;
+    flex-shrink: 0;
+  }
+  .testimonial-author-info strong {
+    display: block;
+    font-size: 16px;
+    color: var(--cream);
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+  .testimonial-author-info span {
+    display: block;
+    font-size: 13px;
+    color: rgba(247,244,237,0.6);
+  }
+
+  .testimonial-stats {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    padding: 32px;
+  }
+  .testimonial-tag {
+    display: inline-block;
+    background: rgba(200,16,46,0.18);
+    color: var(--red);
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .testimonial-stats h4 {
+    font-family: var(--serif);
+    font-size: 22px;
+    color: var(--cream);
+    font-weight: 500;
+    margin-bottom: 6px;
+    line-height: 1.15;
+  }
+  .testimonial-stats h4 em { font-style: italic; color: var(--red); font-weight: 400; }
+  .testimonial-stats > p {
+    font-size: 13px;
+    color: rgba(247,244,237,0.65);
+    line-height: 1.5;
+    margin-bottom: 22px;
+  }
+  .testimonial-stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .testimonial-stats-cell {
+    text-align: center;
+    padding: 14px 10px;
+    background: rgba(0,0,0,0.20);
+    border-radius: 12px;
+  }
+  .testimonial-stats-cell strong {
+    display: block;
+    font-family: var(--serif);
+    font-size: 24px;
+    color: var(--red);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .testimonial-stats-cell span {
+    display: block;
+    font-size: 10px;
+    color: rgba(247,244,237,0.55);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 6px;
+    font-weight: 600;
+  }
+
+  .testimonial-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 22px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--red);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    transition: gap 0.2s ease;
+  }
+  .testimonial-link:hover { gap: 12px; color: var(--cream); }
+
+  @media (max-width: 968px) {
+    .testimonial-content { grid-template-columns: 1fr; gap: 32px; }
+    .testimonial-stage { padding: 40px 24px 36px; }
+    .testimonial-stats { padding: 24px; }
+  }
+</style>
+
+<section class="testimonial-section">
+  <div class="container">
+    <div class="testimonial-stage-wrap reveal">
+      <div class="testimonial-watermark" aria-hidden="true">
+        <span class="wm-half wm-top">Povești</span>
+        <span class="wm-half wm-bottom">Povești</span>
+      </div>
+
+      <div class="testimonial-stage">
+        <div class="testimonial-content">
+
+          <div class="testimonial-quote-wrap">
+            <div class="testimonial-quote-mark" aria-hidden="true">"</div>
+            <p class="testimonial-quote">
+              După 2 ani de iarnă în casa Polistibrick, <em>n-am mai pornit niciodată centrala</em>. Plătesc 38 €/lună la curent. Vecinii cu cărămidă pasivă plătesc peste 300.
+            </p>
+            <div class="testimonial-author">
+              <div class="testimonial-author-avatar">[Foto]</div>
+              <div class="testimonial-author-info">
+                <strong>[Nume Proprietar]</strong>
+                <span>Cluj-Napoca · Casă 180 m² · Locuită din 2024</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-stats">
+            <span class="testimonial-tag">Cifre reale</span>
+            <h4>Facturi reale, <em>nu promisiuni.</em></h4>
+            <p>Date dintr-o casă Polistibrick locuită de 2 ani — comparate direct cu vecinii care construiesc cu cărămidă pasivă pe aceeași stradă.</p>
+            <div class="testimonial-stats-grid">
+              <div class="testimonial-stats-cell">
+                <strong>38€</strong><span>Factură/lună</span>
+              </div>
+              <div class="testimonial-stats-cell">
+                <strong>5 săpt.</strong><span>Execuție</span>
+              </div>
+              <div class="testimonial-stats-cell">
+                <strong>A+++</strong><span>Clasă energ.</span>
+              </div>
+              <div class="testimonial-stats-cell">
+                <strong>0 €</strong><span>Reparații</span>
+              </div>
+            </div>
+            <a href="testimoniale/" class="testimonial-link">Vezi toate poveștile →</a>
+          </div>
+
+        </div>
       </div>
     </div>
   </div>
@@ -4428,6 +4666,7 @@
       { sel: '#produse-planseu',     x:  22, y:  4, xmm: 30, scale: 1.30, ry:  -2, rz: -1, alpha: 1, product: 'pbk' },
       { sel: '#produse-acoperis',    x:  22, y:  6, xmm: 30, scale: 1.20, ry:   8, rz:  2, alpha: 1, product: 'tbk' },
       { sel: '.montaj-section',      x:   0, y:  0, scale: 0.6,  ry:   0, rz:  0, alpha: 0, product: 'tbk' },
+      { sel: '.testimonial-section', x:   0, y:  0, scale: 0.6,  ry:   0, rz:  0, alpha: 0, product: 'tbk' },
       { sel: '.comparison-section',  x:   0, y:  0, scale: 0.6,  ry:   0, rz:  0, alpha: 0, product: 'tbk' },
       { sel: '.cta-section',         x:  24, y:  8, xmm: 10, scale: 1.05, ry: -10, rz: -3, alpha: 1, product: 'robot' },
       { sel: 'footer',               x:   0, y:  0, scale: 0,    ry:   0, rz:  0, alpha: 0, product: 'mbk' },

@@ -28,13 +28,11 @@
 
   html {
     scroll-behavior: smooth;
-    /* Scroll-snap pagination — each main section locks to a full viewport */
-    scroll-snap-type: y mandatory;
-    /* Offset snap by the fixed nav height so content doesn't hide under it */
+    /* Scroll natural — fara snap, ca pe un site normal. */
     scroll-padding-top: 88px;
-    /* overflow-x: hidden este mutat in @media mobil ca sa nu strice scroll-snap pe desktop */
   }
-  /* Each main section is one "page" */
+  /* Sectiunile pastreaza min-height 100vh ca sa aiba respiratie vizuala
+     dar NU mai sunt anchorate scroll-snap. */
   .hero,
   .stats-section,
   .system-section,
@@ -48,8 +46,6 @@
   .comparison-section,
   .cta-section,
   footer {
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -4703,53 +4699,43 @@
       });
     }
 
-    // HOLD-AND-FADE model:
-    //   • While viewport is INSIDE a section → image fully visible (alpha = section.alpha)
-    //     at the section's prescribed X/Y/scale (FIXED for entire section duration)
-    //   • Within ±BOUNDARY_FADE_PX of the boundary to the NEXT section → blend
-    //     alpha and position toward the next section
-    //   • This way: robotul stă fix pe pagina CTA toata pagina, perete fix pe MBK, etc.
-    //     Fade-out apare doar la granița dintre două secțiuni cu alpha diferit.
-    const BOUNDARY_FADE_PX = 95; // 25mm fade zone at each section boundary
+    // WINDOW-FADE model: image apare in fereastra ±50mm in jurul ancorei sectiunii.
+    //   • La ancora (dist=0) → alpha 1 (deplin vizibila)
+    //   • La ±FADE_PX (50mm) → alpha 0 (invizibila)
+    //   • Linear ramp intre 0 si 50mm
+    //   • Dincolo de 50mm → 0 (invizibila)
+    // 50mm ≈ 189px at 96dpi (1mm ≈ 3.78px).
+    const FADE_PX = 189; // 50mm window radius
 
     function recomputeTarget() {
       const probe = window.scrollY;
       const viewportMid = probe + window.innerHeight / 2;
 
-      // Current section = last one whose offsetTop is at or before viewport center.
-      let currentIdx = 0;
-      for (let k = 0; k < sections.length; k++) {
-        if (viewportMid >= sections[k].el.offsetTop) currentIdx = k;
-      }
-      const a = sections[currentIdx];
-      const b = sections[Math.min(currentIdx + 1, sections.length - 1)];
-
-      // Distance from viewport center to the NEXT section's top.
-      const distToNextTop = b.el.offsetTop - viewportMid;
-
-      // Default: lock to current section's values (fully visible inside).
-      let posSec = a;
-      let alpha = a.alpha;
-
-      // Approaching the boundary to next section → blend alpha & switch position past midpoint.
-      if (a !== b && distToNextTop < BOUNDARY_FADE_PX && distToNextTop >= 0) {
-        const t = (BOUNDARY_FADE_PX - distToNextTop) / BOUNDARY_FADE_PX; // 0 → 1
-        alpha = lerp(a.alpha, b.alpha, t);
-        if (t > 0.5) posSec = b; // position snaps past midpoint
+      // Find nearest section by distance from viewport center to section's center.
+      let nearestSec = sections[0];
+      let nearestDist = Infinity;
+      for (const s of sections) {
+        const center = s.el.offsetTop + s.el.offsetHeight / 2;
+        const dist = Math.abs(viewportMid - center);
+        if (dist < nearestDist) { nearestDist = dist; nearestSec = s; }
       }
 
-      targetX     = posSec.x;
-      targetY     = posSec.y;
-      targetXmm   = posSec.xmm || 0;
-      targetYmm   = posSec.ymm || 0;
-      targetScale = posSec.scale;
-      targetRy    = posSec.ry;
-      targetRz    = posSec.rz;
-      targetAlpha = alpha;
+      // Position & rotation = nearest section's prescribed values
+      targetX     = nearestSec.x;
+      targetY     = nearestSec.y;
+      targetXmm   = nearestSec.xmm || 0;
+      targetYmm   = nearestSec.ymm || 0;
+      targetScale = nearestSec.scale;
+      targetRy    = nearestSec.ry;
+      targetRz    = nearestSec.rz;
 
-      // Build-mode + active product image — driven by the active position section.
-      buildOn = posSec.mode === 'build';
-      if (posSec.product) setActiveProduct(posSec.product);
+      // Alpha: linear fade din ancora (1) catre +/- FADE_PX (0)
+      const alphaRamp = Math.max(0, 1 - nearestDist / FADE_PX);
+      targetAlpha = nearestSec.alpha * alphaRamp;
+
+      // Build-mode + active product image
+      buildOn = nearestSec.mode === 'build';
+      if (nearestSec.product) setActiveProduct(nearestSec.product);
     }
 
     function tick() {

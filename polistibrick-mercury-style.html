@@ -4965,41 +4965,46 @@
       });
     }
 
-    // LOCKED-PER-SECTION model:
-    //   • Image LOCKED at nearest section's prescribed X/Y/scale
-    //   • Visibility = section.alpha (1 or 0 from config, no fade-out based on scroll)
-    //   • Sections with alpha:1 (hero, stats, cta) → image always visible there
-    //   • Sections with alpha:0 (montaj, comparison, etc) → image hidden there
-    //   • Between sections: snaps to nearest, no fade in middle
+    // STICKY-WINDOW model:
+    //   • Cand viewport center este in fereastra ±50mm a unei sectiuni
+    //     → activam acea sectiune (UPDATE pozitie + alpha)
+    //   • Cand iesim din fereastra unei sectiuni, dar n-am ajuns la urmatoarea
+    //     → imaginea RAMANE BLOCATA in pozitia ultimei sectiuni active
+    //   • Cand intram in fereastra sectiunii urmatoare → tranzitia se face
+    //   Asta înseamnă: imaginea NU dispare niciodata mid-scroll. Se "stick"-uieste.
+    // 50mm ≈ 189px at 96dpi.
+    const WINDOW_PX = 189; // 50mm radius around section center
+    let stickySec = sections[0]; // image stays locked to this section between windows
 
     function recomputeTarget() {
       const probe = window.scrollY;
       const viewportMid = probe + window.innerHeight / 2;
 
-      // Find nearest section by distance from viewport center to section's center.
-      let nearestSec = sections[0];
-      let nearestDist = Infinity;
+      // Check if viewport center is inside ANY section's ±50mm window.
+      // If yes, update sticky section. If no, keep last one.
       for (const s of sections) {
         const center = s.el.offsetTop + s.el.offsetHeight / 2;
-        const dist = Math.abs(viewportMid - center);
-        if (dist < nearestDist) { nearestDist = dist; nearestSec = s; }
+        if (Math.abs(viewportMid - center) <= WINDOW_PX) {
+          stickySec = s;
+          break;
+        }
       }
 
-      // Position LOCKED to nearest section
-      targetX     = nearestSec.x;
-      targetY     = nearestSec.y;
-      targetXmm   = nearestSec.xmm || 0;
-      targetYmm   = nearestSec.ymm || 0;
-      targetScale = nearestSec.scale;
-      targetRy    = nearestSec.ry;
-      targetRz    = nearestSec.rz;
+      // Position LOCKED to sticky section (last visited window)
+      targetX     = stickySec.x;
+      targetY     = stickySec.y;
+      targetXmm   = stickySec.xmm || 0;
+      targetYmm   = stickySec.ymm || 0;
+      targetScale = stickySec.scale;
+      targetRy    = stickySec.ry;
+      targetRz    = stickySec.rz;
 
-      // Alpha LOCKED to section's prescribed value (no scroll-based fading)
-      targetAlpha = nearestSec.alpha;
+      // Alpha LOCKED to sticky section's prescribed value
+      targetAlpha = stickySec.alpha;
 
       // Build-mode + active product image
-      buildOn = nearestSec.mode === 'build';
-      if (nearestSec.product) setActiveProduct(nearestSec.product);
+      buildOn = stickySec.mode === 'build';
+      if (stickySec.product) setActiveProduct(stickySec.product);
     }
 
     function tick() {

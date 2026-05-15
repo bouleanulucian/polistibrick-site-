@@ -4699,13 +4699,12 @@
       });
     }
 
-    // WINDOW-FADE model: image apare in fereastra ±50mm in jurul ancorei sectiunii.
-    //   • La ancora (dist=0) → alpha 1 (deplin vizibila)
-    //   • La ±FADE_PX (50mm) → alpha 0 (invizibila)
-    //   • Linear ramp intre 0 si 50mm
-    //   • Dincolo de 50mm → 0 (invizibila)
+    // WINDOW-PLATEAU model:
+    //   • Within ±WINDOW_PX (50mm) → alpha 1 (fully visible, plateau)
+    //   • Outside ±WINDOW_PX → alpha 0 (invisible)
+    // Step function — JS lerp în tick() netezește vizual tranziția in cateva frame-uri.
     // 50mm ≈ 189px at 96dpi (1mm ≈ 3.78px).
-    const FADE_PX = 189; // 50mm window radius
+    const WINDOW_PX = 189; // 50mm window radius
 
     function recomputeTarget() {
       const probe = window.scrollY;
@@ -4729,9 +4728,8 @@
       targetRy    = nearestSec.ry;
       targetRz    = nearestSec.rz;
 
-      // Alpha: linear fade din ancora (1) catre +/- FADE_PX (0)
-      const alphaRamp = Math.max(0, 1 - nearestDist / FADE_PX);
-      targetAlpha = nearestSec.alpha * alphaRamp;
+      // Alpha: plateau (1) in fereastra ±50mm, 0 dincolo. Pur step function.
+      targetAlpha = nearestSec.alpha * (nearestDist <= WINDOW_PX ? 1 : 0);
 
       // Build-mode + active product image
       buildOn = nearestSec.mode === 'build';

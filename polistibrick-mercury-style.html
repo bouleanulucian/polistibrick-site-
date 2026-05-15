@@ -2582,25 +2582,19 @@
     opacity: 0;
     pointer-events: none;
   }
-  /* Mobile: hide the floating-product entirely. Per-section inline images take over. */
-  @media (max-width: 768px) {
-    .floating-product { display: none; }
-  }
-
-  /* Mobile-only inline product image — appears INSIDE each section, contextual to content. */
+  /* Inline product image — appears INSIDE each section, contextual to content.
+     Scrolls naturally with the page. */
   .mobile-product {
-    display: none;
+    display: block;
+    width: 100%;
+    max-width: 420px;
+    aspect-ratio: 1;
+    margin: 32px auto 16px;
+    object-fit: contain;
+    filter: drop-shadow(0 22px 36px rgba(0,0,0,0.18));
   }
   @media (max-width: 768px) {
-    .mobile-product {
-      display: block;
-      width: 100%;
-      max-width: 340px;
-      aspect-ratio: 1;
-      margin: 28px auto 8px;
-      object-fit: contain;
-      filter: drop-shadow(0 18px 30px rgba(0,0,0,0.18));
-    }
+    .mobile-product { max-width: 340px; margin: 28px auto 8px; }
   }
   @media (max-width: 480px) {
     .mobile-product { max-width: 260px; margin: 20px auto 0; }
@@ -2738,25 +2732,6 @@
 
 <!-- SOLAR PARTICLE FIELD — magnetic dots that follow the cursor -->
 <canvas id="solarField" aria-hidden="true"></canvas>
-
-<!-- FLOATING PRODUCT — persistent across the page; moves left/right per section.
-     Three stacked images crossfade as the user changes the carousel slide.
-     A 4th element (build-stage video) takes over on the CTA page. -->
-<div class="floating-product" id="floatingProduct" aria-hidden="true">
-  <div class="product-img-stack">
-    <img class="pi is-active" data-product="robot" src="images/robot.png" alt="Polistibrick — Construcție inteligentă">
-    <img class="pi"            data-product="wall-stage" src="images/wall-stage.png" alt="Perete Polistibrick montat">
-    <img class="pi"            data-product="mbk" src="images/mbk-wall.png" alt="Polistibrick MBK">
-    <img class="pi"            data-product="pbk" src="images/pbk-floor.png" alt="Polistibrick PBK">
-    <img class="pi"            data-product="tbk" src="images/tbk-roof.png" alt="Polistibrick TBK">
-    <div class="pi pi-build" data-product="build" aria-hidden="true">
-      <img class="build-stage" src="images/construction/stage1-cofraj.jpg" alt="">
-      <img class="build-stage" src="images/construction/stage3-planseu.jpg" alt="">
-      <img class="build-stage" src="images/construction/stage2-fierbeton.jpg" alt="">
-      <img class="build-stage" src="images/construction/stage4-final.jpg" alt="">
-    </div>
-  </div>
-</div>
 
 <!-- NAVIGATION -->
 <nav id="nav">
@@ -4908,134 +4883,7 @@
     requestAnimationFrame(frame);
   })();
 
-  // === FLOATING PRODUCT — scroll-linked interpolation between section positions ===
-  // The product's transform is recomputed every animation frame as a linear
-  // interpolation between the CURRENT section's stop and the NEXT section's
-  // stop, weighted by how far the user has scrolled between them. The result
-  // is a continuously-moving product that follows the scroll wheel exactly,
-  // rather than snapping discretely on section change.
-  (function floatingProduct() {
-    const product = document.getElementById('floatingProduct');
-    if (!product) return;
-
-    // Order matches the scroll order of the sections.
-    const stops = [
-      { sel: '.hero',                x:  24, y:  0, scale: 1.45, ry:  -8, rz: -2, alpha: 1, product: 'robot' },
-      { sel: '.stats-section',       x: -29, y:  0, xmm: -15, ymm: 10, scale: 1.40, ry: -10, rz: -3, alpha: 1, product: 'wall-stage' },
-      { sel: '.bundle-section',      x:   0, y:  0, scale: 0.6,  ry:   0, rz:  0, alpha: 0, product: 'wall-stage' },
-      { sel: '.pentru-section',      x:   0, y:  0, scale: 0.6,  ry:   0, rz:  0, alpha: 0, product: 'wall-stage' },
-      { sel: '.reach-section',       x:   0, y:  0, scale: 0.6,  ry:   0, rz:  0, alpha: 0, product: 'wall-stage' },
-      { sel: '.sistem-section',      x:   0, y:  0, scale: 0.6,  ry:   0, rz:  0, alpha: 0, product: 'wall-stage' },
-      { sel: '.montaj-section',      x:   0, y:  0, scale: 0.6,  ry:   0, rz:  0, alpha: 0, product: 'wall-stage' },
-      { sel: '.testimonial-section', x:   0, y:  0, scale: 0.6,  ry:   0, rz:  0, alpha: 0, product: 'wall-stage' },
-      { sel: '.proces-section',      x:   0, y:  0, scale: 0.6,  ry:   0, rz:  0, alpha: 0, product: 'wall-stage' },
-      { sel: '.comparison-section',  x:   0, y:  0, scale: 0.6,  ry:   0, rz:  0, alpha: 0, product: 'wall-stage' },
-      { sel: '.cta-section',         x:  24, y:  8, xmm: 10, scale: 1.05, ry: -10, rz: -3, alpha: 1, product: 'robot' },
-      { sel: 'footer',               x:   0, y:  0, scale: 0,    ry:   0, rz:  0, alpha: 0, product: 'mbk' },
-    ];
-    const sections = stops
-      .map(s => ({ ...s, el: document.querySelector(s.sel) }))
-      .filter(s => s.el);
-
-    if (!sections.length) return;
-
-    function lerp(a, b, t) { return a + (b - a) * t; }
-    function smoothstep(t) { return t * t * (3 - 2 * t); }
-    function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
-
-    // Smoothed display values — these are what we actually render. They lerp
-    // toward the scroll-derived target each frame for extra fluidity.
-    let dispX = sections[0].x, dispY = sections[0].y;
-    let dispXmm = sections[0].xmm || 0;
-    let dispYmm = sections[0].ymm || 0;
-    let dispScale = sections[0].scale, dispRy = sections[0].ry, dispRz = sections[0].rz;
-    let dispAlpha = sections[0].alpha;
-    let targetX, targetY, targetXmm, targetYmm, targetScale, targetRy, targetRz, targetAlpha;
-    let buildOn = false;
-
-    // Image-switching for floating product (mbk/pbk/tbk crossfade)
-    const stackImgs = document.querySelectorAll('#floatingProduct .pi');
-    let currentProduct = sections[0].product || 'mbk';
-    function setActiveProduct(key) {
-      if (key === currentProduct) return;
-      currentProduct = key;
-      stackImgs.forEach(img => {
-        if (img.classList.contains('pi-build')) return;
-        img.classList.toggle('is-active', img.dataset.product === key);
-      });
-    }
-
-    // STICKY-VISIBLE model:
-    //   • Imaginea este MEREU VIZIBILA dupa primul ancorat (alpha = 1 permanent)
-    //   • Cand viewport center intra in ±50mm de centrul unei sectiuni VIZIBILE
-    //     (cu alpha:1 in config) → pozitia se schimba la acea sectiune
-    //   • In rest (intre ferestre sau in sectiuni cu alpha:0) → ramane fix
-    //     in pozitia ultimei sectiuni vizitate. Dar continua sa fie VIZIBILA.
-    // 50mm ≈ 189px at 96dpi.
-    const WINDOW_PX = 189; // 50mm radius around section center
-
-    // Doar sectiuni cu alpha:1 sunt candidate (hero, stats, cta) — celelalte au
-    // alpha:0 in config si erau menite ca 'tranzitie', dar acum imaginea ramane.
-    const stickyCandidates = sections.filter(s => s.alpha === 1);
-    let stickySec = stickyCandidates[0]; // default: first visible section (hero)
-
-    function recomputeTarget() {
-      const probe = window.scrollY;
-      const viewportMid = probe + window.innerHeight / 2;
-
-      // Update sticky only when entering a VISIBLE section's ±50mm window.
-      for (const s of stickyCandidates) {
-        const center = s.el.offsetTop + s.el.offsetHeight / 2;
-        if (Math.abs(viewportMid - center) <= WINDOW_PX) {
-          stickySec = s;
-          break;
-        }
-      }
-
-      // Position LOCKED to sticky section
-      targetX     = stickySec.x;
-      targetY     = stickySec.y;
-      targetXmm   = stickySec.xmm || 0;
-      targetYmm   = stickySec.ymm || 0;
-      targetScale = stickySec.scale;
-      targetRy    = stickySec.ry;
-      targetRz    = stickySec.rz;
-
-      // ALWAYS VISIBLE (alpha 1 — sticky.alpha intotdeauna 1 caci doar
-      // alpha:1 sunt in candidate list)
-      targetAlpha = 1;
-
-      // Build-mode + active product image
-      buildOn = stickySec.mode === 'build';
-      if (stickySec.product) setActiveProduct(stickySec.product);
-    }
-
-    function tick() {
-      const k = 0.22; // higher = snappier follow, lower = smoother lag
-      dispX     = lerp(dispX,     targetX,     k);
-      dispY     = lerp(dispY,     targetY,     k);
-      dispXmm   = lerp(dispXmm,   targetXmm,   k);
-      dispYmm   = lerp(dispYmm,   targetYmm,   k);
-      dispScale = lerp(dispScale, targetScale, k);
-      dispRy    = lerp(dispRy,    targetRy,    k);
-      dispRz    = lerp(dispRz,    targetRz,    k);
-      dispAlpha = lerp(dispAlpha, targetAlpha, k);
-
-      product.style.opacity = dispAlpha;
-      product.style.transform =
-        'translate(calc(-50% + ' + dispX + 'vw + ' + dispXmm + 'mm), calc(-50% + ' + dispY + 'vh + ' + dispYmm + 'mm)) ' +
-        'perspective(1400px) rotateY(' + dispRy + 'deg) rotateZ(' + dispRz + 'deg) ' +
-        'scale(' + dispScale + ')';
-      product.classList.toggle('shows-build', buildOn);
-
-      requestAnimationFrame(tick);
-    }
-
-    window.addEventListener('scroll', recomputeTarget, { passive: true });
-    window.addEventListener('resize', recomputeTarget);
-    recomputeTarget();
-    requestAnimationFrame(tick);
-  })();
+  // (Floating product system removed — images now flow inline within sections.)
 
   // === SECTION NAV — pulse indicator with active-section tracking ===
   (function sectionNav() {

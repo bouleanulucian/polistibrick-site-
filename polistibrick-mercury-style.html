@@ -743,11 +743,12 @@
     padding: 30px 0;
     justify-content: flex-start; /* prevents centered overflow */
   }
+  /* Stats section uses full container width (floating product removed) */
   .stats-section .container {
-    margin: 0;
-    max-width: 100%;
-    padding-left: clamp(32px, 39vw, 640px);
-    padding-right: clamp(32px, 11vw, 176px);
+    margin: 0 auto;
+    max-width: 1480px;
+    padding-left: clamp(32px, 5vw, 64px);
+    padding-right: clamp(32px, 5vw, 64px);
   }
   .stats-section .section-eyebrow { margin-bottom: 6px; font-size: 12px; }
   .stats-section .section-title { font-size: clamp(24px, 3vw, 40px); line-height: 1.05; margin-bottom: 10px; }

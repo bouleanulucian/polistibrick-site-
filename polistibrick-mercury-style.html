@@ -4027,10 +4027,12 @@
       { sel: '#produse',             x:  22, y:  0, xmm: 30, ymm: 15, scale: 1.35, ry:   6, rz:  0, alpha: 1, product: 'mbk' },
       { sel: '#produse-planseu',     x:  22, y:  4, xmm: 30, scale: 1.30, ry:  -2, rz: -1, alpha: 1, product: 'pbk' },
       { sel: '#produse-acoperis',    x:  22, y:  6, xmm: 30, scale: 1.20, ry:   8, rz:  2, alpha: 1, product: 'tbk' },
-      { sel: '.montaj-section',      x:   0, y:  0, scale: 0.6,  ry:   0, rz:  0, alpha: 0, product: 'tbk' },
-      { sel: '.comparison-section',  x:   0, y:  0, scale: 0.6,  ry:   0, rz:  0, alpha: 0, product: 'tbk' },
-      { sel: '.cta-section',         x:  24, y:  8, xmm: 10, scale: 1.05, ry: -10, rz: -3, alpha: 1, product: 'robot' },
-      { sel: 'footer',               x:   0, y:  0, scale: 0,    ry:   0, rz:  0, alpha: 0, product: 'mbk' },
+      /* După Acoperiș nu mai apare nimic. Alpha 0 + aceeași poziție ca Acoperiș
+         ca să dispară pe loc fără să se "centreze" în mijloc între tranziții. */
+      { sel: '.montaj-section',      x:  22, y:  6, xmm: 30, scale: 1.20, ry:   8, rz:  2, alpha: 0, product: 'tbk' },
+      { sel: '.comparison-section',  x:  22, y:  6, xmm: 30, scale: 1.20, ry:   8, rz:  2, alpha: 0, product: 'tbk' },
+      { sel: '.cta-section',         x:  22, y:  6, xmm: 30, scale: 1.20, ry:   8, rz:  2, alpha: 0, product: 'tbk' },
+      { sel: 'footer',               x:  22, y:  6, xmm: 30, scale: 1.20, ry:   8, rz:  2, alpha: 0, product: 'tbk' },
     ];
     const sections = stops
       .map(s => ({ ...s, el: document.querySelector(s.sel) }))

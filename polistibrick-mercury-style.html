@@ -32,8 +32,7 @@
     scroll-snap-type: y mandatory;
     /* Offset snap by the fixed nav height so content doesn't hide under it */
     scroll-padding-top: 88px;
-    /* Prevent horizontal scroll from any wide element (watermarks at 100vw, SVG map etc) */
-    overflow-x: hidden;
+    /* overflow-x: hidden este mutat in @media mobil ca sa nu strice scroll-snap pe desktop */
   }
   /* Each main section is one "page" */
   .hero,
@@ -136,6 +135,8 @@
       scroll-snap-type: none;
       scroll-padding-top: 0;
       scroll-behavior: auto;
+      /* Pe mobil, watermark-urile la 100vw pot cauza scroll orizontal — clipping */
+      overflow-x: hidden;
     }
     .hero, .stats-section, .system-section, .reach-section, .product-page,
     .montaj-section, .why-section, .comparison-section, .cta-section {

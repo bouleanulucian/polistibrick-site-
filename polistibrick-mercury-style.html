@@ -39,9 +39,10 @@
   .bundle-section,
   .pentru-section,
   .reach-section,
-  .product-page,
+  .sistem-section,
   .montaj-section,
   .testimonial-section,
+  .proces-section,
   .why-section,
   .comparison-section,
   .cta-section,
@@ -138,8 +139,8 @@
       overflow-x: hidden;
     }
     .hero, .stats-section, .system-section, .bundle-section, .pentru-section,
-    .reach-section, .product-page, .montaj-section, .testimonial-section,
-    .why-section, .comparison-section, .cta-section {
+    .reach-section, .sistem-section, .montaj-section, .testimonial-section,
+    .proces-section, .why-section, .comparison-section, .cta-section {
       min-height: auto;
       display: block;
       scroll-snap-align: none;
@@ -2894,7 +2895,7 @@
     <p class="hero-sub reveal">Sistem brevetat ICF cu panouri de 3 m. <strong>5 produse premium într-un singur panou</strong>: izolație · rezistență la foc A1 · antiseismic · hidrofug · acustic. Vara fără AC, iarna fără centrală. Construit în 4 săptămâni.</p>
     <div class="hero-actions reveal">
       <a href="oferta/" class="btn btn-red btn-large">Cere o ofertă →</a>
-      <a href="#produse" class="btn btn-ghost btn-large">Cum funcționează</a>
+      <a href="calculator/" class="btn btn-ghost btn-large">Calculează costul casei</a>
     </div>
 
     <img class="mobile-product reveal" src="images/robot.png" alt="Polistibrick — Construcție inteligentă" loading="lazy">
@@ -3543,67 +3544,176 @@
       </div>
 </section>
 
-<!-- PRODUSE — Page 1: PEREȚI MBK -->
-<section class="product-page" id="produse" data-product="mbk">
+<!-- SISTEM COMPLET — 3 produse consolidate intr-o singura sectiune -->
+<style>
+  .sistem-section {
+    background: var(--cream);
+    padding: 80px 0;
+  }
+  .sistem-stage-wrap {
+    position: relative;
+    margin: 60px auto 0;
+    max-width: 1480px;
+  }
+  .sistem-stage {
+    position: relative;
+    background: var(--cream-light);
+    border: 1px solid var(--border);
+    border-radius: 32px;
+    padding: 64px 48px 56px;
+    overflow: visible;
+  }
+  .sistem-watermark {
+    position: absolute; top: 0; left: 50%; width: 100vw; margin-left: -50vw;
+    pointer-events: none; user-select: none; transform: translateY(-50%);
+    height: 1em; line-height: 1; text-align: center; text-transform: uppercase;
+    font-family: var(--serif); font-size: clamp(64px, 11vw, 180px);
+    font-weight: 500; letter-spacing: -0.06em; z-index: 2;
+  }
+  .sistem-watermark .wm-half { position: absolute; inset: 0; width: 100%; display: block; }
+  .sistem-watermark .wm-top { color: transparent; -webkit-text-stroke: 1.4px rgba(15,15,15,0.30); clip-path: inset(0 0 50% 0); }
+  .sistem-watermark .wm-bottom { color: var(--cream-dark); opacity: 0.65; clip-path: inset(50% 0 0 0); }
+  .sistem-intro {
+    max-width: 760px; margin: 0 auto 48px; text-align: center;
+  }
+  .sistem-intro .bubble-tag {
+    display: inline-block; background: var(--red-soft); color: var(--red);
+    padding: 4px 12px; border-radius: 4px; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 14px;
+  }
+  .sistem-intro h2 {
+    font-family: var(--serif); font-size: clamp(28px, 3.2vw, 44px); font-weight: 500;
+    color: var(--ink); letter-spacing: -0.02em; line-height: 1.05; margin-bottom: 14px;
+  }
+  .sistem-intro h2 em { font-style: italic; color: var(--red); font-weight: 400; }
+  .sistem-intro p { font-size: 15px; color: var(--gray); line-height: 1.6; margin: 0; }
+
+  .sistem-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .sistem-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px 28px 28px;
+    transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s ease, border-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+  }
+  .sistem-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 50px rgba(0,0,0,0.08);
+    border-color: var(--red);
+  }
+  .sistem-card-img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    margin-bottom: 22px;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .sistem-card-img img {
+    max-width: 90%; max-height: 90%;
+    object-fit: contain; display: block;
+  }
+  .sistem-card .bubble-tag {
+    display: inline-block; background: var(--red-soft); color: var(--red);
+    padding: 3px 10px; border-radius: 4px; font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 12px;
+    align-self: flex-start;
+  }
+  .sistem-card h3 {
+    font-family: var(--serif); font-size: 22px; font-weight: 500;
+    color: var(--ink); margin-bottom: 10px; letter-spacing: -0.01em;
+    line-height: 1.15;
+  }
+  .sistem-card h3 em { font-style: italic; color: var(--red); font-weight: 400; }
+  .sistem-card p {
+    font-size: 13.5px; color: var(--gray); line-height: 1.55; margin: 0 0 18px;
+    flex: 1;
+  }
+  .sistem-card-spec {
+    font-size: 12px; color: var(--ink-soft); margin-bottom: 18px;
+    padding-top: 14px; border-top: 1px solid var(--border);
+  }
+  .sistem-card-spec strong { color: var(--red); font-family: var(--serif); font-size: 15px; }
+  .sistem-link {
+    font-size: 12.5px; font-weight: 600; color: var(--red);
+    text-transform: uppercase; letter-spacing: 0.06em;
+    transition: gap 0.2s ease; display: inline-flex; align-items: center; gap: 6px;
+  }
+  .sistem-card:hover .sistem-link { gap: 10px; }
+
+  @media (max-width: 968px) {
+    .sistem-grid { grid-template-columns: 1fr; gap: 18px; }
+    .sistem-stage { padding: 48px 24px 36px; }
+    .sistem-card { padding: 24px 22px; }
+  }
+</style>
+
+<section class="sistem-section" id="sistem">
   <div class="container">
-    <div class="produse-stage-wrap">
-      <div class="produse-watermark" aria-hidden="true">
-        <span class="wm-half wm-top">Pereți</span>
-        <span class="wm-half wm-bottom">Pereți</span>
+    <div class="sistem-stage-wrap reveal">
+      <div class="sistem-watermark" aria-hidden="true">
+        <span class="wm-half wm-top">Sistem</span>
+        <span class="wm-half wm-bottom">Sistem</span>
       </div>
-      <div class="produse-stage reveal">
-        <div class="product-bubble">
-          <span class="bubble-tag">Pereți · MBK</span>
-          <h3>Perete finit <em>5 în 1.</em></h3>
-          <p><strong>3 modele predefinite</strong> — de la premium la pasiv A+++ — plus posibilitatea de a crea la comandă produsul potrivit construcției dorite, <strong>fără costuri suplimentare</strong>. MBK este singurul sistem ICF care se adaptează nevoilor tale personalizate.</p>
-          <img class="mobile-product" src="images/mbk-wall.png" alt="Polistibrick MBK — perete" loading="lazy">
-          <a href="produse/pereti-mbk/" class="product-cta">Vezi detalii MBK</a>
+
+      <div class="sistem-stage">
+        <div class="sistem-intro">
+          <span class="bubble-tag">Sistemul Polistibrick</span>
+          <h2>O casă completă. <em>Trei produse premium.</em></h2>
+          <p>Pereți, planșee și acoperiș — fabricate să lucreze împreună ca un sistem monolitic. Toate cu izolație premium integrată, certificate UE și calculate Passivhaus.</p>
+        </div>
+
+        <div class="sistem-grid">
+
+          <a href="produse/pereti-mbk/" class="sistem-card">
+            <div class="sistem-card-img">
+              <img src="images/mbk-wall.png" alt="Polistibrick MBK — perete premium" loading="lazy">
+            </div>
+            <span class="bubble-tag">Pereți · MBK</span>
+            <h3>Perete finit <em>5 în 1.</em></h3>
+            <p>3 modele premium (210/270/300) plus producție la comandă fără cost suplimentar. Singurul ICF cu această garanție.</p>
+            <div class="sistem-card-spec">
+              <strong>U=0,10–0,14</strong> W/m²K · Foc A1 · Antiseismic
+            </div>
+            <span class="sistem-link">Vezi detalii MBK →</span>
+          </a>
+
+          <a href="produse/planseu-pbk/" class="sistem-card">
+            <div class="sistem-card-img">
+              <img src="images/pbk-floor.png" alt="Polistibrick PBK — planșeu premium" loading="lazy">
+            </div>
+            <span class="bubble-tag">Planșee · PBK</span>
+            <h3>Deschideri <em>până la 9 m.</em></h3>
+            <p>Sistem prefabricat ușor și ultra-rezistent: polistiren + fibrocement + beton armat. Defazaj termic 10,8 ore.</p>
+            <div class="sistem-card-spec">
+              <strong>9 m</strong> deschidere · 65 kg/m² · Fonic ≥ 52 dB
+            </div>
+            <span class="sistem-link">Vezi detalii PBK →</span>
+          </a>
+
+          <a href="produse/acoperis-tbk/" class="sistem-card">
+            <div class="sistem-card-img">
+              <img src="images/tbk-roof.png" alt="Polistibrick TBK — acoperiș Passivhaus" loading="lazy">
+            </div>
+            <span class="bubble-tag">Acoperiș · TBK</span>
+            <h3>Passivhaus <em>din fabrică.</em></h3>
+            <p>U=0,13 W/m²K, grosime 25 cm, doar 22 kg/m². Cel mai performant acoperiș din clasa lui. Fără izolație adițională.</p>
+            <div class="sistem-card-spec">
+              <strong>U=0,13</strong> W/m²K · 22 kg/m² · Passivhaus
+            </div>
+            <span class="sistem-link">Vezi detalii TBK →</span>
+          </a>
+
         </div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- PRODUSE — Page 2: PLANȘEE PBK -->
-<section class="product-page" id="produse-planseu" data-product="pbk">
-  <div class="container">
-    <div class="produse-stage-wrap">
-      <div class="produse-watermark" aria-hidden="true">
-        <span class="wm-half wm-top">Planșee</span>
-        <span class="wm-half wm-bottom">Planșee</span>
-      </div>
-      <div class="produse-stage reveal">
-        <div class="product-bubble">
-          <span class="bubble-tag">Planșee · PBK</span>
-          <h3>Deschideri de până la <em>9 m fără grinzi.</em></h3>
-          <p>PBK este un sistem prefabricat pentru planșee, ușor și ultra-rezistent. Combină polistirenul, fibrocementul și betonul armat pentru o izolație termică și fonică superioară, cu defazaj de până la 10,8 ore. Suportă deschideri de până la 9 metri.</p>
-          <img class="mobile-product" src="images/pbk-floor.png" alt="Polistibrick PBK — planșeu" loading="lazy">
-          <a href="produse/planseu-pbk/" class="product-cta">Vezi detalii PBK</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PRODUSE — Page 3: ACOPERIȘ TBK -->
-<section class="product-page" id="produse-acoperis" data-product="tbk">
-  <div class="container">
-    <div class="produse-stage-wrap">
-      <div class="produse-watermark" aria-hidden="true">
-        <span class="wm-half wm-top">Acoperiș</span>
-        <span class="wm-half wm-bottom">Acoperiș</span>
-      </div>
-      <div class="produse-stage reveal">
-        <div class="product-bubble">
-          <span class="bubble-tag">Acoperiș · TBK</span>
-          <h3>Passivhaus <em>direct din fabrică.</em></h3>
-          <p>TBK este un sistem complet pentru acoperișuri cu deschideri standard de până la 9 metri. Performanță Passivhaus din fabrică (U=0,13 W/m²K), grosime 25 cm, doar 22 kg/m². Izolat și rezistent — fără izolație adițională.</p>
-          <img class="mobile-product" src="images/tbk-roof.png" alt="Polistibrick TBK — acoperiș" loading="lazy">
-          <a href="produse/acoperis-tbk/" class="product-cta">Vezi detalii TBK</a>
-        </div>
-      </div>
-    </div>
-
   </div>
 </section>
 
@@ -4227,6 +4337,163 @@
     </div>
   </div>
 </section>
+<!-- PROCES — 4 pași de la decizie la mutare -->
+<style>
+  .proces-section {
+    background: var(--cream);
+    padding: 80px 0;
+  }
+  .proces-stage-wrap {
+    position: relative;
+    margin: 60px auto 0;
+    max-width: 1480px;
+  }
+  .proces-stage {
+    position: relative;
+    background: var(--cream-light);
+    border: 1px solid var(--border);
+    border-radius: 32px;
+    padding: 64px 48px 56px;
+    overflow: visible;
+  }
+  .proces-watermark {
+    position: absolute; top: 0; left: 50%; width: 100vw; margin-left: -50vw;
+    pointer-events: none; user-select: none; transform: translateY(-50%);
+    height: 1em; line-height: 1; text-align: center; text-transform: uppercase;
+    font-family: var(--serif); font-size: clamp(64px, 11vw, 180px);
+    font-weight: 500; letter-spacing: -0.06em; z-index: 2;
+  }
+  .proces-watermark .wm-half { position: absolute; inset: 0; width: 100%; display: block; }
+  .proces-watermark .wm-top { color: transparent; -webkit-text-stroke: 1.4px rgba(15,15,15,0.30); clip-path: inset(0 0 50% 0); }
+  .proces-watermark .wm-bottom { color: var(--cream-dark); opacity: 0.65; clip-path: inset(50% 0 0 0); }
+  .proces-intro {
+    max-width: 760px; margin: 0 auto 48px; text-align: center;
+  }
+  .proces-intro .bubble-tag {
+    display: inline-block; background: var(--red-soft); color: var(--red);
+    padding: 4px 12px; border-radius: 4px; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 14px;
+  }
+  .proces-intro h2 {
+    font-family: var(--serif); font-size: clamp(28px, 3.2vw, 44px); font-weight: 500;
+    color: var(--ink); letter-spacing: -0.02em; line-height: 1.05; margin-bottom: 14px;
+  }
+  .proces-intro h2 em { font-style: italic; color: var(--red); font-weight: 400; }
+  .proces-intro p { font-size: 15px; color: var(--gray); line-height: 1.6; margin: 0; }
+
+  .proces-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    position: relative;
+  }
+  .proces-step {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 28px 22px;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .proces-step:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 38px rgba(0,0,0,0.06);
+  }
+  .proces-step-num {
+    width: 38px; height: 38px;
+    background: var(--ink);
+    color: var(--cream);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 16px;
+    margin-bottom: 18px;
+  }
+  .proces-step h4 {
+    font-family: var(--serif);
+    font-size: 19px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+  .proces-step h4 em { font-style: italic; color: var(--red); font-weight: 400; }
+  .proces-step p {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.5;
+    margin: 0 0 12px;
+  }
+  .proces-step-time {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--red);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 1100px) {
+    .proces-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 700px) {
+    .proces-grid { grid-template-columns: 1fr; }
+    .proces-stage { padding: 48px 24px 36px; }
+  }
+</style>
+
+<section class="proces-section" id="proces">
+  <div class="container">
+    <div class="proces-stage-wrap reveal">
+      <div class="proces-watermark" aria-hidden="true">
+        <span class="wm-half wm-top">Proces</span>
+        <span class="wm-half wm-bottom">Proces</span>
+      </div>
+
+      <div class="proces-stage">
+        <div class="proces-intro">
+          <span class="bubble-tag">Cum funcționează</span>
+          <h2>De la decizie la mutare. <em>În 4 pași.</em></h2>
+          <p>Procesul Polistibrick e simplu și transparent. Tu spui ce vrei, noi calculăm tot, livrăm, construim. Fără surprize.</p>
+        </div>
+
+        <div class="proces-grid">
+
+          <article class="proces-step">
+            <div class="proces-step-num">1</div>
+            <h4>Cere <em>ofertă.</em></h4>
+            <p>Completezi formularul cu detalii despre proiect — sau ne trimiți planul tău. Fără obligație, fără cost.</p>
+            <span class="proces-step-time">5 minute</span>
+          </article>
+
+          <article class="proces-step">
+            <div class="proces-step-num">2</div>
+            <h4>Inginer la <em>fața locului.</em></h4>
+            <p>Un specialist Polistibrick vine pe teren, măsoară, înțelege ce vrei, te sfătuiește pe sistem și model.</p>
+            <span class="proces-step-time">1-3 zile</span>
+          </article>
+
+          <article class="proces-step">
+            <div class="proces-step-num">3</div>
+            <h4>Ofertă <em>completă.</em></h4>
+            <p>Primești cotație detaliată: panouri, livrare, montaj opțional, accesorii. Cifre exacte pentru casa ta.</p>
+            <span class="proces-step-time">48 ore</span>
+          </article>
+
+          <article class="proces-step">
+            <div class="proces-step-num">4</div>
+            <h4>Construire <em>premium.</em></h4>
+            <p>Echipa noastră (sau constructor partener certificat) livrează panourile și construiește în săptămâni.</p>
+            <span class="proces-step-time">4-6 săptămâni</span>
+          </article>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- CTA -->
 <section class="cta-section" id="contact">
   <div class="container">
@@ -4658,12 +4925,11 @@
       { sel: '.bundle-section',      x:   0, y:  0, scale: 0.6,  ry:   0, rz:  0, alpha: 0, product: 'wall-stage' },
       { sel: '.pentru-section',      x:   0, y:  0, scale: 0.6,  ry:   0, rz:  0, alpha: 0, product: 'wall-stage' },
       { sel: '.reach-section',       x:   0, y:  0, scale: 0.6,  ry:   0, rz:  0, alpha: 0, product: 'wall-stage' },
-      { sel: '#produse',             x:  22, y:  0, xmm: 30, ymm: 15, scale: 1.35, ry:   6, rz:  0, alpha: 1, product: 'mbk' },
-      { sel: '#produse-planseu',     x:  22, y:  4, xmm: 30, scale: 1.30, ry:  -2, rz: -1, alpha: 1, product: 'pbk' },
-      { sel: '#produse-acoperis',    x:  22, y:  6, xmm: 30, scale: 1.20, ry:   8, rz:  2, alpha: 1, product: 'tbk' },
-      { sel: '.montaj-section',      x:   0, y:  0, scale: 0.6,  ry:   0, rz:  0, alpha: 0, product: 'tbk' },
-      { sel: '.testimonial-section', x:   0, y:  0, scale: 0.6,  ry:   0, rz:  0, alpha: 0, product: 'tbk' },
-      { sel: '.comparison-section',  x:   0, y:  0, scale: 0.6,  ry:   0, rz:  0, alpha: 0, product: 'tbk' },
+      { sel: '.sistem-section',      x:   0, y:  0, scale: 0.6,  ry:   0, rz:  0, alpha: 0, product: 'wall-stage' },
+      { sel: '.montaj-section',      x:   0, y:  0, scale: 0.6,  ry:   0, rz:  0, alpha: 0, product: 'wall-stage' },
+      { sel: '.testimonial-section', x:   0, y:  0, scale: 0.6,  ry:   0, rz:  0, alpha: 0, product: 'wall-stage' },
+      { sel: '.proces-section',      x:   0, y:  0, scale: 0.6,  ry:   0, rz:  0, alpha: 0, product: 'wall-stage' },
+      { sel: '.comparison-section',  x:   0, y:  0, scale: 0.6,  ry:   0, rz:  0, alpha: 0, product: 'wall-stage' },
       { sel: '.cta-section',         x:  24, y:  8, xmm: 10, scale: 1.05, ry: -10, rz: -3, alpha: 1, product: 'robot' },
       { sel: 'footer',               x:   0, y:  0, scale: 0,    ry:   0, rz:  0, alpha: 0, product: 'mbk' },
     ];

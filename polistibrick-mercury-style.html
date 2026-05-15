@@ -4064,55 +4064,53 @@
       });
     }
 
-    // SNAP-WITH-WINDOW model (trapezoidal alpha curve):
-    //   • PLATEAU: image fully visible (alpha=1) within ±25mm of section anchor
-    //   • FADE: alpha ramps from 1→0 between ±25mm and ±50mm
-    //   • HIDDEN: alpha=0 outside ±50mm
-    // 25mm ≈ 95px at 96dpi (1mm ≈ 3.78px), so plateau half-width = 95, fade end = 190.
-    const PLATEAU_PX = 95;   // image fully visible within ±25mm
-    const FADE_END_PX = 190; // image fully invisible beyond ±50mm
+    // HOLD-AND-FADE model:
+    //   • While viewport is INSIDE a section → image fully visible (alpha = section.alpha)
+    //     at the section's prescribed X/Y/scale (FIXED for entire section duration)
+    //   • Within ±BOUNDARY_FADE_PX of the boundary to the NEXT section → blend
+    //     alpha and position toward the next section
+    //   • This way: robotul stă fix pe pagina CTA toata pagina, perete fix pe MBK, etc.
+    //     Fade-out apare doar la granița dintre două secțiuni cu alpha diferit.
+    const BOUNDARY_FADE_PX = 95; // 25mm fade zone at each section boundary
 
     function recomputeTarget() {
       const probe = window.scrollY;
       const viewportMid = probe + window.innerHeight / 2;
 
-      // Find nearest section by distance from viewport center to section's center.
-      let nearestSec = sections[0];
-      let nearestDist = Infinity;
-      for (const s of sections) {
-        const center = s.el.offsetTop + s.el.offsetHeight / 2;
-        const dist = Math.abs(viewportMid - center);
-        if (dist < nearestDist) { nearestDist = dist; nearestSec = s; }
+      // Current section = last one whose offsetTop is at or before viewport center.
+      let currentIdx = 0;
+      for (let k = 0; k < sections.length; k++) {
+        if (viewportMid >= sections[k].el.offsetTop) currentIdx = k;
+      }
+      const a = sections[currentIdx];
+      const b = sections[Math.min(currentIdx + 1, sections.length - 1)];
+
+      // Distance from viewport center to the NEXT section's top.
+      const distToNextTop = b.el.offsetTop - viewportMid;
+
+      // Default: lock to current section's values (fully visible inside).
+      let posSec = a;
+      let alpha = a.alpha;
+
+      // Approaching the boundary to next section → blend alpha & switch position past midpoint.
+      if (a !== b && distToNextTop < BOUNDARY_FADE_PX && distToNextTop >= 0) {
+        const t = (BOUNDARY_FADE_PX - distToNextTop) / BOUNDARY_FADE_PX; // 0 → 1
+        alpha = lerp(a.alpha, b.alpha, t);
+        if (t > 0.5) posSec = b; // position snaps past midpoint
       }
 
-      // Position & rotation = nearest section's prescribed values (no lerp between sections)
-      targetX     = nearestSec.x;
-      targetY     = nearestSec.y;
-      targetXmm   = nearestSec.xmm || 0;
-      targetYmm   = nearestSec.ymm || 0;
-      targetScale = nearestSec.scale;
-      targetRy    = nearestSec.ry;
-      targetRz    = nearestSec.rz;
+      targetX     = posSec.x;
+      targetY     = posSec.y;
+      targetXmm   = posSec.xmm || 0;
+      targetYmm   = posSec.ymm || 0;
+      targetScale = posSec.scale;
+      targetRy    = posSec.ry;
+      targetRz    = posSec.rz;
+      targetAlpha = alpha;
 
-      // Trapezoidal alpha:
-      //   • |dist| ≤ PLATEAU_PX → alpha = 1
-      //   • PLATEAU_PX < |dist| < FADE_END_PX → alpha = (FADE_END_PX - |dist|) / (FADE_END_PX - PLATEAU_PX)
-      //   • |dist| ≥ FADE_END_PX → alpha = 0
-      let alphaRamp;
-      if (nearestDist <= PLATEAU_PX) {
-        alphaRamp = 1;
-      } else if (nearestDist >= FADE_END_PX) {
-        alphaRamp = 0;
-      } else {
-        alphaRamp = (FADE_END_PX - nearestDist) / (FADE_END_PX - PLATEAU_PX);
-      }
-      targetAlpha = nearestSec.alpha * alphaRamp;
-
-      // Build-mode
-      buildOn = nearestSec.mode === 'build';
-
-      // Active product image
-      if (nearestSec.product) setActiveProduct(nearestSec.product);
+      // Build-mode + active product image — driven by the active position section.
+      buildOn = posSec.mode === 'build';
+      if (posSec.product) setActiveProduct(posSec.product);
     }
 
     function tick() {

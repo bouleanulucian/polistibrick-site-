@@ -854,30 +854,23 @@
   .stat-icon img { width: 100%; height: 100%; object-fit: contain; display: block; }
 
   /* === PASSIVE HOUSE SHOWCASE === */
-  .passive-showcase {
+  /* Wrapper: LEFT photo card + RIGHT original passive-showcase (unchanged inside) */
+  .passive-showcase-wrap {
     margin: 0 0 64px;
     display: grid;
-    /* LEFT: photo carousel (1s alternate), RIGHT: scale + info */
-    grid-template-columns: 1fr 1fr;
-    gap: 56px;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 24px;
     align-items: stretch;
-    background: linear-gradient(135deg, var(--cream-light) 0%, var(--cream) 100%);
-    color: var(--ink);
-    border: 1px solid var(--border);
-    border-radius: 28px;
-    padding: 48px;
-    position: relative;
-    overflow: hidden;
-    box-shadow: var(--shadow-md);
   }
-  /* Photo container with auto-alternating images (construction ↔ finished) */
-  .passive-photo {
+
+  /* LEFT: photo card with alternating images (construction ↔ finished, 1s each) */
+  .passive-photo-card {
     position: relative;
-    border-radius: 18px;
+    border-radius: 28px;
     overflow: hidden;
-    aspect-ratio: 4/5;
     background: var(--ink);
-    z-index: 1;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-md);
   }
   .passive-photo-img {
     position: absolute;
@@ -896,38 +889,41 @@
   }
   .passive-photo-label {
     position: absolute;
-    bottom: 16px; left: 16px;
-    background: rgba(15,15,15,0.85);
+    bottom: 18px; left: 18px;
+    background: rgba(15,15,15,0.88);
     color: var(--cream);
-    padding: 7px 14px;
+    padding: 8px 16px;
     border-radius: 100px;
-    font-size: 11px;
+    font-size: 11.5px;
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     backdrop-filter: blur(8px);
     z-index: 2;
-    animation: labelSwap 2s infinite ease-in-out;
   }
-  @keyframes labelSwap {
-    0%, 40% { content: 'În construcție'; }
-    50%, 90% { content: 'Finalizat'; }
-    100% { content: 'În construcție'; }
+
+  /* RIGHT: original passive-showcase (back to its old 2-col internal layout) */
+  .passive-showcase {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 0.9fr 1fr;
+    gap: 56px;
+    align-items: center;
+    background: linear-gradient(135deg, var(--cream-light) 0%, var(--cream) 100%);
+    color: var(--ink);
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    padding: 48px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
   }
-  /* Content column (scale + info) — stacked vertically inside right col */
-  .passive-content-col {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-    justify-content: center;
+
+  @media (max-width: 1100px) {
+    .passive-showcase-wrap { grid-template-columns: 1fr; gap: 20px; }
   }
   @media (max-width: 968px) {
-    .passive-showcase {
-      grid-template-columns: 1fr;
-      gap: 28px;
-      padding: 28px;
-    }
-    .passive-photo { aspect-ratio: 16/10; }
+    .passive-showcase { grid-template-columns: 1fr; gap: 28px; padding: 32px; }
   }
   .passive-showcase::before {
     content: '';
@@ -3011,11 +3007,11 @@
       <p class="section-sub">Sistemul ICF Polistibrick atinge — și depășește — standardele europene Casa Pasivă direct din proiectare. Fără izolație suplimentară. Fără facturi mari.</p>
     </div>
 
-    <!-- PASSIVE HOUSE SHOWCASE -->
-    <div class="passive-showcase reveal">
+    <!-- PASSIVE HOUSE SHOWCASE — LEFT photo card + RIGHT original showcase -->
+    <div class="passive-showcase-wrap reveal">
 
-      <!-- LEFT: 2 photos alternating every 1 second (construction ↔ finished) -->
-      <div class="passive-photo">
+      <!-- LEFT: photo card with alternating images (construction ↔ finished, 1s each) -->
+      <div class="passive-photo-card">
         <img class="passive-photo-img" src="images/casa-construit.jpg" alt="Casa Polistibrick — în construcție" loading="lazy"
              onerror="this.src='images/construction/stage1-cofraj.jpg'">
         <img class="passive-photo-img" src="images/casa-finalizata.jpg" alt="Casa Polistibrick — finalizată" loading="lazy"
@@ -3023,9 +3019,8 @@
         <span class="passive-photo-label">Aceeași casă · 2 etape</span>
       </div>
 
-      <!-- RIGHT: energy scale + info card stacked -->
-      <div class="passive-content-col">
-
+      <!-- RIGHT: original passive-showcase with energy scale + info side-by-side -->
+      <div class="passive-showcase">
         <div class="energy-scale">
           <div class="energy-bar active">
             <span>A+++</span>
@@ -3064,8 +3059,8 @@
             </div>
           </div>
         </div>
-
       </div>
+
     </div>
 
     <div class="stats-grid reveal">

@@ -892,17 +892,25 @@
   .stats-intro h2 em { font-style: italic; color: var(--red); font-weight: 400; }
   .stats-intro p { font-size: 15px; color: var(--gray); line-height: 1.6; margin: 0; }
 
-  /* Two cards INSIDE stage: photo LEFT + showcase RIGHT, 50/50 */
+  /* Two cards INSIDE stage: photo LEFT + showcase RIGHT, 50/50, equal taller height */
   .passive-showcase-wrap {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 24px;
     align-items: stretch;
     margin-bottom: 32px;
+    min-height: 620px; /* both cards taller */
+  }
+  .passive-showcase-wrap > .passive-photo-card,
+  .passive-showcase-wrap > .passive-showcase {
+    height: 100%;
+    min-height: 620px;
   }
 
   @media (max-width: 1100px) {
-    .passive-showcase-wrap { grid-template-columns: 1fr; gap: 20px; }
+    .passive-showcase-wrap { grid-template-columns: 1fr; gap: 20px; min-height: 0; }
+    .passive-showcase-wrap > .passive-photo-card { min-height: 420px; }
+    .passive-showcase-wrap > .passive-showcase { min-height: 0; }
     .stats-stage { padding: 44px 28px 32px; }
   }
 

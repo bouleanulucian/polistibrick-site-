@@ -2297,30 +2297,37 @@
   .cta-section {
     padding: 60px 0;
   }
-  /* Push the CTA box to the LEFT half — wall product floats on the right */
+  /* 2-column layout — CTA box LEFT, robot image RIGHT. Stacks on ≤968px. */
   .cta-section .container {
-    margin: 0;
-    max-width: 100%;
-    padding-left: clamp(32px, 6vw, 96px);
-    padding-right: clamp(32px, 44vw, 720px);
+    margin: 0 auto;
+    max-width: 1480px;
+    padding: 0 clamp(32px, 5vw, 64px);
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 48px;
+    align-items: center;
   }
   .cta-section .cta-box {
-    max-width: 780px;
-    padding: 70px 60px;
+    max-width: 100%;
+    padding: 60px 56px;
     text-align: left;
   }
-  .cta-section .cta-box p { margin: 0 0 32px; }
+  .cta-section .cta-box p { margin: 0 0 28px; }
   .cta-section .cta-actions { justify-content: flex-start; }
+  .cta-section .cta-image-col {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .cta-section .cta-image-col .mobile-product {
+    max-width: 520px;
+    margin: 0;
+  }
   @media (max-width: 968px) {
-    .cta-section .container {
-      padding-left: 32px;
-      padding-right: 32px;
-    }
-    .cta-section .cta-box {
-      max-width: 100%;
-      text-align: center;
-    }
+    .cta-section .container { grid-template-columns: 1fr; gap: 24px; padding: 0 32px; }
+    .cta-section .cta-box { text-align: center; padding: 48px 36px; }
     .cta-section .cta-actions { justify-content: center; }
+    .cta-section .cta-image-col .mobile-product { max-width: 340px; }
   }
   .cta-box {
     background: var(--ink);
@@ -4494,11 +4501,13 @@
       <div class="cta-box-eyebrow">CONSTRUIEȘTE CU NOI</div>
       <h2>Hai să construim<br><em>casa ta din viitor.</em></h2>
       <p>Spune-ne despre proiectul tău. Îți pregătim o ofertă personalizată în 48 de ore — fără obligații.</p>
-      <img class="mobile-product" src="images/robot.png" alt="Polistibrick — Construcție inteligentă" loading="lazy">
       <div class="cta-actions">
         <a href="oferta/" class="btn btn-on-dark btn-large">Cere o ofertă →</a>
         <a href="tel:+34642777216" class="btn btn-on-dark-ghost btn-large">+34 642 777 216</a>
       </div>
+    </div>
+    <div class="cta-image-col">
+      <img class="mobile-product" src="images/robot.png" alt="Polistibrick — Construcție inteligentă" loading="lazy">
     </div>
   </div>
 </section>

@@ -4965,13 +4965,12 @@
       });
     }
 
-    // CENTER-WINDOW model:
-    //   • Image visible doar cand viewport center este in ±WINDOW_PX de ancora sectiunii
-    //   • Ancora = centrul sectiunii (offsetTop + height/2)
-    //   • Dincolo de ±WINDOW_PX → invizibila
-    //   • Fereastra fixa (50mm) — NU depinde de inaltimea sectiunii
-    // 50mm ≈ 189px at 96dpi. Pure step function (lerp in tick netezeste vizual).
-    const WINDOW_PX = 189; // 50mm radius around section center
+    // LOCKED-PER-SECTION model:
+    //   • Image LOCKED at nearest section's prescribed X/Y/scale
+    //   • Visibility = section.alpha (1 or 0 from config, no fade-out based on scroll)
+    //   • Sections with alpha:1 (hero, stats, cta) → image always visible there
+    //   • Sections with alpha:0 (montaj, comparison, etc) → image hidden there
+    //   • Between sections: snaps to nearest, no fade in middle
 
     function recomputeTarget() {
       const probe = window.scrollY;
@@ -4986,7 +4985,7 @@
         if (dist < nearestDist) { nearestDist = dist; nearestSec = s; }
       }
 
-      // Position & rotation = nearest section's prescribed values
+      // Position LOCKED to nearest section
       targetX     = nearestSec.x;
       targetY     = nearestSec.y;
       targetXmm   = nearestSec.xmm || 0;
@@ -4995,8 +4994,8 @@
       targetRy    = nearestSec.ry;
       targetRz    = nearestSec.rz;
 
-      // Alpha: 1 only when viewport center within ±50mm of section center, else 0
-      targetAlpha = nearestSec.alpha * (nearestDist < WINDOW_PX ? 1 : 0);
+      // Alpha LOCKED to section's prescribed value (no scroll-based fading)
+      targetAlpha = nearestSec.alpha;
 
       // Build-mode + active product image
       buildOn = nearestSec.mode === 'build';

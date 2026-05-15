@@ -930,13 +930,20 @@
     height: 100%;
     object-fit: cover;
     display: block;
-    animation: photoAlternate 2s infinite ease-in-out;
+    opacity: 0;
+    animation: photoCycle4 8s infinite ease-in-out;
   }
-  .passive-photo-img:nth-child(2) { animation-delay: 1s; }
-  @keyframes photoAlternate {
-    0%, 40% { opacity: 1; }
-    50%, 90% { opacity: 0; }
-    100% { opacity: 1; }
+  .passive-photo-img:nth-child(1) { animation-delay: 0s; }
+  .passive-photo-img:nth-child(2) { animation-delay: 2s; }
+  .passive-photo-img:nth-child(3) { animation-delay: 4s; }
+  .passive-photo-img:nth-child(4) { animation-delay: 6s; }
+  /* 8s cycle, 4 photos × 2s each. Each photo visible ~1.6s with 0.4s crossfade. */
+  @keyframes photoCycle4 {
+    0%   { opacity: 0; }
+    3%   { opacity: 1; }
+    22%  { opacity: 1; }
+    25%, 97% { opacity: 0; }
+    100% { opacity: 0; }
   }
   .passive-photo-label {
     position: absolute;
@@ -3068,13 +3075,17 @@
     <!-- PASSIVE HOUSE SHOWCASE — LEFT photo card + RIGHT original showcase -->
     <div class="passive-showcase-wrap reveal">
 
-      <!-- LEFT: photo card with alternating images (construction ↔ finished, 1s each) -->
+      <!-- LEFT: photo card cycling through 4 real photos (montaj + finalizat) -->
       <div class="passive-photo-card">
-        <img class="passive-photo-img" src="images/casa-construit.jpg" alt="Casa Polistibrick — în construcție" loading="lazy"
-             onerror="this.src='images/construction/stage1-cofraj.jpg'">
-        <img class="passive-photo-img" src="images/casa-finalizata.jpg" alt="Casa Polistibrick — finalizată" loading="lazy"
+        <img class="passive-photo-img" src="images/case/casa-1.jpg" alt="Casă Polistibrick" loading="lazy"
              onerror="this.src='images/construction/stage4-final.jpg'">
-        <span class="passive-photo-label">Aceeași casă · 2 etape</span>
+        <img class="passive-photo-img" src="images/case/casa-2.jpg" alt="Casă Polistibrick — în construcție" loading="lazy"
+             onerror="this.src='images/construction/stage1-cofraj.jpg'">
+        <img class="passive-photo-img" src="images/case/casa-3.jpg" alt="Casă Polistibrick — finalizată" loading="lazy"
+             onerror="this.src='images/construction/stage2-fierbeton.jpg'">
+        <img class="passive-photo-img" src="images/case/casa-4.jpg" alt="Casă Polistibrick — montaj" loading="lazy"
+             onerror="this.src='images/construction/stage3-planseu.jpg'">
+        <span class="passive-photo-label">Proiecte reale Polistibrick</span>
       </div>
 
       <!-- RIGHT: original passive-showcase with energy scale + info side-by-side -->

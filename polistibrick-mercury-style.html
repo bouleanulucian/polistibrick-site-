@@ -4965,24 +4965,26 @@
       });
     }
 
-    // STICKY-WINDOW model:
-    //   • Cand viewport center este in fereastra ±50mm a unei sectiuni
-    //     → activam acea sectiune (UPDATE pozitie + alpha)
-    //   • Cand iesim din fereastra unei sectiuni, dar n-am ajuns la urmatoarea
-    //     → imaginea RAMANE BLOCATA in pozitia ultimei sectiuni active
-    //   • Cand intram in fereastra sectiunii urmatoare → tranzitia se face
-    //   Asta înseamnă: imaginea NU dispare niciodata mid-scroll. Se "stick"-uieste.
+    // STICKY-VISIBLE model:
+    //   • Imaginea este MEREU VIZIBILA dupa primul ancorat (alpha = 1 permanent)
+    //   • Cand viewport center intra in ±50mm de centrul unei sectiuni VIZIBILE
+    //     (cu alpha:1 in config) → pozitia se schimba la acea sectiune
+    //   • In rest (intre ferestre sau in sectiuni cu alpha:0) → ramane fix
+    //     in pozitia ultimei sectiuni vizitate. Dar continua sa fie VIZIBILA.
     // 50mm ≈ 189px at 96dpi.
     const WINDOW_PX = 189; // 50mm radius around section center
-    let stickySec = sections[0]; // image stays locked to this section between windows
+
+    // Doar sectiuni cu alpha:1 sunt candidate (hero, stats, cta) — celelalte au
+    // alpha:0 in config si erau menite ca 'tranzitie', dar acum imaginea ramane.
+    const stickyCandidates = sections.filter(s => s.alpha === 1);
+    let stickySec = stickyCandidates[0]; // default: first visible section (hero)
 
     function recomputeTarget() {
       const probe = window.scrollY;
       const viewportMid = probe + window.innerHeight / 2;
 
-      // Check if viewport center is inside ANY section's ±50mm window.
-      // If yes, update sticky section. If no, keep last one.
-      for (const s of sections) {
+      // Update sticky only when entering a VISIBLE section's ±50mm window.
+      for (const s of stickyCandidates) {
         const center = s.el.offsetTop + s.el.offsetHeight / 2;
         if (Math.abs(viewportMid - center) <= WINDOW_PX) {
           stickySec = s;
@@ -4990,7 +4992,7 @@
         }
       }
 
-      // Position LOCKED to sticky section (last visited window)
+      // Position LOCKED to sticky section
       targetX     = stickySec.x;
       targetY     = stickySec.y;
       targetXmm   = stickySec.xmm || 0;
@@ -4999,8 +5001,9 @@
       targetRy    = stickySec.ry;
       targetRz    = stickySec.rz;
 
-      // Alpha LOCKED to sticky section's prescribed value
-      targetAlpha = stickySec.alpha;
+      // ALWAYS VISIBLE (alpha 1 — sticky.alpha intotdeauna 1 caci doar
+      // alpha:1 sunt in candidate list)
+      targetAlpha = 1;
 
       // Build-mode + active product image
       buildOn = stickySec.mode === 'build';
